@@ -1,18 +1,19 @@
 import cv2
 import numpy as np
 gay_image = cv2.imread ("B450M Pro4-F(L5).png")
+#gay_image = cv2.imread ("GA-H110-D3A.webp")
 cv2.imshow ('test', gay_image)
 gray = cv2.cvtColor(gay_image, cv2.COLOR_BGR2GRAY)
 print (gray.dtype)
-gray [gray < 26] = 0
-gray [gray > 25] -= 25
-gray = gray * 1.1
+gray [gray < 36] = 0
+gray [gray > 35] -= 35
+gray = gray * 1.2
 gray = np.clip (gray, 0, 255).astype (np.uint8)
 gray = cv2.medianBlur(gray, 9)
 rows = gray.shape[0]
 circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows/8,
-                               param1=80, param2=30,
-                               minRadius=int(rows/10), maxRadius=int(rows/4))
+                               param1=80, param2=20,
+                               minRadius=int(rows/10), maxRadius=int(rows/8))
 if circles is not None:
     circles = np.uint16(np.around(circles))
     for i in circles[0, :]:
