@@ -2,14 +2,21 @@ import cv2
 import numpy as np
 from collections import deque
 #filename = "B350M MORTAR.png"
-filename = "B450M Pro4-F(L5).png"
-#filename = "GA-H110-D3A.webp"
+#filename = "B450M Pro4-F(L5).png"
+filename = "GA-H110-D3A.webp"
 
 def CoNhiPhan (a, s):
-	#a = 1-a
 	a.astype (np.int32)
 	
-	print (a.shape)
+    
+	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay < s*s] = 0
+	gay [gay > (s*s-1)] = 1
+	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay < 1] = 0
+	gay [gay > 0] = 1
+    
+	a = 1-a
 	
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
@@ -18,14 +25,16 @@ def CoNhiPhan (a, s):
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < 1] = 0
 	gay [gay > 0] = 1
-	
+    
+	a = 1-a
+    
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < 1] = 0
 	gay [gay > 0] = 1
-		
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1	
+    
 	
 	return gay.astype (np.uint8)
 
@@ -34,7 +43,7 @@ def edgeFilter (a):
 	gae = 1
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	
-def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
+def niggaBFS (image, CoNhiPhanTime = 2	, BlurRatio = 0.0075):
 	N = (image.shape)[0]
 	M = (image.shape)[1]
 	print (M)
@@ -56,6 +65,7 @@ def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
 		visited = CoNhiPhan (visited, M//100)
 	x,y,w,h = cv2.boundingRect((1-visited)*255)
 	cv2.imshow("CoNhiPhan", (visited[y:y+h, x:x+w])*255)
+	print (visited[y:y+h, x:x+w].shape)
 	return visited
 	
 gay_image = cv2.imread (filename)
@@ -85,5 +95,5 @@ if circles is not None:
         cv2.circle(gray, center, radius, (255, 0, 255), 3)
 
 
-#cv2.imshow("detected circles", gray)
+cv2.imshow("detected circles", gray)
 cv2.waitKey(0)
