@@ -11,6 +11,29 @@ data_path = "./Data/"
 circle_path = "./CircleDetection/"
 erosion_path = "./CoolErosion/"
 
+def clearLeftRight (input_image):
+	FirstDim = input_image.shape[0]
+	SecDim = input_image.shape[1]
+	
+	left = 0
+	for left in range (0, FirstDim):
+		if (np.sum(input_image[left])/SecDim<0.999):
+			break
+	right = FirstDim-1
+	for right in range (FirstDim-1, 0, -1):
+		if (np.sum(input_image[right])/SecDim<0.999):
+			break
+			
+	bot = 0
+	for bot in range (0, SecDim):
+		if (np.sum(input_image[:,bot])/FirstDim<0.999):
+			break
+	top = SecDim-1
+	for top in range (SecDim-1, 0, -1):
+		if (np.sum(input_image[:,top])/FirstDim<0.999):
+			break
+	return ((input_image[left:right, bot:top]))
+	
 def KeepBiggestBlob (input_mask):
     labels_mask = measure.label(input_mask)                       
     regions = measure.regionprops(labels_mask)
@@ -25,7 +48,7 @@ def KeepBiggestBlob (input_mask):
 def CoNhiPhan (a, s):
 	a.astype (np.int32)
 	
-    
+	#Erosion
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
@@ -33,26 +56,26 @@ def CoNhiPhan (a, s):
 	gay [gay < 1] = 0
 	gay [gay > 0] = 1
     
-	a = 1-a
+	#invert
+	a = 1-gay
 	
+	#Erosion
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
-	
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay < 1] = 0
+	#gay [gay < 1] = 0
 	gay [gay > 0] = 1
     
-	a = 1-a
-    
+	a = 1-gay
+	"""#Dilation
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay < 1] = 0
+	#gay [gay < 1] = 0
 	gay [gay > 0] = 1
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
-	gay [gay > (s*s-1)] = 1	
-    
-	
+	gay [gay > (s*s-1)] = 1	"""
+	gay = a
 	return gay.astype (np.uint8)
     
 def edgeFilter (a):
@@ -61,30 +84,31 @@ def edgeFilter (a):
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	
 def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
-    N = (image.shape)[0]
-    M = (image.shape)[1]
-    print (M)
-    image = cv2.medianBlur(image, int(BlurRatio*M)//2*2+1)
-    gay_color = image [0, 0]
-    #print (image.shape)
-    visited = np.full_like(image[:,:,0], 0)
+	N = (image.shape)[0]
+	M = (image.shape)[1]
+	print (M)
+	image = cv2.medianBlur(image, int(BlurRatio*M)//2*2+1)
+	gay_color = image [0, 0]
+	#print (image.shape)
+	visited = np.full_like(image[:,:,0], 0)
 
-    #visited = np.where(np.all(image == gay_color,axis=2), 1, 0).astype (np.uint8)
-    gayy_color = (gay_color + ((np.array([127,127,127]) - gay_color) * 0.025)).astype (np.uint8)
-    if (np.linalg.norm(gay_color) < 10):
-        visited = np.where(np.all(image < gayy_color,axis=2), 1, 0).astype (np.uint8)
-    else:
-        visited = np.where(np.all(image > gayy_color,axis=2), 1, 0).astype (np.uint8)
-    visited = KeepBiggestBlob(visited).astype (np.uint8)
-    #print (np.where(np.any(image == gay_color)))
-    #print (visited.shape)
-    #cv2.imshow("BFS", (visited)*255)
-    for i in range (0, CoNhiPhanTime):
-        visited = CoNhiPhan (visited, M//100)
-    x,y,w,h = cv2.boundingRect((1-visited)*255)
-    #cv2.imshow("CoNhiPhan", (visited[y:y+h, x:x+w])*255)
-    print (visited[y:y+h, x:x+w].shape)
-    return ((visited[y:y+h, x:x+w])  )*255
+	#visited = np.where(np.all(image == gay_color,axis=2), 1, 0).astype (np.uint8)
+	gayy_color = (gay_color + ((np.array([127,127,127]) - gay_color) * 0.025)).astype (np.uint8)
+	if (np.linalg.norm(gay_color) < 10):
+		visited = np.where(np.all(image < gayy_color,axis=2), 1, 0).astype (np.uint8)
+	else:
+		visited = np.where(np.all(image > gayy_color,axis=2), 1, 0).astype (np.uint8)
+	visited = KeepBiggestBlob(visited).astype (np.uint8)
+	#print (np.where(np.any(image == gay_color)))
+	#print (visited.shape)
+	x,y,w,h = cv2.boundingRect((1-visited)*255)
+	visited = visited[y:y+h, x:x+w]
+	visited = clearLeftRight(visited).astype (np.uint8)
+	visited = KeepBiggestBlob(visited).astype (np.uint8)
+	for i in range (0, CoNhiPhanTime):
+		visited = CoNhiPhan (visited, M//100)
+	
+	return ((visited)*255)
 def contrast (image, ye):
     image = image * ye 
     image = np.clip (image, 0, 255).astype (np.uint8)
