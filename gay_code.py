@@ -2,6 +2,7 @@ import cv2, glob
 import numpy as np
 import skimage
 from skimage import measure
+import matplotlib.pyplot as plt #'3.0.3'
 import os
 from collections import deque
 #filename = "B350M MORTAR.png"
@@ -32,8 +33,6 @@ def clearLeftRight (input_image):
 	for right in range (SecDim-1, 0, -1):
 		if (np.sum(input_image[:,right])/FirstDim<0.9):
 			break
-	#cv2.imshow("KeepLeftRight: ", (input_image[left:right, bot:top]*255).astype(np.uint8))
-	#cv2.waitKey(0)
 	print (left," : ",right,", ",bot," : ", top)
 	return ((input_image[bot:top, left:right]))
 
@@ -137,34 +136,34 @@ def contrast (image, ye):
     image = np.clip (image, 0, 255).astype (np.uint8)
     return image
 if  __name__ == "__main__":
-    contrast_inc = 1.1
-    blur_ratio = 5
-    for gay_file in glob.glob (data_path+"*.*"):
-        file_name = os.path.basename(gay_file).split(".")[-2]
-        
-        gay_image = cv2.imread (gay_file)
-        gay_hsv = cv2.cvtColor(gay_image, cv2.COLOR_BGR2HSV)
-        ye = niggaBFS (gay_image)
-        #cv2.imshow ('test', gay_image)
-        gray = cv2.cvtColor(gay_image, cv2.COLOR_BGR2GRAY)
-        gray = contrast (gray, contrast_inc)
-        gray = cv2.medianBlur(gray, blur_ratio)
-        rows = gray.shape[0]
-        circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows/8,
-                                       param1=80, param2=20,
-                                       minRadius=int(rows/10), maxRadius=int(rows/8))
-        if circles is not None:	
-            circles = np.uint16(np.around(circles))
-            for i in circles[0, :]:
-                center = (i[0], i[1])
-                # circle center
-                cv2.circle(gray, center, 1, (0, 100, 100), 3)
-                # circle outline
-                radius = i[2]
-                cv2.circle(gray, center, radius, (255, 0, 255), 3)
-
-
-        #cv2.imshow("detected circles", gray)
-        #cv2.waitKey(0)
-        cv2.imwrite (erosion_path + file_name + "_ero.png", ye)
-        cv2.imwrite (circle_path + file_name + "_circle.png", gray)
+	contrast_inc = 1.1
+	blur_ratio = 5
+	for gay_file in glob.glob (data_path+"*.*"):
+		file_name = os.path.basename(gay_file).split(".")[-2]
+		
+		gay_image = cv2.imread (gay_file)
+		gay_hsv = cv2.cvtColor(gay_image, cv2.COLOR_BGR2HSV)
+		ye = niggaBFS (gay_image)
+		#cv2.imshow ('test', gay_image)
+		gray = cv2.cvtColor(gay_image, cv2.COLOR_BGR2GRAY)
+		gray = contrast (gray, contrast_inc)
+		gray = cv2.medianBlur(gray, blur_ratio)
+		rows = gray.shape[0]
+		circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows/8,
+									   param1=80, param2=20,
+									   minRadius=int(rows/10), maxRadius=int(rows/8))
+		if circles is not None:	
+			circles = np.uint16(np.around(circles))
+			for i in circles[0, :]:
+				center = (i[0], i[1])
+				# circle center
+				cv2.circle(gray, center, 1, (0, 100, 100), 3)
+				# circle outline
+				radius = i[2]
+				cv2.circle(gray, center, radius, (255, 0, 255), 3)
+		#cv2.IMWRITE_PNG_BILEVEL = 1
+		#cv2.imshow("detected circles", gray)
+		#cv2.waitKey(0)
+		#cv2.imwrite (erosion_path + file_name + "_ero.png", ye, [cv2.IMWRITE_PNG_BILEVEL, 1])
+		plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
+		cv2.imwrite (circle_path + file_name + "_circle.png", gray)
