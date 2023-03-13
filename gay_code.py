@@ -12,28 +12,47 @@ circle_path = "./CircleDetection/"
 erosion_path = "./CoolErosion/"
 
 def clearLeftRight (input_image):
+	print (input_image.shape)
+	FirstDim = input_image.shape[0]
+	SecDim = input_image.shape[1]
+	top = 0
+	for bot in range (0, FirstDim):
+		if (np.sum(input_image[bot])/SecDim<0.99):
+			break
+	top = FirstDim-1
+	for top in range (FirstDim-1, 0, -1):
+		if (np.sum(input_image[top])/SecDim<0.99):
+			break
+			
+	left = 0
+	for left in range (0, SecDim):
+		if (np.sum(input_image[:,left])/FirstDim<0.9):
+			break
+	right = SecDim-1
+	for right in range (SecDim-1, 0, -1):
+		if (np.sum(input_image[:,right])/FirstDim<0.9):
+			break
+	#cv2.imshow("KeepLeftRight: ", (input_image[left:right, bot:top]*255).astype(np.uint8))
+	#cv2.waitKey(0)
+	print (left," : ",right,", ",bot," : ", top)
+	return ((input_image[bot:top, left:right]))
+
+def clearMotherboard (input_image):
 	FirstDim = input_image.shape[0]
 	SecDim = input_image.shape[1]
 	
 	left = 0
 	for left in range (0, FirstDim):
-		if (np.sum(input_image[left])/SecDim<0.999):
+		if (np.sum(input_image[left])/SecDim<1):
 			break
+		#else:
+			#print (np.sum(input_image[left]))
 	right = FirstDim-1
 	for right in range (FirstDim-1, 0, -1):
-		if (np.sum(input_image[right])/SecDim<0.999):
+		if (np.sum(input_image[right])/SecDim>=0.001):
 			break
-			
-	bot = 0
-	for bot in range (0, SecDim):
-		if (np.sum(input_image[:,bot])/FirstDim<0.999):
-			break
-	top = SecDim-1
-	for top in range (SecDim-1, 0, -1):
-		if (np.sum(input_image[:,top])/FirstDim<0.999):
-			break
-	return ((input_image[left:right, bot:top]))
-	
+	return ((input_image[left:right, :]))
+
 def KeepBiggestBlob (input_mask):
     labels_mask = measure.label(input_mask)                       
     regions = measure.regionprops(labels_mask)
@@ -83,7 +102,7 @@ def edgeFilter (a):
 	gae = 1
 	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	
-def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
+def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):#0075
 	N = (image.shape)[0]
 	M = (image.shape)[1]
 	print (M)
@@ -105,8 +124,12 @@ def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
 	visited = visited[y:y+h, x:x+w]
 	visited = clearLeftRight(visited).astype (np.uint8)
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
-	for i in range (0, CoNhiPhanTime):
-		visited = CoNhiPhan (visited, M//100)
+	visited = clearMotherboard(visited).astype (np.uint8)
+	visited = clearLeftRight(visited).astype (np.uint8)
+	visited = KeepBiggestBlob(visited).astype (np.uint8)
+	visited = clearMotherboard(visited).astype (np.uint8)
+	#for i in range (0, CoNhiPhanTime):
+	#	visited = CoNhiPhan (visited, M//100)
 	
 	return ((visited)*255)
 def contrast (image, ye):
@@ -114,7 +137,7 @@ def contrast (image, ye):
     image = np.clip (image, 0, 255).astype (np.uint8)
     return image
 if  __name__ == "__main__":
-    contrast_inc = 1
+    contrast_inc = 1.1
     blur_ratio = 5
     for gay_file in glob.glob (data_path+"*.*"):
         file_name = os.path.basename(gay_file).split(".")[-2]
