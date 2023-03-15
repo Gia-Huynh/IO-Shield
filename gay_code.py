@@ -13,7 +13,6 @@ circle_path = "./CircleDetection/"
 erosion_path = "./CoolErosion/"
 
 def clearLeftRight (input_image):
-	print (input_image.shape)
 	FirstDim = input_image.shape[0]
 	SecDim = input_image.shape[1]
 	top = 0
@@ -33,7 +32,7 @@ def clearLeftRight (input_image):
 	for right in range (SecDim-1, 0, -1):
 		if (np.sum(input_image[:,right])/FirstDim<0.9):
 			break
-	print (left," : ",right,", ",bot," : ", top)
+	#print (left," : ",right,", ",bot," : ", top)
 	return ((input_image[bot:top, left:right]))
 
 def clearMotherboard (input_image):
@@ -165,5 +164,7 @@ if  __name__ == "__main__":
 		#cv2.imshow("detected circles", gray)
 		#cv2.waitKey(0)
 		#cv2.imwrite (erosion_path + file_name + "_ero.png", ye, [cv2.IMWRITE_PNG_BILEVEL, 1])
+		ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=255)
+		ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
 		plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
 		cv2.imwrite (circle_path + file_name + "_circle.png", gray)

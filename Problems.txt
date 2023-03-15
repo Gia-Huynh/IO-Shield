@@ -1,0 +1,7 @@
+Các vấn đề gặp phải:
+1) Chưa stretch được mesh theo axis Z.
+1.1 Để xử lý cái trên có thể phải xài nhiều thư viện khác nhau, Meshlib để triangulate Contours tạo file 2D,
+Thư viện nào đó khác để stretch 3D và kết hợp với stl empty IO plate.
+1.2 Trong lúc giao tiếp giữa các thư viện đó, phải tạo file trung gian, 
+consider dùng fs để tạo ram disk cho đỡ ngốn dung lượng.
+Dùng Blender là ez nhất?
