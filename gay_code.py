@@ -135,36 +135,41 @@ def contrast (image, ye):
     image = np.clip (image, 0, 255).astype (np.uint8)
     return image
 if  __name__ == "__main__":
-	contrast_inc = 1.1
-	blur_ratio = 5
-	for gay_file in glob.glob (data_path+"*.*"):
-		file_name = os.path.basename(gay_file).split(".")[-2]
-		
-		gay_image = cv2.imread (gay_file)
-		gay_hsv = cv2.cvtColor(gay_image, cv2.COLOR_BGR2HSV)
-		ye = niggaBFS (gay_image)
-		#cv2.imshow ('test', gay_image)
-		gray = cv2.cvtColor(gay_image, cv2.COLOR_BGR2GRAY)
-		gray = contrast (gray, contrast_inc)
-		gray = cv2.medianBlur(gray, blur_ratio)
-		rows = gray.shape[0]
-		circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows/8,
-									   param1=80, param2=20,
-									   minRadius=int(rows/10), maxRadius=int(rows/8))
-		if circles is not None:	
-			circles = np.uint16(np.around(circles))
-			for i in circles[0, :]:
-				center = (i[0], i[1])
-				# circle center
-				cv2.circle(gray, center, 1, (0, 100, 100), 3)
-				# circle outline
-				radius = i[2]
-				cv2.circle(gray, center, radius, (255, 0, 255), 3)
-		#cv2.IMWRITE_PNG_BILEVEL = 1
-		#cv2.imshow("detected circles", gray)
-		#cv2.waitKey(0)
-		#cv2.imwrite (erosion_path + file_name + "_ero.png", ye, [cv2.IMWRITE_PNG_BILEVEL, 1])
-		ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=255)
-		ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
-		plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
-		cv2.imwrite (circle_path + file_name + "_circle.png", gray)
+    contrast_inc = 1.1
+    blur_ratio = 5
+    for gay_file in glob.glob (data_path+"*.*"):
+        file_name = os.path.basename(gay_file).split(".")[-2]
+        
+        gay_image = cv2.imread (gay_file)
+        gay_hsv = cv2.cvtColor(gay_image, cv2.COLOR_BGR2HSV)
+        ye = niggaBFS (gay_image)
+        #cv2.imshow ('test', gay_image)
+        gray = cv2.cvtColor(gay_image, cv2.COLOR_BGR2GRAY)
+        gray = contrast (gray, contrast_inc)
+        gray = cv2.medianBlur(gray, blur_ratio)
+        rows = gray.shape[0]
+        circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows/8,
+                                       param1=80, param2=20,
+                                       minRadius=int(rows/10), maxRadius=int(rows/8))
+        if circles is not None:	
+            circles = np.uint16(np.around(circles))
+            for i in circles[0, :]:
+                center = (i[0], i[1])
+                # circle center
+                cv2.circle(gray, center, 1, (0, 100, 100), 3)
+                # circle outline
+                radius = i[2]
+                cv2.circle(gray, center, radius, (255, 0, 255), 3)
+        #cv2.IMWRITE_PNG_BILEVEL = 1
+        #cv2.imshow("detected circles", gray)
+        #cv2.waitKey(0)
+        #cv2.imwrite (erosion_path + file_name + "_ero.png", ye, [cv2.IMWRITE_PNG_BILEVEL, 1])
+        ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=255)
+        bottom_padding = 5
+        top_padding = 50
+        right_padding = 5
+        left_padding = 5
+        ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
+        ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
+        plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
+        cv2.imwrite (circle_path + file_name + "_circle.png", gray)
