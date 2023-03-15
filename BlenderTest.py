@@ -9,7 +9,7 @@ bpy.ops.object.select_all(action='DESELECT')
 bpy.ops.object.select_by_type(type='MESH')
 #bpy.ops.mesh.select_all(action='SELECT')
 #edit_obj = bpy.context.edit_object
-bpy.ops.transform.resize (value = (0.205,0.205,1))
+bpy.ops.transform.resize (value = (0.1025,0.1025,1))
 
 
 for collection in bpy.data.collections:

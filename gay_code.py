@@ -4,53 +4,66 @@ import skimage
 from skimage import measure
 import matplotlib.pyplot as plt #'3.0.3'
 import os
-from collections import deque
-#filename = "B350M MORTAR.png"
-#filename = "B450M Pro4-F(L5).png"
-#filename = "GA-H110-D3A.webp"
 data_path = "./Data/"
 circle_path = "./CircleDetection/"
 erosion_path = "./CoolErosion/"
 
 def clearLeftRight (input_image):
-	FirstDim = input_image.shape[0]
-	SecDim = input_image.shape[1]
-	top = 0
-	for bot in range (0, FirstDim):
-		if (np.sum(input_image[bot])/SecDim<0.99):
-			break
-	top = FirstDim-1
-	for top in range (FirstDim-1, 0, -1):
-		if (np.sum(input_image[top])/SecDim<0.99):
-			break
-			
-	left = 0
-	for left in range (0, SecDim):
-		if (np.sum(input_image[:,left])/FirstDim<0.9):
-			break
-	right = SecDim-1
-	for right in range (SecDim-1, 0, -1):
-		if (np.sum(input_image[:,right])/FirstDim<0.9):
-			break
-	#print (left," : ",right,", ",bot," : ", top)
-	return ((input_image[bot:top, left:right]))
+        FirstDim = input_image.shape[0]
+        SecDim = input_image.shape[1]
+        yes = np.sum(input_image, axis = 1)/SecDim
+        bot = np.argmax (yes < 0.99)
+        top = FirstDim - np.argmax (yes[::-1] < 0.99)
+        """print (bot," . ",top)
+        bott = 0
+        for bott in range (0, FirstDim):
+                if (np.sum(input_image[bott])/SecDim<0.99):
+                        break
+        topp = FirstDim-1
+        for topp in range (FirstDim-1, 0, -1):
+                if (np.sum(input_image[topp])/SecDim<0.99):
+                        break
+        print (bott," .. ",topp)
+        leftt = 0
+        for leftt in range (0, SecDim):
+                if (np.sum(input_image[:,leftt])/FirstDim<0.9):
+                        break               
+        
+        rightt = SecDim-1
+        for rightt in range (SecDim-1, 0, -1):
+                if (np.sum(input_image[:,rightt])/FirstDim<0.9):
+                        break
+        print (left," . ",right)
+        print (leftt," . ",rightt+1)
+        """
+        #[::-1]
+        
+        yes = np.sum(input_image, axis = 0)/FirstDim
+        left = np.argmax (yes < 0.9)
+        right = SecDim - np.argmax (yes[::-1] < 0.9)
+
+        return ((input_image[bot:top+1, left:right+1]))
 
 def clearMotherboard (input_image):
-	FirstDim = input_image.shape[0]
-	SecDim = input_image.shape[1]
-	
-	left = 0
-	for left in range (0, FirstDim):
-		if (np.sum(input_image[left])/SecDim<1):
-			break
-		#else:
-			#print (np.sum(input_image[left]))
-	right = FirstDim-1
-	for right in range (FirstDim-1, 0, -1):
-		if (np.sum(input_image[right])/SecDim>=0.001):
-			break
-	return ((input_image[left:right, :]))
+        FirstDim = input_image.shape[0]
+        SecDim = input_image.shape[1]
+        gay = np.sum(input_image, axis = 1)/SecDim
 
+        bot = np.argmax (gay<1)
+        top = FirstDim - np.argmax (gay[::-1] >=0.001)
+
+        """
+        bot = 0
+        for bot in range (0, FirstDim):
+                if (np.sum(input_image[bot])/SecDim<1):
+                        break
+        top = FirstDim-1
+        for top in range (FirstDim-1, 0, -1):
+                if (np.sum(input_image[top])/SecDim>=0.001):
+                        break"""
+        return ((input_image[bot:top, :]))
+
+#stackoverflow
 def KeepBiggestBlob (input_mask):
     labels_mask = measure.label(input_mask)                       
     regions = measure.regionprops(labels_mask)
@@ -62,125 +75,95 @@ def KeepBiggestBlob (input_mask):
     mask = labels_mask
     return mask
     
-def CoNhiPhan (a, s):
-	a.astype (np.int32)
-	
+def CoNhiPhan (gay, s):
+	gay.astype (np.int32)
 	#Erosion
-	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
-	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < 1] = 0
 	gay [gay > 0] = 1
-    
-	#invert
-	a = 1-gay
-	
-	#Erosion
-	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+    	
+	#Erosion of invert
+	gay = cv2.filter2D (1-gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
-	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	#gay [gay < 1] = 0
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
     
-	a = 1-gay
-	gay = a
-	#Dilation
-	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	#gay [gay < 1] = 0
+	#Dilation of invert, again
+	gay = cv2.filter2D (1-gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
-	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
-	#gay = a
 	return gay.astype (np.uint8)
     
-def edgeFilter (a):
-	a.astype (np.int32)
-	gae = 1
-	gay = cv2.filter2D (a, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	
-def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.01):#0075
+def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
+
 	N = (image.shape)[0]
 	M = (image.shape)[1]
-	print (M)
-	image = cv2.medianBlur(image, int(BlurRatio*M)//2*2+1)
-	gay_color = image [0, 0]
-	#print (image.shape)
-	visited = np.full_like(image[:,:,0], 0)
 
-	#visited = np.where(np.all(image == gay_color,axis=2), 1, 0).astype (np.uint8)
+        #simple blur
+	image = cv2.medianBlur(image, int(BlurRatio*M)//2*2+1)
+	
+	#Get background color, top left most of image
+	gay_color = image [0, 0]
 	gayy_color = (gay_color + ((np.array([127,127,127]) - gay_color) * 0.025)).astype (np.uint8)
+
+	#Mask for background color (which is the IO shield)
+	visited = np.full_like(image[:,:,0], 0)
 	if (np.linalg.norm(gay_color) < 10):
 		visited = np.where(np.all(image < gayy_color,axis=2), 1, 0).astype (np.uint8)
 	else:
 		visited = np.where(np.all(image > gayy_color,axis=2), 1, 0).astype (np.uint8)
+		
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
-	#print (np.where(np.any(image == gay_color)))
-	#print (visited.shape)
+	
 	x,y,w,h = cv2.boundingRect((1-visited)*255)
 	visited = visited[y:y+h, x:x+w]
+	
 	visited = clearLeftRight(visited).astype (np.uint8)
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	visited = clearMotherboard(visited).astype (np.uint8)
-	visited = clearLeftRight(visited).astype (np.uint8)
-	visited = KeepBiggestBlob(visited).astype (np.uint8)
-	visited = clearMotherboard(visited).astype (np.uint8)
-	#for i in range (0, CoNhiPhanTime):
-	#	visited = CoNhiPhan (visited, M//100)
+	
+	for i in range (0, CoNhiPhanTime):
+		visited = CoNhiPhan (visited, (visited.shape[1])//100)
 	
 	return ((visited)*255)
+
 def contrast (image, ye):
     image = image * ye 
     image = np.clip (image, 0, 255).astype (np.uint8)
     return image
+
+def brightness (image, ye):
+    image = image + ye 
+    image = np.clip (image, 0, 255).astype (np.uint8)
+    return image
+
 if  __name__ == "__main__":
-	contrast_inc = 1.1
-	blur_ratio = 5
+	contrast_ratio = 0.95
+	brightness_value = -20
+	blur_ratio = 0.0075
+	CoNhiPhanTime = 1
 	for gay_file in glob.glob (data_path+"*.*"):
 		file_name = os.path.basename(gay_file).split(".")[-2]
-
-		gay_image = cv2.imread (gay_file)
-		gay_hsv = cv2.cvtColor(gay_image, cv2.COLOR_BGR2HSV)
-		ye = niggaBFS (gay_image)
-		#cv2.imshow ('test', gay_image)
-		gray = cv2.cvtColor(gay_image, cv2.COLOR_BGR2GRAY)
-		gray = contrast (gray, contrast_inc)
-		gray = cv2.medianBlur(gray, blur_ratio)
-		rows = gray.shape[0]
-		circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows/8,
-									   param1=80, param2=20,
-									   minRadius=int(rows/10), maxRadius=int(rows/8))
-		if circles is not None:	
-			circles = np.uint16(np.around(circles))
-			for i in circles[0, :]:
-				center = (i[0], i[1])
-				# circle center
-				cv2.circle(gray, center, 1, (0, 100, 100), 3)
-				# circle outline
-				radius = i[2]
-				cv2.circle(gray, center, radius, (255, 0, 255), 3)
-		#cv2.IMWRITE_PNG_BILEVEL = 1
-		#cv2.imshow("detected circles", gray)
-		#cv2.waitKey(0)
-		#cv2.imwrite (erosion_path + file_name + "_ero.png", ye, [cv2.IMWRITE_PNG_BILEVEL, 1])
-		#ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=255)
-		#top_padding = 50
+		gay_image = contrast (brightness(cv2.imread (gay_file),brightness_value), contrast_ratio)
+		ye = niggaBFS (gay_image, CoNhiPhanTime, blur_ratio)
 		bottom_padding = 5
-		right_padding = 5
-		left_padding = 5
-		#print (ye.shape)
-		#print (ye.shape[1]/3.90769231)
-		#top_padding = int((ye.shape [1]+bottom_padding) * 0.25590551181 - (ye.shape[0] + right_padding + left_padding) + 0.5)
+		right_padding = 15
+		left_padding = 15
 		top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
 		if top_padding < 0:
-			print ("Uh oh, top padding is kinda shit ",gay_file)
+			print ("Uh oh, why is top padding negative? ",gay_file)
 			top_padding = 1
 		ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
-		#print (ye.shape)
-		ye = cv2.resize (src = ye, dsize = (762,int(762/ye.shape[1] * ye.shape[0])))
-		print (ye.shape)
+		ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+		#Uncomment to remove small detail.
+		#Resize to small image, then upsize back to original size, will slightly remove accuracy.
+		ye = cv2.resize (src = ye, dsize = (381,int(381/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+		ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
 		ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
 		plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
-		cv2.imwrite (circle_path + file_name + "_circle.png", gray)
