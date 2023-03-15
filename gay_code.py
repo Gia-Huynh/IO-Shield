@@ -164,9 +164,15 @@ if  __name__ == "__main__":
         #cv2.imshow("detected circles", gray)
         #cv2.waitKey(0)
         #cv2.imwrite (erosion_path + file_name + "_ero.png", ye, [cv2.IMWRITE_PNG_BILEVEL, 1])
-        ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=255)
+        #ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=255)
+        #top_padding = 50
+        print (ye.shape)
+        print (ye.shape[1]/3.90769231)
+        top_padding = int(ye.shape[1]/3.90769231 - ye.shape[0] + 0.5)
+        if top_padding < 0:
+            print ("Uh oh, top padding is kinda shit ",gay_file)
+            top_padding = 1
         bottom_padding = 5
-        top_padding = 50
         right_padding = 5
         left_padding = 5
         ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
