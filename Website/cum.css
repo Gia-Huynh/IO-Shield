@@ -1,5 +1,7 @@
 /*Mobile Version*/
 *{margin: 0}
+main
+{max-width:100vw; overflow-x:hidden;}
 	div{
     -webkit-box-shadow:inset 0px 0px 0px 1px #000;
     -moz-box-shadow:inset 0px 0px 0px 1px #000;
@@ -17,7 +19,7 @@
 		text-align: center;
 	}
 	.BigAss
-	{
+	{ scroll-behavior: smooth;
 		display: flex;
 		flex-direction: column;
 	}
@@ -31,6 +33,7 @@
 		width:100%;
 		height:8vh;
 	}
+	#confirmBox{}
 /*PC Version*/
 @media (min-width:641px)
 {
@@ -62,7 +65,7 @@
 		width:100%;
 		height:8vh;
 	}
-	label, .Part_1
+	.Part_1
 	{
 		padding:1%;
 		width: 92%;
@@ -73,15 +76,10 @@
 		box-shadow: initial;
 		outline:12px dashed #2f75b5;
 	}
-	.Part_1 {
-	  width: 0.1px;
-	  height: 0.1px;
-	  opacity: 0;
-	  overflow: hidden;
-	  position: absolute;
-	  z-index: -1;
+	.InputBox {
+	  width:auto;
 	}
-	.Part_1 + label {
+	.Part_1 {
 	  font-size: 2em;
 	  font-weight: 700;
 	  color: #e9edf0;
@@ -89,10 +87,8 @@
 	  display: inline-block;
 	  padding-top:6vh;
 	}
-	.Part_1 label{
-	}
 	.Part_1:focus + label,
-	.Part_1 + label:hover {
+	.Part_1:hover {
 	  color: white;
 	  background-color: #3e82c2;
 		outline:12px dashed #346594;
