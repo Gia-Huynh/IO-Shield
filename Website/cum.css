@@ -1,0 +1,101 @@
+/*Mobile Version*/
+*{margin: 0}
+	div{
+    -webkit-box-shadow:inset 0px 0px 0px 1px #000;
+    -moz-box-shadow:inset 0px 0px 0px 1px #000;
+    box-shadow:inset 0px 0px 0px 1px #000;
+}
+	.Top_banner
+	{
+		width: 100%;
+		text-align: center;
+		padding:2vh;
+	}
+	.Top_banner h1
+	{
+		
+		text-align: center;
+	}
+	.BigAss
+	{
+		display: flex;
+		flex-direction: column;
+	}
+	.advertisement
+	{
+		width: 100%;
+		height: 20vh;
+	}
+	#adTop
+	{
+		width:100%;
+		height:8vh;
+	}
+/*PC Version*/
+@media (min-width:641px)
+{
+	.BigAss
+	{
+		width: 100%;
+		flex-direction: row;
+	}
+	.content-wrapper{
+		background-color:#56a8f5;
+		display:flex;
+		justify-content: center; 
+		align-items: center;
+		width: 60%;
+		flex-direction: column;
+	}
+	.advertisement
+	{
+		position: sticky;
+		padding:1%;
+		width: 18%;
+		height: 50vh;
+		top: 0;
+		margin: 0;
+	}
+	#adTop
+	{
+		position: relative;
+		width:100%;
+		height:8vh;
+	}
+	label, .Part_1
+	{
+		padding:1%;
+		width: 92%;
+		height: 40.4vh;
+		text-align: center;
+		margin-top:3vh;
+		margin-bottom:3vh;
+		box-shadow: initial;
+		outline:12px dashed #2f75b5;
+	}
+	.Part_1 {
+	  width: 0.1px;
+	  height: 0.1px;
+	  opacity: 0;
+	  overflow: hidden;
+	  position: absolute;
+	  z-index: -1;
+	}
+	.Part_1 + label {
+	  font-size: 2em;
+	  font-weight: 700;
+	  color: #e9edf0;
+	  background-color: #3e82c2;
+	  display: inline-block;
+	  padding-top:6vh;
+	}
+	.Part_1 label{
+	}
+	.Part_1:focus + label,
+	.Part_1 + label:hover {
+	  color: white;
+	  background-color: #3e82c2;
+		outline:12px dashed #346594;
+	}
+	#ad2{text-align: right; right:0;}
+}
