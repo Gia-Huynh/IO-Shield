@@ -14,30 +14,7 @@ def clearLeftRight (input_image):
         yes = np.sum(input_image, axis = 1)/SecDim
         bot = np.argmax (yes < 0.99)
         top = FirstDim - np.argmax (yes[::-1] < 0.99)
-        """print (bot," . ",top)
-        bott = 0
-        for bott in range (0, FirstDim):
-                if (np.sum(input_image[bott])/SecDim<0.99):
-                        break
-        topp = FirstDim-1
-        for topp in range (FirstDim-1, 0, -1):
-                if (np.sum(input_image[topp])/SecDim<0.99):
-                        break
-        print (bott," .. ",topp)
-        leftt = 0
-        for leftt in range (0, SecDim):
-                if (np.sum(input_image[:,leftt])/FirstDim<0.9):
-                        break               
-        
-        rightt = SecDim-1
-        for rightt in range (SecDim-1, 0, -1):
-                if (np.sum(input_image[:,rightt])/FirstDim<0.9):
-                        break
-        print (left," . ",right)
-        print (leftt," . ",rightt+1)
-        """
-        #[::-1]
-        
+                
         yes = np.sum(input_image, axis = 0)/FirstDim
         left = np.argmax (yes < 0.9)
         right = SecDim - np.argmax (yes[::-1] < 0.9)
@@ -51,19 +28,9 @@ def clearMotherboard (input_image):
 
         bot = np.argmax (gay<1)
         top = FirstDim - np.argmax (gay[::-1] >=0.001)
-
-        """
-        bot = 0
-        for bot in range (0, FirstDim):
-                if (np.sum(input_image[bot])/SecDim<1):
-                        break
-        top = FirstDim-1
-        for top in range (FirstDim-1, 0, -1):
-                if (np.sum(input_image[top])/SecDim>=0.001):
-                        break"""
         return ((input_image[bot:top, :]))
 
-#stackoverflow
+#Taken from stackoverflow
 def KeepBiggestBlob (input_mask):
     labels_mask = measure.label(input_mask)                       
     regions = measure.regionprops(labels_mask)
@@ -82,7 +49,6 @@ def CoNhiPhan (gay, s):
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay < 1] = 0
 	gay [gay > 0] = 1
     	
 	#Erosion of invert
@@ -102,11 +68,8 @@ def CoNhiPhan (gay, s):
     
 def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
 
-	N = (image.shape)[0]
-	M = (image.shape)[1]
-
         #simple blur
-	image = cv2.medianBlur(image, int(BlurRatio*M)//2*2+1)
+	image = cv2.medianBlur(image, int(BlurRatio*(image.shape)[1])//2*2+1)
 	
 	#Get background color, top left most of image
 	gay_color = image [0, 0]
@@ -148,13 +111,13 @@ if  __name__ == "__main__":
 	brightness_value = -20
 	blur_ratio = 0.0075
 	CoNhiPhanTime = 1
+        bottom_padding = 5
+        right_padding = 15
+        left_padding = 15
 	for gay_file in glob.glob (data_path+"*.*"):
 		file_name = os.path.basename(gay_file).split(".")[-2]
 		gay_image = contrast (brightness(cv2.imread (gay_file),brightness_value), contrast_ratio)
 		ye = niggaBFS (gay_image, CoNhiPhanTime, blur_ratio)
-		bottom_padding = 5
-		right_padding = 15
-		left_padding = 15
 		top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
 		if top_padding < 0:
 			print ("Uh oh, why is top padding negative? ",gay_file)
