@@ -87,7 +87,7 @@ main
 	  display: inline-block;
 	  padding-top:6vh;
 	}
-	.Part_1:focus + label,
+	.Part_1:focus,
 	.Part_1:hover {
 	  color: white;
 	  background-color: #3e82c2;
