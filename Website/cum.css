@@ -34,6 +34,10 @@ main
 		height:8vh;
 	}
 	#confirmBox{}
+	.ShowAfterShrink
+	{
+		display:none;
+	}
 /*PC Version*/
 @media (min-width:641px)
 {
@@ -75,6 +79,8 @@ main
 		margin-bottom:3vh;
 		box-shadow: initial;
 		outline:12px dashed #2f75b5;
+    -webkit-transition: height 1s ease;
+    -transition: height 1s ease;
 	}
 	.InputBox {
 	  width:auto;
@@ -92,6 +98,44 @@ main
 	  color: white;
 	  background-color: #3e82c2;
 		outline:12px dashed #346594;
+	}
+	.Part_1_shrinked {
+		height:10vh;
+	  font-size: 1.5em;
+	  font-weight: 700;
+	  color: #e9edf0;
+	  background-color: #3e82c2;
+	  display: inline-block;
+	  padding-top:1.5vh;
+	}
+	.Part_2
+	{
+		display:flex;
+		flex-flow: column;
+		min-height: 50vh;
+		width:100%;
+		text-align:center;
+		font-size: 1.5em;
+	}
+	.Part_2 *
+	{
+		padding: 0.5vh;
+	}
+	.Part_2 img
+	{
+		padding: 1vh;
+		object-fit: cover;
+		min-height: 15vh;
+		max-height: 30vh;
+		max-width: 100%;
+		height: auto;
+	}
+	.Part_2 p 
+	{
+		width: auto;
+		padding-left:10%;
+		padding-right: 10%;
+		text-align: center;
 	}
 	#ad2{text-align: right; right:0;}
 }

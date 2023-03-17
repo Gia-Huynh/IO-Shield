@@ -23,7 +23,9 @@ dropContainer.ondrop = function(evt) {
   dT.items.add(evt.dataTransfer.files[0]);
   //dT.items.add(evt.dataTransfer.files[3]);
   InputBox.files = dT.files;
-	
-
+  blah.src = URL.createObjectURL(evt.dataTransfer.files[0]);
   evt.preventDefault();
+  document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
+  document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
+  document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
 };
