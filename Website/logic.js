@@ -7,6 +7,10 @@ ad_list_arr.forEach(i => {
 });
 
 
+//for everyone else
+document.addEventListener("DOMContentLoaded", function () {
+  document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
+  }, false);
 
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
@@ -14,7 +18,7 @@ dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
 
 dropContainer.ondrop = function(evt) {
   // pretty simple -- but not for IE :(
- 
+ console.log ("ye");
   evt.preventDefault();
   InputBox.files = evt.dataTransfer.files;
 
