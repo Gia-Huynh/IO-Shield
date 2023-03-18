@@ -12,11 +12,11 @@ bpy.ops.object.select_by_type(type='MESH')
 bpy.ops.transform.resize (value = (0.1025,0.1025,1))
 
 
-for collection in bpy.data.collections:
+"""for collection in bpy.data.collections:
    print(collection.name)
    for obj in collection.all_objects:
       print("obj: ", obj.name)
-
+"""
 
 """a = bpy.context.active_object
 cont = bpy.context.area.type
