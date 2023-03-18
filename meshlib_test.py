@@ -1,6 +1,6 @@
 import meshlib.mrmeshpy as mr
 # load raster image:
-dm = mr.loadDistanceMapFromImage(mr.Path("./CoolErosion/GA-H87-D3H_ero.png"), 0)
+dm = mr.loadDistanceMapFromImage(mr.Path("./CoolErosion/Z87Deluxe_ero.png"), 0)
 # find the boundary contour between black and white:
 polyline2 = mr.distanceMapTo2DIsoPolyline(dm, isoValue=10)
 # compute the triangulation inside the contour

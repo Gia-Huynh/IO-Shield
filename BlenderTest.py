@@ -29,7 +29,9 @@ bpy.ops.mesh.solidify (thickness = 1)
 bpy.data.objects["Binary_coins"].select_set(True)
 bpy.ops.object.mode_set(mode='EDIT')
 
-bpy.data.objects["Binary_coins"].location.x += 3.9
+#Trái phải (nhìn IO shield nằm ngang)
+bpy.data.objects["Binary_coins"].location.x += 3
+#Lên xuống (nhìn IO shield nằm ngang)
 bpy.data.objects["Binary_coins"].location.y += 3.9
 bpy.data.objects["Binary_coins"].location.z += 1.0
 
@@ -43,4 +45,4 @@ bpy.ops.import_mesh.stl (filepath = "GayModel.stl")
 #bpy.ops.object.join()
 
 #Export
-bpy.ops.export_mesh.stl (filepath = "ayowtf.stl")
+bpy.ops.export_mesh.stl (filepath = "Z87 DeluxeV2.stl")

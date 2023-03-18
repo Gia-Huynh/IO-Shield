@@ -8,27 +8,28 @@ data_path = "./Data/"
 circle_path = "./CircleDetection/"
 erosion_path = "./CoolErosion/"
 
-def clearLeftRight (input_image):
+def clearLeftRight (input_image, tolerance = 0.95):
         FirstDim = input_image.shape[0]
         SecDim = input_image.shape[1]
         yes = np.sum(input_image, axis = 1)/SecDim
-        bot = np.argmax (yes < 0.99)
-        top = FirstDim - np.argmax (yes[::-1] < 0.99)
+        bot = np.argmax (yes < tolerance)
+        top = FirstDim - np.argmax (yes[::-1] < tolerance)
                 
         yes = np.sum(input_image, axis = 0)/FirstDim
-        left = np.argmax (yes < 0.9)
-        right = SecDim - np.argmax (yes[::-1] < 0.9)
+        left = np.argmax (yes < tolerance)
+        right = SecDim - np.argmax (yes[::-1] < tolerance)
 
         return ((input_image[bot:top+1, left:right+1]))
 
 def clearMotherboard (input_image):
-        FirstDim = input_image.shape[0]
-        SecDim = input_image.shape[1]
-        gay = np.sum(input_image, axis = 1)/SecDim
+		FirstDim = input_image.shape[0]
+		SecDim = input_image.shape[1]
+		gay = np.sum(input_image, axis = 1)/SecDim
 
-        bot = np.argmax (gay<1)
-        top = FirstDim - np.argmax (gay[::-1] >=0.001)
-        return ((input_image[bot:top, :]))
+		bot = np.argmax (gay<1)
+		top = FirstDim
+		#top = FirstDim - np.argmax (gay[::-1] >=0.001)
+		return ((input_image[bot:top, :]))
 
 #Taken from stackoverflow
 def KeepBiggestBlob (input_mask):
@@ -66,7 +67,7 @@ def CoNhiPhan (gay, s):
 	gay [gay > (s*s-1)] = 1
 	return gay.astype (np.uint8)
     
-def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
+def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075, file_name = "gay"):
 
         #simple blur
 	image = cv2.medianBlur(image, int(BlurRatio*(image.shape)[1])//2*2+1)
@@ -84,16 +85,23 @@ def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075):
 		
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
+	plt.imsave("DebugData/" + file_name + "KeepBiggest.png",visited*255,cmap='gray')
 	x,y,w,h = cv2.boundingRect((1-visited)*255)
 	visited = visited[y:y+h, x:x+w]
+	plt.imsave("DebugData/" + file_name + "boundingRect.png",visited*255,cmap='gray')
 	
 	visited = clearLeftRight(visited).astype (np.uint8)
+	plt.imsave("DebugData/" + file_name + "clearLeftRight.png",visited*255,cmap='gray')
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	visited = clearMotherboard(visited).astype (np.uint8)
+	plt.imsave("DebugData/" + file_name + "clearMotherboard.png",visited*255,cmap='gray')
+	visited = clearLeftRight(visited).astype (np.uint8)
+	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
+	plt.imsave("DebugData/" + file_name + "BeforeErosion.png",visited*255,cmap='gray')
 	for i in range (0, CoNhiPhanTime):
 		visited = CoNhiPhan (visited, (visited.shape[1])//100)
-	
+	plt.imsave("DebugData/" + file_name + "Final.png",visited*255,cmap='gray')
 	return ((visited)*255)
 
 def contrast (image, ye):
@@ -107,26 +115,26 @@ def brightness (image, ye):
     return image
 
 if  __name__ == "__main__":
-	contrast_ratio = 0.95
-	brightness_value = -20
-	blur_ratio = 0.0075
-	CoNhiPhanTime = 1
+        contrast_ratio = 0.95
+        brightness_value = -20
+        blur_ratio = 0.0075
+        CoNhiPhanTime = 1
         bottom_padding = 5
         right_padding = 15
         left_padding = 15
-	for gay_file in glob.glob (data_path+"*.*"):
-		file_name = os.path.basename(gay_file).split(".")[-2]
-		gay_image = contrast (brightness(cv2.imread (gay_file),brightness_value), contrast_ratio)
-		ye = niggaBFS (gay_image, CoNhiPhanTime, blur_ratio)
-		top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
-		if top_padding < 0:
-			print ("Uh oh, why is top padding negative? ",gay_file)
-			top_padding = 1
-		ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
-		ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
-		#Uncomment to remove small detail.
-		#Resize to small image, then upsize back to original size, will slightly remove accuracy.
-		ye = cv2.resize (src = ye, dsize = (381,int(381/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
-		ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
-		ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
-		plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
+        for gay_file in glob.glob (data_path+"*.*"):
+                file_name = os.path.basename(gay_file).split(".")[-2]
+                gay_image = contrast (brightness(cv2.imread (gay_file),brightness_value), contrast_ratio)
+                ye = niggaBFS (gay_image, CoNhiPhanTime, blur_ratio, file_name)
+                top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
+                if top_padding < 0:
+                        print ("Uh oh, why is top padding negative? ",gay_file)
+                        top_padding = 1
+                ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
+                ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+                #Uncomment to remove small detail.
+                #Resize to small image, then upsize back to original size, will slightly remove accuracy.
+                ye = cv2.resize (src = ye, dsize = (381,int(381/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+                ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+                ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
+                plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
