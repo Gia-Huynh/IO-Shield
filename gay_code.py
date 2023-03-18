@@ -4,9 +4,6 @@ import skimage
 from skimage import measure
 import matplotlib.pyplot as plt #'3.0.3'
 import os
-data_path = "./Data/"
-circle_path = "./CircleDetection/"
-erosion_path = "./CoolErosion/"
 
 def clearLeftRight (input_image, tolerance = 0.95):
         FirstDim = input_image.shape[0]
@@ -114,27 +111,16 @@ def brightness (image, ye):
     image = np.clip (image, 0, 255).astype (np.uint8)
     return image
 
-if  __name__ == "__main__":
-        contrast_ratio = 0.95
-        brightness_value = -20
-        blur_ratio = 0.0075
-        CoNhiPhanTime = 1
-        bottom_padding = 5
-        right_padding = 15
-        left_padding = 15
-        for gay_file in glob.glob (data_path+"*.*"):
-                file_name = os.path.basename(gay_file).split(".")[-2]
-                gay_image = contrast (brightness(cv2.imread (gay_file),brightness_value), contrast_ratio)
-                ye = niggaBFS (gay_image, CoNhiPhanTime, blur_ratio, file_name)
-                top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
-                if top_padding < 0:
-                        print ("Uh oh, why is top padding negative? ",gay_file)
-                        top_padding = 1
-                ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
-                ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
-                #Uncomment to remove small detail.
-                #Resize to small image, then upsize back to original size, will slightly remove accuracy.
-                ye = cv2.resize (src = ye, dsize = (381,int(381/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
-                ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
-                ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
-                plt.imsave(erosion_path + file_name + "_ero.png",255-ye,cmap='gray')
+def PaddingCleaning (ye, right_padding, bottom_padding, left_padding, fileName):
+	top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
+	if top_padding < 0:
+			print ("Uh oh, why is top padding negative? ",fileName)
+			top_padding = 1
+	ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
+	ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+	#Uncomment to remove small detail.
+	#Resize to small image, then upsize back to original size, will slightly remove accuracy.
+	ye = cv2.resize (src = ye, dsize = (381,int(381/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+	ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+	ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
+	return ye
