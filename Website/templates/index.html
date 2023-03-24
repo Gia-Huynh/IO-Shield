@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> IO SHIELD GENERATOR</title>
     <link rel="stylesheet" href="./cum.css">
+    <link rel="stylesheet" href="./static/cum.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
@@ -23,14 +24,16 @@
 			</div>
 			<div class = "content-wrapper">
 				<div  id="dropContainer" class = "Part_1">
-					 <p class ="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
-					or by clicking the button below<br></p>
-					 <p class = "ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
-					<input type="file" name="file" id="InputBox" class = "InputBox"/>
+						 <p class ="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
+						or by clicking the button below<br></p>
+						 <p class = "ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
+					<form id="ImageForm" action="/upload" method="POST">
+						<input type="file" name="InputBox" id="InputBox" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+					</form>
 				</div>
 				<div id = "AdjustmentBox" class = "Part_2">
 					<h1> Example image </h1>
-					<img id="ExampleImg" src = "B450M Pro4-F(L5).png"/>
+					<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
 					<h2> Your uploaded image </h2>
 					<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty" />
 					<p> Check for brightness/contrast of the image, a badly shot picture 
@@ -39,7 +42,7 @@
 						or use your phone image gallery app) to play around the 
 						brightness/contrast setting.
 						<br><br> </p> <h1>Looks good?</h1>
-					<button class = "confirmButton"> Good to me, <br> LET'S DO THIS </button>
+					<input type="submit" form="ImageForm" class = "confirmButton"> Good to me, <br> LET'S DO THIS </input>
 				</div>
 				
 				<div id = "confirmBox" class = "Part_3">
@@ -57,6 +60,7 @@
 		</div>
 		
     </main>
-	<script src="logic.js"></script>
+	<!--<script src="logic.js"></script>-->
+	<script src="./static/logic.js"></script>
   </body>
 </html>

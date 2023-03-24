@@ -86,8 +86,8 @@ main
 		margin-bottom:3vh;
 		box-shadow: initial;
 		outline:12px dashed #2f75b5;
-    -webkit-transition: height 1s ease;
-    -transition: height 1s ease;
+		-webkit-transition: height 1s ease;
+		-transition: height 1s ease;
 	}
 	.Part_1 {
 	  font-size: 2em;
@@ -145,7 +145,7 @@ main
 	}
 	.confirmButton
 	{
-    align-items: center;
+		align-items: center;
 		Width: 50%;
 		margin-top: 1vh;
 		margin-bottom: 2vh;
@@ -161,9 +161,9 @@ main
 		min-height: 50vh;
 		width:100%;
 		text-align:center;
-    justify-content: center;
+		justify-content: center;
 		font-size: 1.5em;
-    align-items: center;
+		align-items: center;
 	}
 	.Part_3 *
 	{

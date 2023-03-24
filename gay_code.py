@@ -1,10 +1,9 @@
-import cv2, glob
+import cv2
 import numpy as np
 import skimage
 from skimage import measure
-import matplotlib.pyplot as plt #'3.0.3'
-import os
-
+def readImg (path):
+	return (cv2.imread (path))
 def clearLeftRight (input_image, tolerance = 0.95):
         FirstDim = input_image.shape[0]
         SecDim = input_image.shape[1]
@@ -82,23 +81,23 @@ def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075, file_name = "gay"):
 		
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
-	plt.imsave("DebugData/" + file_name + "KeepBiggest.png",visited*255,cmap='gray')
+	#plt.imsave("DebugData/" + file_name + "KeepBiggest.png",visited*255,cmap='gray')
 	x,y,w,h = cv2.boundingRect((1-visited)*255)
 	visited = visited[y:y+h, x:x+w]
-	plt.imsave("DebugData/" + file_name + "boundingRect.png",visited*255,cmap='gray')
+	#plt.imsave("DebugData/" + file_name + "boundingRect.png",visited*255,cmap='gray')
 	
 	visited = clearLeftRight(visited).astype (np.uint8)
-	plt.imsave("DebugData/" + file_name + "clearLeftRight.png",visited*255,cmap='gray')
+	#plt.imsave("DebugData/" + file_name + "clearLeftRight.png",visited*255,cmap='gray')
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	visited = clearMotherboard(visited).astype (np.uint8)
-	plt.imsave("DebugData/" + file_name + "clearMotherboard.png",visited*255,cmap='gray')
+	#plt.imsave("DebugData/" + file_name + "clearMotherboard.png",visited*255,cmap='gray')
 	visited = clearLeftRight(visited).astype (np.uint8)
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
-	plt.imsave("DebugData/" + file_name + "BeforeErosion.png",visited*255,cmap='gray')
+	#plt.imsave("DebugData/" + file_name + "BeforeErosion.png",visited*255,cmap='gray')
 	for i in range (0, CoNhiPhanTime):
 		visited = CoNhiPhan (visited, (visited.shape[1])//100)
-	plt.imsave("DebugData/" + file_name + "Final.png",visited*255,cmap='gray')
+	#plt.imsave("DebugData/" + file_name + "Final.png",visited*255,cmap='gray')
 	return ((visited)*255)
 
 def contrast (image, ye):
