@@ -37,7 +37,7 @@ dropContainer.ondrop = function(evt) {
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
 };
 InputBox.onchange = evt => {
-  const [file] = InputBox.files
+  const [file] = InputBox.files;
   if (file) {
     blah.src = URL.createObjectURL(file)
   }
@@ -45,3 +45,43 @@ InputBox.onchange = evt => {
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
 };
+
+/*var ele = document.getElementById("ImageForm");
+if(ele.addEventListener){
+    ele.addEventListener("submit", function(e){
+		console.log ("Success");
+		
+	}, false);  //Modern browsers
+}*/
+var currentBlobImage;
+function changeImage(blobImage) {
+ const urlCreator = window.URL || window.webkitURL;
+ currentBlobImage = blobImage;
+ document.getElementById('resultImg').src = urlCreator.createObjectURL(blobImage);
+}
+
+document.querySelector("#ImageForm").addEventListener("submit", function(e){
+        e.preventDefault();    //stop form from submitting
+		const myForm = document.forms['ImageForm']
+		fetch(document.forms['ImageForm'].action, {method:'post', body: new FormData(myForm)})
+				.then((response) => {
+			if (!response.ok) {
+			  throw new Error("HTTP error: ${response.status}");
+			}
+			return response.blob();
+		  })
+		  .then((blob) => changeImage (blob));
+});
+document.querySelector("#LastButton").addEventListener("click", function(e){
+  fetch('/convert', {method:"POST", body:currentBlobImage})
+                .then(response  => {
+			if (!response.ok) {
+			  throw new Error("HTTP error: ${response.status}");
+			}
+			return response.blob();
+		  })
+		  .then((blob) => {
+					var file = window.URL.createObjectURL(blob);
+					window.location.assign(file);
+					});
+});
