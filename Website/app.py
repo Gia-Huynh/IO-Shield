@@ -52,4 +52,4 @@ with app.test_request_context():
     print(url_for('static', filename='logic.js'))
 
 if __name__ == '__main__':
-    app.run(threaded=False)
+    app.run(threaded=False, host='0.0.0.0')

@@ -1,23 +1,13 @@
-# start by pulling the python image
-FROM python:3.10-bullseye
+FROM python:3.10-slim
 
-# copy the requirements file into the image
-#COPY requirements.txt requirements.txt
-COPY ./requirements.txt /app/requirements.txt
-
-# switch working directory
 WORKDIR /app
 
-# install the dependencies and packages in the requirements file
+COPY . .
+
+RUN apt-get update && apt-get install libglu1-mesa -y
+RUN apt-get update && apt-get install libgl1 -y
+RUN apt-get install xorg -y
+RUN apt-get install libglu1 -y
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install -r requirements.txt
-
-# copy every content from the local file to the image
-#COPY . .
-COPY . /app
-
-# configure the container to run in an executed manner
-ENTRYPOINT [ "python" ]
-
-#CMD ["view.py" ]
-
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+CMD ["python", "app.py"]
