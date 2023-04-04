@@ -2,10 +2,10 @@ from meshlib import mrmeshpy
 
 # load closed mesh
 print ("load")
-closedMesh = mrmeshpy.loadMesh("GayModel.stl")
+closedMesh = mrmeshpy.loadMesh("B350M MORTAR.stl")
 
 # load non-closed mesh
-nonClosedMesh = mrmeshpy.loadMesh("GayModel.stl")
+nonClosedMesh = mrmeshpy.loadMesh("B350M MORTAR.stl")
 print ("DONE load")
 
 
