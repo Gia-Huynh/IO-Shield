@@ -1,7 +1,7 @@
 blender_python_reference_3_4/*
-DebugData/*
-MeshLib/*
-Data/*
-stl/*
-CoolErosion/*
+*/DebugData/*
+*/MeshLib/*
+*/Data/*
+*/stl/*
+*/CoolErosion/*
 __pycache__/*
