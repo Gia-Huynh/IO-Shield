@@ -12,7 +12,18 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0):
 
     #Thicken
     mr.addBaseToPlanarMesh(mesh, zOffset=10)
-    mesh.transform (mr.AffineXf3f(0.1,0.1,0.1))
+    scale = mr.AffineXf3f()
+    #scale.__call__(mr.Vector3f(0.01,0.01,0.01))
+    #print (scale)
+    #print (scale.b)
+    #print (scale.translation(scale.b))
+    test_matrix = mr.Matrix3f()
+    test_matrix.x = mr.Vector3f(0.1,0,0)
+    test_matrix.y = mr.Vector3f(0,0.1,0)
+    test_matrix.z = mr.Vector3f(0,0,0.1)
+    scale.A = test_matrix
+    scale.b = mr.Vector3f(0.1,0.1,0.1)
+    mesh.transform (scale)
 
     emptyIO = mr.loadMesh(mr.Path("GayModel.stl"))
     meshNigga = mr.boolean(mesh, emptyIO, mr.BooleanOperation.Union)
