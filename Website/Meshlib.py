@@ -24,8 +24,8 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0):
 
 	#Comment out this part for a slower but more precise model
 	testRelaxParam = mr.MeshRelaxParams()
-	testRelaxParam.force = 0.02
-	testRelaxParam.iterations = 15
+	testRelaxParam.force = 0.01
+	testRelaxParam.iterations = 10
 	mr.relax (IO_Shield_Mesh, testRelaxParam)
 
 	#Union is slow AF

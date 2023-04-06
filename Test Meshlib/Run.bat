@@ -1,2 +1,0 @@
-py Cleaned.py
-pause

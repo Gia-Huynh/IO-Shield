@@ -40,7 +40,7 @@ def convert_file():
 	f = open("uploaded_file.png", "wb")
 	f.write(file)
 	f.close()
-	#f.save('uploaded_file.png')
+	#f.save('uploaded_file.png') 
 	cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
 	return send_file('threeDimFile.stl', as_attachment=True)
 
