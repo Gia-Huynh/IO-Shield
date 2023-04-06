@@ -1,6 +1,5 @@
 import gay_code as gayy
 import Meshlib as ml
-import Blender as bl
 import glob, os
 from matplotlib.pyplot import imsave
 data_path = "./Data/"
@@ -17,7 +16,7 @@ def singleImageBFS (input_path, output_path):
 
     right_padding = 15
     bottom_padding = 5
-    left_padding = 15
+    left_padding = 5
     
     file_name = os.path.basename(input_path).split(".")[-2]
     gay_image = gayy.contrast (gayy.brightness(gayy.readImg(input_path),brightness_value), contrast_ratio)
@@ -29,8 +28,9 @@ def singleImageBFS (input_path, output_path):
     return None
 
 def singleImage3DStl (input_path, output_path):
-    ml.generate2DIO (input_path, "./temp2Dstl.stl", betterPrecision = 0)
-    bl.mergeModel ("temp2Dstl.stl", "threeDimFile.stl", "temp2Dstl", emptyIOPath = "GayModel.stl")
+    ml.generate2DIO (input_path, "./threeDimFile.stl", betterPrecision = 0)
+    #ml.generate2DIO (input_path, "./temp2Dstl.stl", betterPrecision = 0)
+    #bl.mergeModel ("temp2Dstl.stl", "threeDimFile.stl", "temp2Dstl", emptyIOPath = "GayModel.stl")
     return None
 if  __name__ == "__main__":
 		contrast_ratio = 1

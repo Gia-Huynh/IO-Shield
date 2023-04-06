@@ -18,11 +18,11 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0):
     #print (scale.b)
     #print (scale.translation(scale.b))
     test_matrix = mr.Matrix3f()
-    test_matrix.x = mr.Vector3f(0.1,0,0)
-    test_matrix.y = mr.Vector3f(0,0.1,0)
+    test_matrix.x = mr.Vector3f(0.1025,0,0)
+    test_matrix.y = mr.Vector3f(0,0.1025,0)
     test_matrix.z = mr.Vector3f(0,0,0.1)
     scale.A = test_matrix
-    scale.b = mr.Vector3f(0.1,0.1,0.1)
+    scale.b = mr.Vector3f(3,3.9,0.1)
     mesh.transform (scale)
 
     emptyIO = mr.loadMesh(mr.Path("GayModel.stl"))
