@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN apt-get update && apt-get install libglu1-mesa -y
-RUN apt-get update && apt-get install libgl1 -y
-RUN apt-get install xorg -y
-RUN apt-get install libglu1 -y
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+#RUN apt-get update && apt-get install libglu1-mesa -y
+#RUN apt-get update && apt-get install libgl1 -y
+#RUN apt-get install xorg -y
+#RUN apt-get install libglu1 -y
+#RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 RUN pip install -r requirements.txt
 CMD ["python", "app.py"]
