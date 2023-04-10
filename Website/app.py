@@ -6,8 +6,10 @@ from flask import send_file
 import Cleaned as cleaned_code
 app = Flask(__name__)
 
-#cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
+import os
 
+#cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
+tempPath = "TempFolder/"
 
 @app.route('/')
 def hello():
@@ -24,9 +26,9 @@ def upload_file():
         #print (request)
         #print (request.form["InputBox"])
         f = request.files["file"]
-        f.save('uploaded_file.gay')
-        cleaned_code.singleImageBFS ('uploaded_file.gay', 'twoDimFile.png')
-    return send_file('twoDimFile.png')
+        f.save(tempPath + str(os.getpid()) + 'uploaded.gay')
+        cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
+    return send_file( tempPath + str(os.getpid()) + 'twoDimFile.png')
     #return None
     #return render_template('index.html')
 
@@ -37,12 +39,11 @@ def convert_file():
 	#print ("convert_file")
 	#print (request)
 	file = request.data
-	f = open("uploaded_file.png", "wb")
+	f = open(tempPath + str(os.getpid()) + 'uploaded.png', "wb")
 	f.write(file)
 	f.close()
-	#f.save('uploaded_file.png') 
-	cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
-	return send_file('threeDimFile.stl', as_attachment=True)
+	cleaned_code.singleImage3DStl (tempPath + str(os.getpid()) + 'uploaded.png', tempPath + str(os.getpid()) + 'threeDimFile.stl')
+	return send_file(tempPath + str(os.getpid()) + 'threeDimFile.stl', as_attachment=True)
 
 with app.test_request_context():
     print(url_for('static', filename='cum.css'))
@@ -53,3 +54,5 @@ with app.test_request_context():
 
 if __name__ == '__main__':
     app.run(threaded=True, host='0.0.0.0', debug=False)
+else:
+	gunicorn_app = app

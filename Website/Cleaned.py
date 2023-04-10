@@ -28,7 +28,7 @@ def singleImageBFS (input_path, output_path):
     return None
 
 def singleImage3DStl (input_path, output_path):
-    ml.generate2DIO (input_path, "./threeDimFile.stl", betterPrecision = 0)
+    ml.generate2DIO (input_path, output_path, betterPrecision = 0)
     #ml.generate2DIO (input_path, "./temp2Dstl.stl", betterPrecision = 0)
     #bl.mergeModel ("temp2Dstl.stl", "threeDimFile.stl", "temp2Dstl", emptyIOPath = "GayModel.stl")
     return None
