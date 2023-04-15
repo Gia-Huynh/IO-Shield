@@ -7,6 +7,9 @@ main
     -moz-box-shadow:inset 0px 0px 0px 1px #000;
     box-shadow:inset 0px 0px 0px 1px #000;
 }
+	.Hidden{
+		display: none !important;
+	}
 	.Top_banner
 	{
 		max-width: 100vw;
@@ -116,7 +119,7 @@ main
 	{
 		display:flex;
 		flex-flow: column;
-		min-height: 50vh;
+		min-height: 30vh;
 		width:100%;
 		text-align:center;
     justify-content: center;

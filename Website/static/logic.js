@@ -44,6 +44,9 @@ InputBox.onchange = evt => {
   document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
+  document.getElementById("Review_Image").classList.remove("Hidden");
+  var elmntToView = document.getElementById("AdjustmentBox");
+  elmntToView.scrollIntoView({ behavior: "smooth"}); 
 };
 
 /*var ele = document.getElementById("ImageForm");
@@ -70,7 +73,11 @@ document.querySelector("#ImageForm").addEventListener("submit", function(e){
 			}
 			return response.blob();
 		  })
-		  .then((blob) => changeImage (blob));
+		  .then((blob) => {changeImage (blob); 
+  document.getElementById("confirmBox").classList.remove("Hidden");
+  var elmntToView = document.getElementById("confirmBox");
+  elmntToView.scrollIntoView({ behavior: "smooth"}); 
+  });
 });
 document.querySelector("#LastButton").addEventListener("click", function(e){
   fetch('/convert', {method:"POST", body:currentBlobImage})
