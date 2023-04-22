@@ -10,6 +10,13 @@ main
 	.Hidden{
 		display: none !important;
 	}
+	#TopDonation
+	{
+		height:20vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 	.Top_banner
 	{
 		max-width: 100vw;
@@ -64,6 +71,29 @@ main
 		width: 60%;
 		flex-direction: column;
 	}
+	#TopDonation
+	{
+		height:20vh;
+		display: flex;
+		flex-flow:row;
+		align-items: center;
+		justify-content: center;
+		max-width:100%;
+		padding-left: 20vw;
+		padding-right: 20vw;
+	}
+	#TopDonation .LeftHalf
+	{
+		width: 70%;
+		height: 100%;
+	}
+	#TopDonation .RightHalf
+	{
+		width: 30%;
+		height: 100%;
+	}
+	
+	
 	.advertisement
 	{
 		position: sticky;
