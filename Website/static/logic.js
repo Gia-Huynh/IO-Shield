@@ -1,11 +1,15 @@
+//Hide ad when clicked
 var ad_list = document.querySelectorAll('.advertisement');
 var ad_list_arr = [...ad_list];
 ad_list_arr.forEach(i => {
 	i.onclick = function() {
-	  this.style.visibility = 'hidden';
+	  //this.style.visibility = 'hidden';
 	};
 });
-
+function binanceNigga()
+{
+	alert ("My binance user id: 21262360");
+}
 
 //for everyone else
 document.addEventListener("DOMContentLoaded", function () {
@@ -14,14 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
  }, false);
 
 const dropContainer = document.getElementById("dropContainer");
-//const InputBox = document.getElementById("InputBox");
+const InputBox = document.getElementById("InputBox");
   
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
 };
 dropContainer.ondrop = function(evt) {
   // pretty simple -- but not for IE :(
- console.log ("ye");
+  console.log ("ye");
   evt.preventDefault();
   InputBox.files = evt.dataTransfer.files;
 
@@ -35,8 +39,13 @@ dropContainer.ondrop = function(evt) {
   document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
+  document.getElementById("Review_Image").classList.remove("Hidden");
+  var elmntToView = document.getElementById("AdjustmentBox");
+  elmntToView.scrollIntoView({ behavior: "smooth"}); 
 };
+console.log(InputBox);
 InputBox.onchange = evt => {
+  console.log ("InputBox.onchange");
   const [file] = InputBox.files;
   if (file) {
     blah.src = URL.createObjectURL(file)
@@ -44,6 +53,7 @@ InputBox.onchange = evt => {
   document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
+  console.log ("InputBox added");
   document.getElementById("Review_Image").classList.remove("Hidden");
   var elmntToView = document.getElementById("AdjustmentBox");
   elmntToView.scrollIntoView({ behavior: "smooth"}); 
@@ -75,11 +85,16 @@ document.querySelector("#ImageForm").addEventListener("submit", function(e){
 		  })
 		  .then((blob) => {changeImage (blob); 
   document.getElementById("confirmBox").classList.remove("Hidden");
-  var elmntToView = document.getElementById("confirmBox");
-  elmntToView.scrollIntoView({ behavior: "smooth"}); 
+  setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
+  elmntToView.scrollIntoView({ behavior: "smooth"});},500);
   });
 });
+function disableLastButton(){
+      document.getElementById("LastButton").disabled = true;
+      setTimeout(function(){document.getElementById("LastButton").disabled = false;},20000);
+  }
 document.querySelector("#LastButton").addEventListener("click", function(e){
+	disableLastButton();
   fetch('/convert', {method:"POST", body:currentBlobImage})
                 .then(response  => {
 			if (!response.ok) {
