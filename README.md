@@ -1,6 +1,5 @@
-# IO-Shield
+# IO Shield 3D Model Generator
 
-<h1> IO Shield 3D Model Generator </h1>   
 Generate 3D model to 3d print from image of Io Shield from manufacturer.   <br>
 Only work with image that the background has the same color.   <br>
 The online version is running at: http://ioshield.thietgia.com/   <br>
