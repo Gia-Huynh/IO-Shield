@@ -91,7 +91,7 @@ document.querySelector("#ImageForm").addEventListener("submit", function(e){
 });
 function disableLastButton(){
       document.getElementById("LastButton").disabled = true;
-      setTimeout(function(){document.getElementById("LastButton").disabled = false;},20000);
+      setTimeout(function(){document.getElementById("LastButton").disabled = false;},50000);
   }
 document.querySelector("#LastButton").addEventListener("click", function(e){
 	disableLastButton();
