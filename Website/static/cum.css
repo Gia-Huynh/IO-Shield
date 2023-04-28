@@ -12,7 +12,7 @@ main
 	}
 	#TopDonation
 	{
-		height:20vh;
+		max-height:20vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -73,7 +73,7 @@ main
 	}
 	#TopDonation
 	{
-		height:10vh;
+		max-height:20vh;
 		display: flex;
 		flex-flow:row;
 		align-items: center;
@@ -87,14 +87,14 @@ main
 	#TopDonation .LeftHalf
 	{
 		padding-left:0.8vw;
-		width: 50%;
+		width: 40%;
 		height: 100%;
 	}
 	#TopDonation .RightHalf
 	{
 		padding-top:1vh;
 		font-size: 2vh;
-		width: 50%;
+		width: 60%;
 		height: 100%;
 		line-height: 150%;
 	}
