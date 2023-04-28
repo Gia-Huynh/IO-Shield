@@ -1,10 +1,10 @@
 # IO-Shield
 
-<h1> IO Shield 3D Model Generator </h1>\
-Generate 3D model to 3d print from image of Io Shield from manufacturer.\
-Only work with image that the background has the same color.\
-The online version is running at: http://ioshield.thietgia.com/\
-<h2> Installation & Usage </h2>\
+<h1> IO Shield 3D Model Generator </h1>   
+Generate 3D model to 3d print from image of Io Shield from manufacturer.   
+Only work with image that the background has the same color.   
+The online version is running at: http://ioshield.thietgia.com/   
+<h2> Installation & Usage </h2>   
 <h3> Local Install </h3>\
 More complex than the docker way, but this allows you to modify the algorithm's parameter in the main file (Cleaned.py).\
 To install and run the code locally on your computer:\
