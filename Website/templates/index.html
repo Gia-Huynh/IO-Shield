@@ -27,7 +27,7 @@
 				
 				<div class="video-wrap">
 					<div class="video-container">
-						<iframe src="https://www.youtube.com/embed/ntaLiU2YkWk" 
+						<iframe src="https://www.youtube.com/embed/a6P7AP5JJNE" 
 						title="YouTube video player" frameborder="0" 
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
 						</iframe>
@@ -40,7 +40,7 @@
 						or by clicking the button below<br></p>
 						 <p class = "ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
 					<form id="ImageForm" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
-						<input type="file" name="file" id="InputBox" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+						<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
 					</form>
 				</div>
 				<div id = "AdjustmentBox" class = "Part_2">
@@ -50,7 +50,7 @@
 					</div>
 					<div id = "Review_Image" class ="boxed Hidden">
 						<h2> Your uploaded image </h2>
-						<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty" />
+						<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<p> This tool is sensitive to the brightness and contrast of the image. <br> Use photo editing tool to correct those value to get better results.
 						</p> <h1>Looks good?</h1>
 						<button type="submit" form="ImageForm" class = "confirmButton" value="Like"> Yep, this is an IO image, <br> LET'S DO THIS </button>
@@ -63,7 +63,7 @@
 								<br></h1>
 						<div class = "TwoDOverlay">
 							<img id="overlayImg" style="opacity:0.3; z-index:2;" src="#" alt="Overlayed image" /> 
-							<img id="resultImg" src="#" alt="This is the result image, press the green button above" /> 
+							<img id="resultImg" src="#" alt="This is the result image, press the green button above.  If you are seeing this, it's most likely you have not selected the image, try selecting it again." /> 
 						</div>
 						<div class ="Part_3_flex">
 							<div class = "Part_3_flex_left">
@@ -73,7 +73,7 @@
 							<div class = "Part_3_flex_right">
 								<h3> Upload image to overlay on top to double check </h3>
 								<form id="ImageFormTwo" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
-									<input type="file" name="fileTwo" id="InputBoxTwo" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+									<input type="file" name="fileTwo" value="" id="InputBoxTwo" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
 								</form>
 							</div>
 						</div>
