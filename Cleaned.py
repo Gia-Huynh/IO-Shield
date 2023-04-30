@@ -12,7 +12,7 @@ def singleImageBFS (input_path, output_path):
 	contrast_ratio = 1
 	brightness_value = 0
 	blur_ratio = 0.0075
-	CoNhiPhanTime = 0
+	CoNhiPhanTime = 1
 
 	right_padding = 86
 	bottom_padding = 5
@@ -24,7 +24,8 @@ def singleImageBFS (input_path, output_path):
 	ye = gayy.niggaBFS (gay_image, CoNhiPhanTime, blur_ratio, file_name)
 	ye = gayy.PaddingCleaning (ye, right_padding, bottom_padding, left_padding, file_name)
 	#imsave("Data/DebugData/" + file_name + "_ero.png",255-ye,cmap='gray')
-	#imsave(output_path,255-ye,cmap='gray')
+	
+	imsave(output_path,255-ye,cmap='gray')
 	return None
 
 def singleImage3DStl (input_path, output_path):

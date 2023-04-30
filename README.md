@@ -18,3 +18,6 @@ docker build -t io_shield .   <br>
 docker run -p 5000:5000 io_shield   <br>
 ___________   <br>      
 Use your browser (I.E. Chrome, Firefox), type in localhost:5000 and you are all set.   <br>
+
+![](Real Life.jpg "Case without IO shield")\
+![](Real Life Example.jpg "3d printed io shield")\

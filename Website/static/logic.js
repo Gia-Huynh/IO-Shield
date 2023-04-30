@@ -43,9 +43,7 @@ dropContainer.ondrop = function(evt) {
   var elmntToView = document.getElementById("AdjustmentBox");
   elmntToView.scrollIntoView({ behavior: "smooth"}); 
 };
-console.log(InputBox);
 InputBox.onchange = evt => {
-  console.log ("InputBox.onchange");
   const [file] = InputBox.files;
   if (file) {
     blah.src = URL.createObjectURL(file)
@@ -66,6 +64,14 @@ if(ele.addEventListener){
 		
 	}, false);  //Modern browsers
 }*/
+const InputBoxTwo = document.getElementById("InputBoxTwo");
+InputBoxTwo.onchange = evt => {
+  const [file] = InputBoxTwo.files;
+  if (file) {
+    overlayImg.src = URL.createObjectURL(file)
+  }
+}
+
 var currentBlobImage;
 function changeImage(blobImage) {
  const urlCreator = window.URL || window.webkitURL;
