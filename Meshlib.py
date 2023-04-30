@@ -23,10 +23,10 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0):
 	mr.addBaseToPlanarMesh(IO_Shield_Mesh, zOffset=1)
 
 	#Comment out this part for a slower but more precise model
-	testRelaxParam = mr.MeshRelaxParams()
-	testRelaxParam.force = 0.01
-	testRelaxParam.iterations = 10
-	mr.relax (IO_Shield_Mesh, testRelaxParam)
+	#testRelaxParam = mr.MeshRelaxParams()
+	#testRelaxParam.force = 0.01
+	#testRelaxParam.iterations = 10
+	#mr.relax (IO_Shield_Mesh, testRelaxParam)
 
 	#Union is slow AF
 	emptyIO = mr.loadMesh(mr.Path("GayModel.stl"))

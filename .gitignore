@@ -1,5 +1,6 @@
 blender_python_reference_3_4/*
 Old/*
+*/Data/*
 */DebugData/*
 */MeshLib/*
 */Data/*
@@ -7,4 +8,5 @@ Old/*
 */CoolErosion/*
 */TempFolder/*
 __pycache__/*
+Data/*
 journal.pone.0264140.s001.xlsx

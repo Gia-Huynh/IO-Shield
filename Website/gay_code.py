@@ -2,9 +2,15 @@ import cv2
 import numpy as np
 import skimage
 from skimage import measure
+
+#Remove in production
+from matplotlib.pyplot import imsave
+import matplotlib.pyplot as plt
 def readImg (path):
 	return (cv2.imread (path))
-def clearLeftRight (input_image, tolerance = 0.95):
+
+#clear left and right of the picture
+def clearLeftRight (input_image, tolerance = 0.98):
         FirstDim = input_image.shape[0]
         SecDim = input_image.shape[1]
         yes = np.sum(input_image, axis = 1)/SecDim
@@ -17,14 +23,19 @@ def clearLeftRight (input_image, tolerance = 0.95):
 
         return ((input_image[bot:top+1, left:right+1]))
 
+#clear the motherboard from image
 def clearMotherboard (input_image):
 		FirstDim = input_image.shape[0]
 		SecDim = input_image.shape[1]
 		gay = np.sum(input_image, axis = 1)/SecDim
-
-		bot = np.argmax (gay<1)
+		#print (input_image.shape)
+		bot = np.argmax ((0 < gay) & (gay < 1))
 		top = FirstDim
-		#top = FirstDim - np.argmax (gay[::-1] >=0.001)
+		#print (np.argmax ((0 < gay) & (gay < 1)))
+		#print ((input_image[bot:top, :]).shape)
+		#plt.plot (gay)
+		#plt.show()
+		top = FirstDim - np.argmax (gay[::-1] >=0.001)
 		return ((input_image[bot:top, :]))
 
 #Taken from stackoverflow
@@ -63,7 +74,7 @@ def CoNhiPhan (gay, s):
 	gay [gay > (s*s-1)] = 1
 	return gay.astype (np.uint8)
     
-def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075, file_name = "gay"):
+def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075, file_name = "debug"):
 
         #simple blur
 	image = cv2.medianBlur(image, int(BlurRatio*(image.shape)[1])//2*2+1)
@@ -81,23 +92,25 @@ def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075, file_name = "gay"):
 		
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
-	#plt.imsave("DebugData/" + file_name + "KeepBiggest.png",visited*255,cmap='gray')
+	image[visited == 0] = 0
+	#imsave("Data/DebugData/" + file_name + "debug.png",image)
 	x,y,w,h = cv2.boundingRect((1-visited)*255)
 	visited = visited[y:y+h, x:x+w]
-	#plt.imsave("DebugData/" + file_name + "boundingRect.png",visited*255,cmap='gray')
+	#imsave("Data/DebugData/" + file_name + "boundingRect.png",visited*255,cmap='gray')
 	
 	visited = clearLeftRight(visited).astype (np.uint8)
-	#plt.imsave("DebugData/" + file_name + "clearLeftRight.png",visited*255,cmap='gray')
-	visited = KeepBiggestBlob(visited).astype (np.uint8)
+	#imsave("Data/DebugData/" + file_name + "clearLeftRight.png",visited*255,cmap='gray')
+	#visited = KeepBiggestBlob(visited).astype (np.uint8)
 	visited = clearMotherboard(visited).astype (np.uint8)
-	#plt.imsave("DebugData/" + file_name + "clearMotherboard.png",visited*255,cmap='gray')
+	#imsave("Data/DebugData/" + file_name + "clearMotherboard.png",visited*255,cmap='gray')
 	visited = clearLeftRight(visited).astype (np.uint8)
-	visited = KeepBiggestBlob(visited).astype (np.uint8)
+	#visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
-	#plt.imsave("DebugData/" + file_name + "BeforeErosion.png",visited*255,cmap='gray')
+	#imsave("Data/DebugData/" + file_name + "BeforeErosion.png",visited*255,cmap='gray')
 	for i in range (0, CoNhiPhanTime):
 		visited = CoNhiPhan (visited, (visited.shape[1])//100)
-	#plt.imsave("DebugData/" + file_name + "Final.png",visited*255,cmap='gray')
+	#imsave("Data/DebugData/" + file_name + "Final.png",visited*255,cmap='gray')
+	visited = clearMotherboard(visited).astype (np.uint8)
 	return ((visited)*255)
 
 def contrast (image, ye):
@@ -113,7 +126,7 @@ def brightness (image, ye):
 def PaddingCleaning (ye, right_padding, bottom_padding, left_padding, fileName):
 	top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
 	if top_padding < 0:
-			print ("Uh oh, why is top padding negative? ",fileName)
+			print ("Uh oh, why is top padding negative? It is not supposed to be so, ",fileName)
 			top_padding = 1
 	ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
 	ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
