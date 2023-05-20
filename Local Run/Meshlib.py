@@ -6,7 +6,7 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0):
 	dm = mr.loadDistanceMapFromImage(mr.Path(InputPath), 0)
 	polyline2 = mr.distanceMapTo2DIsoPolyline(dm, isoValue=10)
 	IO_Shield_Mesh = mr.triangulateContours(polyline2.contours2())
-	if (betterPrecision == 1):
+	if (betterPrecision == 2):
 		mr.subdivideMesh(IO_Shield_Mesh)
 
 	#Thicken + resize
@@ -23,10 +23,12 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0):
 	mr.addBaseToPlanarMesh(IO_Shield_Mesh, zOffset=1)
 
 	#Comment out this part for a slower but more precise model
-	#testRelaxParam = mr.MeshRelaxParams()
-	#testRelaxParam.force = 0.01
-	#testRelaxParam.iterations = 10
-	#mr.relax (IO_Shield_Mesh, testRelaxParam)
+	#Uncomment to get a faster but less precise model
+	if (betterPrecision == 0):
+                testRelaxParam = mr.MeshRelaxParams()
+                testRelaxParam.force = 0.01
+                testRelaxParam.iterations = 10
+                mr.relax (IO_Shield_Mesh, testRelaxParam)
 
 	#Union is slow AF
 	emptyIO = mr.loadMesh(mr.Path("GayModel.stl"))

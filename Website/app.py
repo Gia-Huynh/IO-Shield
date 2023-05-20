@@ -11,7 +11,7 @@ import os
 #cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
 tempPath = "TempFolder/"
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def hello():
     url_for('static', filename='cum.css')
     url_for('static', filename='B450M Pro4-F(L5).png')
