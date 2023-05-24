@@ -50,7 +50,8 @@
 						<h3> Example image </h3>
 						<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
 					</div>
-					<div id = "Review_Image" class ="boxed Hidden">
+					<!--Hidden-->
+					<div id = "Review_Image" class ="boxed">
 						<h2> Your uploaded image </h2>
 						<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<p> This tool is sensitive to the brightness and contrast of the image. <br> Use photo editing tool to correct those value to get better results.
@@ -59,24 +60,56 @@
 					</div>
 				</div>
 				
-					<div id = "confirmBox" class = "Part_3 Hidden">
+					<div id = "confirmBox" class = "Part_3">
 				<div class ="boxed">
-						<h1> Confirm result image & <br>Get 3D Model
+						<h1> Confirm & Re-adjust image
 								<br></h1>
 						<div class = "TwoDOverlay">
 							<img id="overlayImg" style="opacity:0.3; z-index:2;" src="#" alt="Overlayed image" /> 
 							<img id="resultImg" src="#" alt="This is the result image, press the green button above.  If you are seeing this, it's most likely you have not selected the image, try selecting it again." /> 
 						</div>
-						<div class ="Part_3_flex">
-							<div class = "Part_3_flex_left">
-								 <p> Please wait 30 seconds after pressing the green button, the server is generating your file. <br> After downloading it, add ".stl" to the end of the file. </p>
-								<button class = "confirmButton" id = "LastButton"> Looks like a good recognition to me, <br> GET 3D MODEL NOW </button>
-							</div>
-							<div class = "Part_3_flex_right">
-								<h3> Upload image to overlay on top to double check </h3>
-								<form id="ImageFormTwo" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
-									<input type="file" name="fileTwo" value="" id="InputBoxTwo" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+						<div class ="Part_3_flex_big">
+							<div class ="Part_3_flex_top">
+								<form id="ImageForm2" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
+									
+									<input type="file" name="file" id="InputBox2" value="" onclick="this.value=null;" style="display:none;" accept="image/png, image/gif, image/jpeg"/>
+									
+									<div style = "display: flex;"> 
+										<p class = "left_text_box"> Left padding: </p>
+										<input class="inputNumber" id="myNum" onchange="updateTextInput(this.value, 'myRange');" type="number" min="0" max="150" value="10"/>
+									</div>
+									<input type="range" id="myRange" onchange="updateTextInput(this.value, 'myNum');" min="1" max="150" value="10" class="slider">
+									
+									<div style = "display: flex"> 
+										<p class = "left_text_box"> Right padding: </p>
+										<input class="inputNumber" id="myNum2"  onchange="updateTextInput(this.value, 'myRange2');" type="number" min="0" max="150" value="10" />
+									</div>
+									<input type="range" id="myRange2" onchange="updateTextInput(this.value, 'myNum2');" min="1" max="150" value="10" class="slider">
+									
+									<div style = "display: flex"> 
+										<p class = "left_text_box"> Bottom padding: </p>
+										<input class="inputNumber" id="myNum3" onchange="updateTextInput(this.value, 'myRange3');" type="number" min="0" max="150" value="10"/>
+									</div>
+									<input type="range" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="1" max="150" value="10" class="slider">
 								</form>
+								
+								<div class = "Part_3_flex_right">
+									<h3> Overlay another image on top </h3>
+									<form id="ImageFormTwo" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
+										<input type="file" name="fileTwo" value="" id="InputBoxTwo" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+									</form>
+									<button class = "adjustButton" id = "adjustButton2"> Get updated version </button>
+
+								</div>
+							</div>
+							<div class = "Part_3_flex_center">
+								<h1> Get 3D Model <br> </h1>
+							</div>
+							<div class ="Part_3_flex_bot">
+								<div class = "Part_3_flex_left">
+									 <p> Please wait 30 seconds after pressing the green button, the server is generating your file. <br> After downloading it, add ".stl" to the end of the file. </p>
+									<button class = "confirmButton" id = "LastButton"> Looks like a good recognition to me, <br> GET 3D MODEL NOW </button>
+								</div>
 							</div>
 						</div>
 					</div>

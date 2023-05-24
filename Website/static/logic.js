@@ -17,8 +17,16 @@ document.addEventListener("DOMContentLoaded", function () {
   
  }, false);
 
+//Update range/slider input value
+//https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
+function updateTextInput(val, ID) {
+          document.getElementById(ID).value=val; 
+        }
+
+//Drag N Drop Image
 const dropContainer = document.getElementById("dropContainer");
 const InputBox = document.getElementById("InputBox");
+const InputBox2 = document.getElementById("InputBox2");
   
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
@@ -28,12 +36,14 @@ dropContainer.ondrop = function(evt) {
   console.log ("ye");
   evt.preventDefault();
   InputBox.files = evt.dataTransfer.files;
+  InputBox2.files = evt.dataTransfer.files;
 
   // If you want to use some of the dropped files
   const dT = new DataTransfer();
   dT.items.add(evt.dataTransfer.files[0]);
   //dT.items.add(evt.dataTransfer.files[3]);
   InputBox.files = dT.files;
+  InputBox2.files = dT.files;
   blah.src = URL.createObjectURL(evt.dataTransfer.files[0]);
   evt.preventDefault();
   document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
@@ -51,7 +61,6 @@ InputBox.onchange = evt => {
   document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
-  console.log ("InputBox added");
   document.getElementById("Review_Image").classList.remove("Hidden");
   var elmntToView = document.getElementById("AdjustmentBox");
   elmntToView.scrollIntoView({ behavior: "smooth"}); 

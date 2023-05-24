@@ -285,11 +285,11 @@ h1 {font-size:2.2em;}
 		font-size: 1.5em;
 		align-items: center;
 	}
-	.Part_3 *
+	.Part_3_flex_bot *
 	{
 		padding: 0.5vh;
 	}
-	.Part_3 img
+	.TwoDOverlay img
 	{
 		position:absolute;
 		left:25%;
@@ -303,22 +303,78 @@ h1 {font-size:2.2em;}
     box-shadow:inset 0px 0px 10px 2px #333;
 		margin-bottom: 2vh;
 	}
-	.Part_3 p 
+	.Part_3_flex_bot p 
 	{
 		width: auto;
 		padding-left:10%;
 		padding-right: 10%;
 		text-align: center;
 	}
-	.Part_3_flex
+	.Part_3_flex_big
 	{
+		display:flex;
+		flex-direction: column;
+	}
+	.Part_3_flex_top
+	{
+		order: 1;
+		display:flex;
+		text-align:left;
+		height: auto;
+		padding: 3vh 2vw 3vh 0;
+		width: 100%;
+	}
+	#ImageForm2
+	{
+		display: flex;
+		flex-flow: column;
+		width: 60%;
+		padding-left: 3vw;		
+	}
+	.inputNumber
+	{
+		width: 2.2vw;
+		height: auto;
+	}
+	.adjustButton
+	{
+		
+		align-items: center;
+		width: 75%;
+		margin-top: 1vh;
+		margin-bottom: 2vh;
+		background-color: #1ff463;
+		font-size: 1em;
+		border-radius: 3vh;
+	}
+	.slider
+	{
+		width: 100%;	
+		height: 5vh;
+	}
+	.left_text_box
+	{
+		width: 10vw;
+		height: 3.5vh;
+		text-align:right;
+		margin-right: 0.5vw;
+	}
+	.Part_3_flex_center
+	{
+		order: 2;
+	}
+	.Part_3_flex_bot
+	{
+		order: 3;
 		display:flex;
 	}
 	.Part_3_flex_left
-	{ width: 70%;
+	{ width: 100%;
 	}
 	.Part_3_flex_right
 	{ width: 30%;
+		margin-left:auto;
+		margin-right:0;
 	}
 	#ad2{padding: 1%;text-align: right; right:0;}
 }
