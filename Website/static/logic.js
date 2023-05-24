@@ -55,6 +55,7 @@ dropContainer.ondrop = function(evt) {
 };
 InputBox.onchange = evt => {
   const [file] = InputBox.files;
+  InputBox2.files = InputBox.files;
   if (file) {
     blah.src = URL.createObjectURL(file)
   }
@@ -73,9 +74,9 @@ if(ele.addEventListener){
 		
 	}, false);  //Modern browsers
 }*/
-const InputBoxTwo = document.getElementById("InputBoxTwo");
-InputBoxTwo.onchange = evt => {
-  const [file] = InputBoxTwo.files;
+const InputBoxOverlay = document.getElementById("InputBoxOverlay");
+InputBoxOverlay.onchange = evt => {
+  const [file] = InputBoxOverlay.files;
   if (file) {
     overlayImg.src = URL.createObjectURL(file)
   }
@@ -102,6 +103,20 @@ document.querySelector("#ImageForm").addEventListener("submit", function(e){
   document.getElementById("confirmBox").classList.remove("Hidden");
   setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
   elmntToView.scrollIntoView({ behavior: "smooth"});},500);
+  });
+});
+
+document.querySelector("#ImageForm2").addEventListener("submit", function(e){
+        e.preventDefault();    //stop form from submitting
+		const myForm2 = document.forms['ImageForm2']
+		fetch(document.forms['ImageForm2'].action, {method:'post', body: new FormData(myForm2)})
+				.then((response) => {
+			if (!response.ok) {
+			  throw new Error("HTTP error: ${response.status}");
+			}
+			return response.blob();
+		  })
+		  .then((blob) => {changeImage (blob); 
   });
 });
 function disableLastButton(){

@@ -32,12 +32,32 @@ def upload_file():
     #return None
     #return render_template('index.html')
 
+@app.route('/upload_adjust', methods=['GET', 'POST'])
+def upload_adjust():
+	if (request.method == 'POST') or (request.method == 'GET'):
+		if request.files["file"].filename == '':
+			print ("No file, upload_adjust")
+			return 'No selected file'
+		f = request.files["file"]
+		try:
+			gae = int(request.form['myNum'])
+			print (gae)
+			print (type(gae))
+			gae = int(request.form['myRange'])
+			print (gae)
+			print (type(gae))
+		except Exception as e:
+			print(e)
+		file_path = tempPath + str(os.getpid()) + 'adjusting.gay'
+		f.save(file_path)
+		cleaned_code.singleImageBFS (file_path, tempPath + str(os.getpid()) + 'twoDimFile.png',
+			left_padding = int(request.form['myNum']), right_padding = int(request.form['myNum2']), bottom_padding = int(request.form['myNum3'])
+		)
+	return send_file( tempPath + str(os.getpid()) + 'twoDimFile.png')
+
+
 @app.route('/convert', methods=['GET', 'POST'])
 def convert_file():
-	#if request.files["file"].filename == '':
-	#	return 'No selected file'
-	#print ("convert_file")
-	#print (request)
 	file = request.data
 	f = open(tempPath + str(os.getpid()) + 'uploaded.png', "wb")
 	f.write(file)

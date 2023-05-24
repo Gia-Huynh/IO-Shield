@@ -8,15 +8,11 @@ erosion_path = "./CoolErosion/"
 meshlib_path = "./MeshLib/"
 stl_path = "./stl/"
 
-def singleImageBFS (input_path, output_path):
+def singleImageBFS (input_path, output_path, left_padding = 5, right_padding = 15, bottom_padding = 5):
 	contrast_ratio = 1
 	brightness_value = 0
 	blur_ratio = 0.0075
 	CoNhiPhanTime = 1
-
-	right_padding = 15
-	bottom_padding = 5
-	left_padding = 5
 
 	file_name = os.path.basename(input_path).split(".")[-2]
 	gay_image = gayy.contrast (gayy.brightness(gayy.readImg(input_path),brightness_value), contrast_ratio)
@@ -28,8 +24,8 @@ def singleImageBFS (input_path, output_path):
 	imsave(output_path,255-ye,cmap='gray')
 	return None
 
-def singleImage3DStl (input_path, output_path):
-    ml.generate2DIO (input_path, output_path, betterPrecision = 0)
+def singleImage3DStl (input_path, output_path, betterPrecision = 0):
+    ml.generate2DIO (input_path, output_path, betterPrecision)
     return None
 if  __name__ == "__main__":
 		singleImageBFS ("./Data/image.png", "./Data/temp2D.png")

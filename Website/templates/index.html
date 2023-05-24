@@ -70,35 +70,36 @@
 						</div>
 						<div class ="Part_3_flex_big">
 							<div class ="Part_3_flex_top">
-								<form id="ImageForm2" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
+								<form id="ImageForm2" action="/upload_adjust" enctype = "multipart/form-data" target="hiddenFrame">
 									
 									<input type="file" name="file" id="InputBox2" value="" onclick="this.value=null;" style="display:none;" accept="image/png, image/gif, image/jpeg"/>
 									
 									<div style = "display: flex;"> 
 										<p class = "left_text_box"> Left padding: </p>
-										<input class="inputNumber" id="myNum" onchange="updateTextInput(this.value, 'myRange');" type="number" min="0" max="150" value="10"/>
+										<input class="inputNumber" name="myNum" id="myNum" onchange="updateTextInput(this.value, 'myRange');" type="number" min="0" max="250" value="5"/>
 									</div>
-									<input type="range" id="myRange" onchange="updateTextInput(this.value, 'myNum');" min="1" max="150" value="10" class="slider">
+									<input type="range" name="myRange" id="myRange" onchange="updateTextInput(this.value, 'myNum');" min="1" max="250" value="10" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Right padding: </p>
-										<input class="inputNumber" id="myNum2"  onchange="updateTextInput(this.value, 'myRange2');" type="number" min="0" max="150" value="10" />
+										<input class="inputNumber" name="myNum2" id="myNum2"  onchange="updateTextInput(this.value, 'myRange2');" type="number" min="0" max="250" value="15" />
 									</div>
-									<input type="range" id="myRange2" onchange="updateTextInput(this.value, 'myNum2');" min="1" max="150" value="10" class="slider">
+									<input type="range" name="myRange2" id="myRange2" onchange="updateTextInput(this.value, 'myNum2');" min="1" max="250" value="10" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Bottom padding: </p>
-										<input class="inputNumber" id="myNum3" onchange="updateTextInput(this.value, 'myRange3');" type="number" min="0" max="150" value="10"/>
+										<input class="inputNumber" name="myNum3" id="myNum3" onchange="updateTextInput(this.value, 'myRange3');" type="number" min="0" max="250" value="5"/>
 									</div>
-									<input type="range" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="1" max="150" value="10" class="slider">
+									<input type="range" name="myRange3" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="1" max="250" value="10" class="slider">
+									
 								</form>
 								
 								<div class = "Part_3_flex_right">
 									<h3> Overlay another image on top </h3>
-									<form id="ImageFormTwo" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
-										<input type="file" name="fileTwo" value="" id="InputBoxTwo" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+									<form id="ImageOverlay" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
+										<input type="file" name="fileTwo" value="" id="InputBoxOverlay" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
 									</form>
-									<button class = "adjustButton" id = "adjustButton2"> Get updated version </button>
+									<button type="submit" form="ImageForm2" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
 
 								</div>
 							</div>
