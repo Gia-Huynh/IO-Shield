@@ -50,8 +50,7 @@
 						<h3> Example image </h3>
 						<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
 					</div>
-					<!--Hidden-->
-					<div id = "Review_Image" class ="boxed">
+					<div id = "Review_Image" class ="boxed Hidden">
 						<h2> Your uploaded image </h2>
 						<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<p> This tool is sensitive to the brightness and contrast of the image. <br> Use photo editing tool to correct those value to get better results.
@@ -59,8 +58,7 @@
 						<button type="submit" form="ImageForm" class = "confirmButton" value="Like"> Yep, this is an IO image, <br> LET'S DO THIS </button>
 					</div>
 				</div>
-				
-					<div id = "confirmBox" class = "Part_3">
+					<div id = "confirmBox" class = "Part_3 Hidden">
 				<div class ="boxed">
 						<h1> Confirm & Re-adjust image
 								<br></h1>
@@ -70,6 +68,7 @@
 						</div>
 						<div class ="Part_3_flex_big">
 							<div class ="Part_3_flex_top">
+								<div class = "Part_3_flex_left">
 								<form id="ImageForm2" action="/upload_adjust" enctype = "multipart/form-data" target="hiddenFrame">
 									
 									<input type="file" name="file" id="InputBox2" value="" onclick="this.value=null;" style="display:none;" accept="image/png, image/gif, image/jpeg"/>
@@ -93,22 +92,25 @@
 									<input type="range" name="myRange3" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="1" max="250" value="10" class="slider">
 									
 								</form>
+								<button type="submit" form="ImageForm2" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
+								</div>
 								
 								<div class = "Part_3_flex_right">
-									<h3> Overlay another image on top </h3>
-									<form id="ImageOverlay" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
-										<input type="file" name="fileTwo" value="" id="InputBoxOverlay" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
-									</form>
-									<button type="submit" form="ImageForm2" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
-
+									<div class = "boxed">
+										<h3> Overlay another image on top </h3>
+										<p> Image search the io shield image of your mobo and use it here</p>
+										<form id="ImageOverlay" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
+											<input type="file" name="fileTwo" value="" id="InputBoxOverlay" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+										</form>
+									</div>
 								</div>
 							</div>
 							<div class = "Part_3_flex_center">
 								<h1> Get 3D Model <br> </h1>
 							</div>
 							<div class ="Part_3_flex_bot">
-								<div class = "Part_3_flex_left">
-									 <p> Please wait 30 seconds after pressing the green button, the server is generating your file. <br> After downloading it, add ".stl" to the end of the file. </p>
+								<div style="width: 100%">
+									 <p> Please wait 30 seconds after pressing the green button, the server is generating your file. <br> After downloading it, add ".stl" to the end of the file name. </p>
 									<button class = "confirmButton" id = "LastButton"> Looks like a good recognition to me, <br> GET 3D MODEL NOW </button>
 								</div>
 							</div>

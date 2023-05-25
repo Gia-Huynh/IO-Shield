@@ -39,15 +39,6 @@ def upload_adjust():
 			print ("No file, upload_adjust")
 			return 'No selected file'
 		f = request.files["file"]
-		try:
-			gae = int(request.form['myNum'])
-			print (gae)
-			print (type(gae))
-			gae = int(request.form['myRange'])
-			print (gae)
-			print (type(gae))
-		except Exception as e:
-			print(e)
 		file_path = tempPath + str(os.getpid()) + 'adjusting.gay'
 		f.save(file_path)
 		cleaned_code.singleImageBFS (file_path, tempPath + str(os.getpid()) + 'twoDimFile.png',

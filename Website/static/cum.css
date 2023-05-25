@@ -253,6 +253,7 @@ h1 {font-size:2.2em;}
 	}
 	.boxed
 	{
+		padding: 0.5vh;
 		width: 95%;
 		height: auto;
 		margin-top: 1vh;
@@ -312,6 +313,8 @@ h1 {font-size:2.2em;}
 	}
 	.Part_3_flex_big
 	{
+		padding: 0.5vw;
+		width: 100%;
 		display:flex;
 		flex-direction: column;
 	}
@@ -321,15 +324,15 @@ h1 {font-size:2.2em;}
 		display:flex;
 		text-align:left;
 		height: auto;
-		padding: 3vh 2vw 3vh 0;
+		padding: 5vh 2vw 3vh 0;
 		width: 100%;
 	}
 	#ImageForm2
 	{
 		display: flex;
 		flex-flow: column;
-		width: 60%;
-		padding-left: 3vw;		
+		width: 90%;
+		padding-left: 2vw;		
 	}
 	.inputNumber
 	{
@@ -338,15 +341,16 @@ h1 {font-size:2.2em;}
 	}
 	.adjustButton
 	{
-		
+		text-align: center;
 		align-items: center;
-		width: 75%;
+		width: 50%;
 		margin-top: 1vh;
 		margin-bottom: 2vh;
+		margin-left:2vw;
 		padding-top:1vh;
 		padding-bottom:1vh;
 		background-color: #1ff463;
-		font-size: 1.3em;
+		font-size: 1em;
 		border-radius: 3vh;
 	}
 	.slider
@@ -371,12 +375,15 @@ h1 {font-size:2.2em;}
 		display:flex;
 	}
 	.Part_3_flex_left
-	{ width: 100%;
+	{ 
+		width: 60%;
+		align-items: center;
+		justify-content: center;
 	}
 	.Part_3_flex_right
-	{ width: 30%;
+	{ width: 33%;
 		margin-left:auto;
-		margin-right:0;
+		margin-right:15px;
 	}
 	#ad2{padding: 1%;text-align: right; right:0;}
 }
