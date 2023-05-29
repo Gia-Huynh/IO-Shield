@@ -13,7 +13,7 @@ h1 {font-size:2.2em;}
 	}
 	#TopDonation
 	{
-		max-height:20vh;
+		min-height:15vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -74,7 +74,7 @@ h1 {font-size:2.2em;}
 	}
 	#TopDonation
 	{
-		max-height:20vh;
+		min-height:15vh;
 		display: flex;
 		flex-flow:row;
 		align-items: center;
