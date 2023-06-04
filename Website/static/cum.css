@@ -271,9 +271,10 @@ h1 {font-size:2.2em;}
 		border-radius: 3vh;
 	} 
 	.TwoDOverlay
-	{width: 99%;
-	padding: none;
-	height: 23vh;
+	{
+		width: 99%;
+		padding: none;
+		height: 23vh;
 	}
 	.Part_3
 	{
@@ -295,13 +296,13 @@ h1 {font-size:2.2em;}
 		position:absolute;
 		left:25%;
 		padding: 1vh;
-		object-fit: contain;
+		object-fit: fill;
 		min-height: 4vh;
 		height: 23vh;
 		width: 50%;
-    -webkit-box-shadow:inset 0px 0px 10px 2px #333;
-    -moz-box-shadow:inset 0px 0px 10px 2px #333;
-    box-shadow:inset 0px 0px 10px 2px #333;
+		-webkit-box-shadow:inset 0px 0px 10px 2px #333;
+		-moz-box-shadow:inset 0px 0px 10px 2px #333;
+		box-shadow:inset 0px 0px 10px 2px #333;
 		margin-bottom: 2vh;
 	}
 	.Part_3_flex_bot p 

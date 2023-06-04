@@ -4,7 +4,7 @@ import skimage
 from skimage import measure
 
 #Remove in production
-from matplotlib.pyplot import imsave
+#from matplotlib.pyplot import imsave
 import matplotlib.pyplot as plt
 def readImg (path):
 	return (cv2.imread (path))
@@ -51,30 +51,36 @@ def KeepBiggestBlob (input_mask):
     return mask
     
 def CoNhiPhan (gay, s):
-	gay.astype (np.int32)
-	#Erosion
+	#gay = gay.astype (np.int32)
+	"""#Erosion
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay < s*s] = 0
+	gay [gay > (s*s-1)] = 1
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay > 0] = 1"""
+	#Invert
+	gay = 1-gay
+	
+	#Erosion 
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
+	#Dilation
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay > 0] = 1
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay < s*s] = 0
+	gay [gay > (s*s-1)] = 1
     	
-	#Erosion of invert
-	gay = cv2.filter2D (1-gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay < s*s] = 0
-	gay [gay > (s*s-1)] = 1
-	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay > 0] = 1
-    
-	#Dilation of invert, again
-	gay = cv2.filter2D (1-gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay > 0] = 1
-	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay < s*s] = 0
-	gay [gay > (s*s-1)] = 1
+		
+	#gay = 1-gay
+	gay = 1-gay
 	return gay.astype (np.uint8)
+	
     
-def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075, file_name = "debug"):
+def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"):
 
         #simple blur
 	image = cv2.medianBlur(image, int(BlurRatio*(image.shape)[1])//2*2+1)
@@ -108,7 +114,7 @@ def niggaBFS (image, CoNhiPhanTime = 1	, BlurRatio = 0.0075, file_name = "debug"
 	
 	#imsave("Data/DebugData/" + file_name + "BeforeErosion.png",visited*255,cmap='gray')
 	for i in range (0, CoNhiPhanTime):
-		visited = CoNhiPhan (visited, (visited.shape[1])//100)
+		visited = CoNhiPhan (visited, (visited.shape[1])//50)
 	#imsave("Data/DebugData/" + file_name + "Final.png",visited*255,cmap='gray')
 	visited = clearMotherboard(visited).astype (np.uint8)
 	return ((visited)*255)

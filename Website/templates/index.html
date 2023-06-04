@@ -89,6 +89,13 @@
 									</div>
 									<input type="range" name="myRange3" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="1" max="250" value="10" class="slider">
 									
+									<div style = "display: flex"> 
+										<p class = "left_text_box"> Smoothing: </p>
+										<input class="inputNumber" name="ErosionNum" id="ErosionNum" onchange="updateTextInput(this.value, 'ErosionRange');" type="number" min="0" max="5" value="0"/>
+									</div>
+									<input type="range" name="ErosionRange" id="ErosionRange" onchange="updateTextInput(this.value, 'ErosionNum');" min="0" max="5" value="0" class="slider">
+									
+									
 								</form>
 								<button type="submit" form="ImageForm2" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
 								</div>
