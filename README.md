@@ -9,8 +9,9 @@ More complex than the docker way, but this allows you to modify the algorithm's 
 To install and run the code locally on your computer:   <br>
      -  Install python.      <br>
      -  Use pip to install meshlib, matplotlib, numpy, opencv-python, scikit-image (package names are in the file ./Website/requirements.txt).   <br>
-     -  Add your image to the Data folder.   <br>
-     -  Run file Cleaned.py with your python interpreter   <br>
+     -  Edit the configuration file according to your need (a.k.a "running_config.txt").
+     -  Run file "start.bat" <br>
+     -  Use your browser (I.E. Chrome, Firefox), visit localhost:5000 and you are all set.   <br>
 <h3> Docker Install </h3>   
 Use cmd (or terminal if you are a linux fanboy), cd to the "Website" folder, run these 2 command:   <br> 
 ___________   <br>
