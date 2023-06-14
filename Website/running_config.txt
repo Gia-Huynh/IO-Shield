@@ -1,0 +1,5 @@
+Just modify the value, do not delete any line, I did a shit job writing the file-reading part of the code.
+high_precision [0/1]:
+1
+thickness [from 1 to 2, haven't test out of that range]:
+1.5
