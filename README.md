@@ -5,14 +5,6 @@ This repository provides a tool for generating a 3D model that can be used for 3
 ## Images
 ![](/img/Real_Life.jpg "Real life image")
 
-### Try with [GA-H61M-DS2](https://www.gigabyte.com/vn/Motherboard/GA-H61M-DS2-rev-50#ov)
-![](/img/original.jpg "Original motherboard")
-![](/img/cutting.jpg "Cutted the IO")
-![](/img/upload.png "Upload the image")
-![](/img/adjust.png "Adjusting the image")
-![](/img/result_raw.png "Result without any refinement")
-
-
 ## Installation
 
 ### Online version
@@ -24,7 +16,7 @@ To generate a 3D model, follow these steps:
 - Once the temporal image is generated, you can preview it and make any necessary adjustments.
 - Finally, you can download the 3D model file and use it for 3D printing.
 
-*Note*: To reduce the 3D model's generation time, the model's quality is compressed down so artifacts in the final product is expected. To get high quality version, see the Local Install section below.
+*Note*: To reduce the online 3D model's generation time, the model's quality is compressed down so artifacts in the resulting model is expected. To get high quality version, see the Local Install section below.
 ### Local Install
 
 More complex than the online way, but this allows you to modify the algorithm's parameter in the main file (Cleaned.py + running_config.txt).
@@ -46,6 +38,14 @@ docker-compose up
 ```
 
 - Open any browser and type localhost:5000 to access the GUI.
+
+
+### Example with [GA-H61M-DS2](https://www.gigabyte.com/vn/Motherboard/GA-H61M-DS2-rev-50#ov)
+![](/img/original.jpg "Original motherboard")
+![](/img/cutting.jpg "Cutted the IO")
+![](/img/upload.png "Upload the image")
+![](/img/adjust.png "Adjusting the image")
+![](/img/result_raw.png "Result without any refinement")
 
 ## Contributing
 
