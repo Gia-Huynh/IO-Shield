@@ -19,14 +19,15 @@ This repository provides a tool for generating a 3D model that can be used for 3
 To generate a 3D model, follow these steps:
 
 - Visit the online version of the tool at http://ioshield.thietgia.com/.
-- Upload an image of the Io Shield where the background color remains the same.
-- The tool will analyze the image and generate a 3D model based on the shield's design.
-- Once the model is generated, you can preview it and make any necessary adjustments.
+- Upload an image of the Io Shield where the background color is consistently the same, the tool will select the color of the top left pixel of your image as the background color.
+- The tool will analyze the image and generate a 2D temporal image based on the area that does not contain the background color.
+- Once the temporal image is generated, you can preview it and make any necessary adjustments.
 - Finally, you can download the 3D model file and use it for 3D printing.
 
+*Note*: To reduce the 3D model's generation time, the model's quality is compressed down so artifacts in the final product is expected. To get high quality version, see the Local Install section below.
 ### Local Install
 
-More complex than the online way, but this allows you to modify the algorithm's parameter in the main file (Cleaned.py).
+More complex than the online way, but this allows you to modify the algorithm's parameter in the main file (Cleaned.py + running_config.txt).
 
 To install and run the code locally on your computer:
 - Install Python.
@@ -52,4 +53,4 @@ Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
-
+Donate plz, computation cost ain't free.
