@@ -10,7 +10,7 @@ app = Flask(__name__)
 import os
 
 #cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
-tempPath = "TempFolder/"
+tempPath = "TempFolder"
 betterPrecision = 0
 thickness = 1.5 #placeholder, modify through command line
 @app.route('/', methods=['GET', 'POST'])
@@ -79,7 +79,7 @@ if __name__ == '__main__':
 	except FileNotFoundError:
 		print('Config file does not exist, download it again from github, running variable with default value (should still be usable')
 		
-	app.run(threaded=True, host='0.0.0.0', debug=False)
+	app.run(threaded=True, host='0.0.0.0', debug=True)
 else:
 	"""if platform == "linux" or platform == "linux2":
 		betterPrecision = 0
