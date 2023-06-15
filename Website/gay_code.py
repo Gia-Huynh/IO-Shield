@@ -3,9 +3,7 @@ import numpy as np
 import skimage
 from skimage import measure
 
-#Remove in production
-#from matplotlib.pyplot import imsave
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 def readImg (path):
 	return (cv2.imread (path))
 
@@ -51,18 +49,13 @@ def KeepBiggestBlob (input_mask):
     return mask
     
 def CoNhiPhan (gay, s):
-	#gay = gay.astype (np.int32)
-	"""#Erosion
-	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay < s*s] = 0
-	gay [gay > (s*s-1)] = 1
-	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	gay [gay > 0] = 1"""
 	#Invert
+	#np.unique (gay) => [0 1]
 	gay = 1-gay
-	
+	gay= gay.astype (np.int16)
 	#Erosion 
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	#print (np.unique(gay))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
@@ -80,8 +73,10 @@ def CoNhiPhan (gay, s):
 	return gay.astype (np.uint8)
 	
     
-def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"):
+def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug", debug_mode = 0):
 
+	if (debug_mode == 1):
+			from matplotlib.pyplot import imsave
         #simple blur
 	image = cv2.medianBlur(image, int(BlurRatio*(image.shape)[1])//2*2+1)
 	
@@ -99,23 +94,29 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
 	image[visited == 0] = 0
-	#imsave("Data/DebugData/" + file_name + "debug.png",image)
+	if (debug_mode == 1):
+		imsave("Data/DebugData/1_" + file_name + "_debug.png",image)
 	x,y,w,h = cv2.boundingRect((1-visited)*255)
 	visited = visited[y:y+h, x:x+w]
-	#imsave("Data/DebugData/" + file_name + "boundingRect.png",visited*255,cmap='gray')
+	if (debug_mode == 1):
+		imsave("Data/DebugData/2_" + file_name + "_boundingRect.png",visited*255,cmap='gray')
 	
 	visited = clearLeftRight(visited).astype (np.uint8)
-	#imsave("Data/DebugData/" + file_name + "clearLeftRight.png",visited*255,cmap='gray')
+	if (debug_mode == 1):
+		imsave("Data/DebugData/3_" + file_name + "_clearLeftRight.png",visited*255,cmap='gray')
 	#visited = KeepBiggestBlob(visited).astype (np.uint8)
 	visited = clearMotherboard(visited).astype (np.uint8)
-	#imsave("Data/DebugData/" + file_name + "clearMotherboard.png",visited*255,cmap='gray')
+	if (debug_mode == 1):
+		imsave("Data/DebugData/4_" + file_name + "_clearMotherboard.png",visited*255,cmap='gray')
 	visited = clearLeftRight(visited).astype (np.uint8)
 	#visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
-	#imsave("Data/DebugData/" + file_name + "BeforeErosion.png",visited*255,cmap='gray')
+	if (debug_mode == 1):
+		imsave("Data/DebugData/5_" + file_name + "_BeforeErosion.png",visited*255,cmap='gray')
 	for i in range (0, CoNhiPhanTime):
 		visited = CoNhiPhan (visited, (visited.shape[1])//50)
-	#imsave("Data/DebugData/" + file_name + "Final.png",visited*255,cmap='gray')
+	if (debug_mode == 1):
+		imsave("Data/DebugData/6_" + file_name + "_Final.png",visited*255,cmap='gray')
 	visited = clearMotherboard(visited).astype (np.uint8)
 	return ((visited)*255)
 
@@ -129,7 +130,7 @@ def brightness (image, ye):
     image = np.clip (image, 0, 255).astype (np.uint8)
     return image
 
-def PaddingCleaning (ye, right_padding, bottom_padding, left_padding, fileName):
+def PaddingCleaning (ye, right_padding, bottom_padding, left_padding, fileName, debug_mode = 0):
 	top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
 	if top_padding < 0:
 			print ("Uh oh, why is top padding negative? It is not supposed to be so, ",fileName)

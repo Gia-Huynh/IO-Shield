@@ -10,9 +10,14 @@ app = Flask(__name__)
 import os
 
 #cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
-tempPath = "TempFolder"
+tempPath = "TempFolder/"
+
+#placeholder, value from configuration file will be prioritized,
+#these values are used only when there's no configuration file
+debug_mode = 0
 betterPrecision = 0
-thickness = 1.5 #placeholder, modify through command line
+thickness = 1.5
+
 @app.route('/', methods=['GET', 'POST'])
 def hello():
     url_for('static', filename='cum.css')
@@ -48,6 +53,7 @@ def upload_adjust():
 			right_padding = int(request.form['myNum2']),
 			bottom_padding = int(request.form['myNum3']),
 			erosion = int(request.form['ErosionNum']),
+                        debug_mode = debug_mode
 		)
 	return send_file( tempPath + str(os.getpid()) + 'twoDimFile.png')
 
@@ -68,34 +74,23 @@ with app.test_request_context():
 
     print(url_for('static', filename='logic.js'))
 
+def readConfigFile (path):
+	try:
+		f = open(path, "r")
+		global lines, debug_mode, thickness, betterPrecision
+		lines = f.readlines()
+		debug_mode = int (lines[6])
+		thickness = float(lines[4])
+		betterPrecision = int (lines[2])
+		print ("Thickness: ", float(lines[4]),", betterPrecision: ", int(lines[2]),", debug mode: ", int (lines[6]))
+		f.close()
+	except FileNotFoundError:
+		print('Config file does not exist, download it again from github, running variable with default value (should still be usable')
+		
+    
 if __name__ == '__main__':
-	try:
-		f = open('running_config.txt', "r")
-		lines = f.readlines()
-		thickness = float(lines[4])
-		betterPrecision = int (lines[2])
-		print ("Thickness: ", float(lines[4])," , betterPrecision: ", int(lines[2]))
-		f.close()
-	except FileNotFoundError:
-		print('Config file does not exist, download it again from github, running variable with default value (should still be usable')
-		
-	app.run(threaded=True, host='0.0.0.0', debug=True)
-else:
-	"""if platform == "linux" or platform == "linux2":
-		betterPrecision = 0
-		print ("Running on linux server, lower precision")
-	elif platform == "win32":
-		betterPrecision = 1
-		print ("Running local, higher precision")"""
-		
-	try:
-		f = open('running_config.txt', "r")
-		lines = f.readlines()
-		thickness = float(lines[4])
-		betterPrecision = int (lines[2])
-		print ("Thickness: ", float(lines[4])," , betterPrecision: ", int(lines[2]))
-		f.close()
-	except FileNotFoundError:
-		print('Config file does not exist, download it again from github, running variable with default value (should still be usable')
-		
-	gunicorn_app = app
+    readConfigFile ('running_config.txt')
+    app.run(threaded=True, host='0.0.0.0', debug=True)
+else:		
+    readConfigFile ('running_config.txt')
+    gunicorn_app = app
