@@ -120,10 +120,10 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	
 	if (debug_mode == 1):
 		imsave("Data/DebugData/5_" + file_name + "_BeforeErosion.png",visited*255,cmap='gray')
-	CoNhiPhanArr = [0, 15, 30, 45, 60]
+	CoNhiPhanArr = [0, 20, 35, 45, 55, 60, 63, 65]
 	for i in range (0, CoNhiPhanTime):
-		#print (CoNhiPhanArr[min(i, 4)])
-		visited = CoNhiPhan (visited, (visited.shape[1])//(75-CoNhiPhanArr[min(i, 4)]))
+		#print (CoNhiPhanArr[min(i, len(CoNhiPhanArr)-1)])
+		visited = CoNhiPhan (visited, (visited.shape[1])//(75-CoNhiPhanArr[min(i, len(CoNhiPhanArr)-1)]))
 	if (debug_mode == 1):
 		imsave("Data/DebugData/6_" + file_name + "_Final.png",visited*255,cmap='gray')
 	visited = clearMotherboard(visited).astype (np.uint8)
