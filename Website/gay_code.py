@@ -55,17 +55,24 @@ def CoNhiPhan (gay, s):
 	gay= gay.astype (np.int16)
 	#Erosion 
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
-	#print (np.unique(gay))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
+	
 	#Dilation
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
 	gay [gay > (s*s-1)] = 1
+	
+	#Dilation
+	#gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	#gay [gay > 0] = 1
+	#gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	#gay [gay < s*s] = 0
+	#gay [gay > (s*s-1)] = 1
     	
 		
 	#gay = 1-gay
@@ -113,10 +120,10 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	
 	if (debug_mode == 1):
 		imsave("Data/DebugData/5_" + file_name + "_BeforeErosion.png",visited*255,cmap='gray')
-	CoNhiPhanArr = [0, 10, 20, 30, 35]
+	CoNhiPhanArr = [0, 15, 30, 45, 60]
 	for i in range (0, CoNhiPhanTime):
 		#print (CoNhiPhanArr[min(i, 4)])
-		visited = CoNhiPhan (visited, (visited.shape[1])//(50-CoNhiPhanArr[min(i, 4)]))
+		visited = CoNhiPhan (visited, (visited.shape[1])//(75-CoNhiPhanArr[min(i, 4)]))
 	if (debug_mode == 1):
 		imsave("Data/DebugData/6_" + file_name + "_Final.png",visited*255,cmap='gray')
 	visited = clearMotherboard(visited).astype (np.uint8)
