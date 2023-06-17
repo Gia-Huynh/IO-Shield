@@ -9,7 +9,7 @@ meshlib_path = "./MeshLib/"
 stl_path = "./stl/"
 
 def singleImageBFS (input_path, output_path,
- left_padding = 5, right_padding = 15, bottom_padding = 5, 
+ left_padding = 15, right_padding = 10, bottom_padding = 5, 
  erosion = 0,
  debug_mode = 0):
 	contrast_ratio = 1
