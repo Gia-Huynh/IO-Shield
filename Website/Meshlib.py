@@ -6,27 +6,25 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 	dm = mr.loadDistanceMapFromImage(mr.Path(InputPath), 0)
 	polyline2 = mr.distanceMapTo2DIsoPolyline(dm, isoValue=10)
 	IO_Shield_Mesh = mr.triangulateContours(polyline2.contours2())
-	if (betterPrecision == 1):
-		mr.subdivideMesh(IO_Shield_Mesh)
+	#if (betterPrecision == 1):
+	mr.subdivideMesh(IO_Shield_Mesh)
 
 	#Thicken + resize
 	test_matrix = mr.Matrix3f()
 	test_matrix.x = mr.Vector3f(0.1025,0,0)
 	test_matrix.y = mr.Vector3f(0,0.1025,0)
 	test_matrix.z = mr.Vector3f(0,0,0.1)
-	
 	scale = mr.AffineXf3f()
 	scale.A = test_matrix
 	scale.b = mr.Vector3f(3,3.9,thickness)
 	IO_Shield_Mesh.transform (scale)
-	
 	mr.addBaseToPlanarMesh(IO_Shield_Mesh, zOffset=thickness)
 
 	if (betterPrecision == 0):
 		#Comment out this part for a slower but more precise model
 		testRelaxParam = mr.MeshRelaxParams()
 		testRelaxParam.force = 0.01
-		testRelaxParam.iterations = 10
+		testRelaxParam.iterations = 20
 		mr.relax (IO_Shield_Mesh, testRelaxParam)
 
 	#Union is slow AF
