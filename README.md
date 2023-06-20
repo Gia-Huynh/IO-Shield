@@ -1,6 +1,7 @@
 # IO Shield 3D Model Generator
 
-This repository provides a tool for generating a 3D model that can be used for 3D printing based on an image of the Io Shield from the manufacturer. The tool is designed to work specifically with images where the background color is consistent.
+This repository provides a tool for generating an IO Shield model that can be used for 3D printing based on an image of the IO Shield from the manufacturer.
+The tool is designed to work specifically with images where the background color is consistent.
 
 ## Images
 ![](/img/Real_Life.jpg "Real life image")
@@ -16,10 +17,10 @@ To generate a 3D model, follow these steps:
 - Once the temporal image is generated, you can preview it and make any necessary adjustments.
 - Finally, you can download the 3D model file and use it for 3D printing.
 
-*Note*: To reduce the online 3D model's generation time, the model's quality is compressed down so artifacts in the resulting model is expected. To get high quality version, see the Local Install section below.
+*Note*: To reduce the online 3D model's generation time, the model's quality is compressed down so artifacts in the resulting model is expected. To get the high quality version, see the Local Install section below.
 ### Local Install
 
-More complex than the online way, but this allows you to modify the algorithm's parameter in the main file (Cleaned.py + running_config.txt).
+More complex than the online way, but this gives you better model quality, faster generating time and allows you to modify the algorithm's parameter in the main file (Cleaned.py + running_config.txt).
 
 To install and run the code locally on your computer:
 - Install Python.
