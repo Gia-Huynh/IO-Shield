@@ -7,7 +7,7 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 	polyline2 = mr.distanceMapTo2DIsoPolyline(dm, isoValue=10)
 	IO_Shield_Mesh = mr.triangulateContours(polyline2.contours2())
 	#if (betterPrecision == 1):
-	mr.subdivideMesh(IO_Shield_Mesh)
+	#mr.subdivideMesh(IO_Shield_Mesh)
 
 	#Thicken + resize
 	test_matrix = mr.Matrix3f()
