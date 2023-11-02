@@ -2,6 +2,6 @@ Just modify the value, do not delete any line, I did a shit job writing the file
 high_precision [0/1]:
 1
 thickness [from 1 to 2, haven't test any value out of that range]:
-1.5
+1.1
 Debug_mode [0/1, save temporal image for debugging purpose]:
 0

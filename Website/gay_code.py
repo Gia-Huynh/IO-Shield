@@ -89,7 +89,7 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	
 	#Get background color, top left most of image
 	gay_color = image [0, 0]
-	gayy_color = (gay_color + ((np.array([127,127,127]) - gay_color) * 0.025)).astype (np.uint8)
+	gayy_color = (gay_color + ((np.array([127,127,127]) - gay_color) * 0.005)).astype (np.uint8)
 
 	#Mask for background color (which is the IO shield)
 	visited = np.full_like(image[:,:,0], 0)
@@ -140,17 +140,17 @@ def brightness (image, ye):
     return image
 
 def PaddingCleaning (ye, right_padding, bottom_padding, left_padding, fileName, debug_mode = 0):
-	top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1524 - (ye.shape[0]+bottom_padding) + 0.5)
+	top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1393 - (ye.shape[0]+bottom_padding) + 0.5)
 	if top_padding < 0:
 			print ("Uh oh, why is top padding negative? It is not supposed to be so, ",fileName)
 			#top_padding = 1
 			ye = cv2.copyMakeBorder (ye[(-1*top_padding):ye.shape[0],:], 1,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
 	else:
 			ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
-	ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+	ye = cv2.resize (src = ye, dsize = (1393,int(1393/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
 	#Uncomment to remove small detail.
 	#Resize to small image, then upsize back to original size, will slightly remove accuracy.
 	#ye = cv2.resize (src = ye, dsize = (381,int(381/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
-	ye = cv2.resize (src = ye, dsize = (1524,int(1524/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+	ye = cv2.resize (src = ye, dsize = (1393,int(1393/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
 	ye = cv2.copyMakeBorder (ye, 1,1,1,1,cv2.BORDER_CONSTANT,value=0)
 	return ye
