@@ -11,12 +11,16 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 
 	#Thicken + resize
 	test_matrix = mr.Matrix3f()
-	test_matrix.x = mr.Vector3f(0.1025,0,0)
-	test_matrix.y = mr.Vector3f(0,0.1025,0)
+	#test_matrix.x = mr.Vector3f(0.1025,0,0)
+	#test_matrix.x = mr.Vector3f(0.11214,0,0)
+	test_matrix.x = mr.Vector3f(0.11325,0,0)
+	test_matrix.y = mr.Vector3f(0,0.1125,0)
 	test_matrix.z = mr.Vector3f(0,0,0.1)
 	scale = mr.AffineXf3f()
 	scale.A = test_matrix
-	scale.b = mr.Vector3f(3,3.9,thickness)
+	#scale.b = mr.Vector3f(3,3.9,thickness)
+	#scale.b = mr.Vector3f(1.7,2,thickness)
+	scale.b = mr.Vector3f(2,2,thickness)
 	IO_Shield_Mesh.transform (scale)
 	mr.addBaseToPlanarMesh(IO_Shield_Mesh, zOffset=thickness)
 
