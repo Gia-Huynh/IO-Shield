@@ -139,15 +139,16 @@ def brightness (image, ye):
     image = np.clip (image, 0, 255).astype (np.uint8)
     return image
 
-def PaddingCleaning (ye, right_padding, bottom_padding, left_padding, fileName, debug_mode = 0):
-	top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1393 - (ye.shape[0]+bottom_padding) + 0.5)
-	if top_padding < 0:
-			print ("Uh oh, why is top padding negative? It is not supposed to be so, ",fileName)
+def PaddingCleaning (ye, right_padding, bottom_padding, left_padding, top_padding, fileName, debug_mode = 0):
+	#top_padding = int((ye.shape [1] + right_padding + left_padding) * 390 / 1393 - (ye.shape[0]+bottom_padding) + 0.5)
+	#if top_padding < 0:
+	#		print ("Uh oh, why is top padding negative? It is not supposed to be so, ",fileName)
 			#top_padding = 1
-			ye = cv2.copyMakeBorder (ye[(-1*top_padding):ye.shape[0],:], 1,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
-	else:
-			ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
-	ye = cv2.resize (src = ye, dsize = (1393,int(1393/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)
+	#		ye = cv2.copyMakeBorder (ye[(-1*top_padding):ye.shape[0],:], 1,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
+	#else:
+	#		ye = cv2.copyMakeBorder (ye, top_padding,bottom_padding,left_padding,right_padding,cv2.BORDER_CONSTANT,value=255)
+	ye = cv2.copyMakeBorder (ye, top_padding, bottom_padding, left_padding, right_padding, cv2.BORDER_CONSTANT, value=255)
+	ye = cv2.resize (src = ye, dsize = (1393,390), interpolation = cv2.INTER_NEAREST)
 	#Uncomment to remove small detail.
 	#Resize to small image, then upsize back to original size, will slightly remove accuracy.
 	#ye = cv2.resize (src = ye, dsize = (381,int(381/ye.shape[1] * ye.shape[0])), interpolation = cv2.INTER_NEAREST)

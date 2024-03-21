@@ -52,6 +52,7 @@ def upload_adjust():
 			left_padding = int(request.form['myNum']),
 			right_padding = int(request.form['myNum2']),
 			bottom_padding = int(request.form['myNum3']),
+			top_padding = int(request.form['myNum4']),
 			erosion = int(request.form['ErosionNum']),
                         debug_mode = debug_mode
 		)

@@ -9,7 +9,7 @@ meshlib_path = "./MeshLib/"
 stl_path = "./stl/"
 
 def singleImageBFS (input_path, output_path,
- left_padding = 15, right_padding = 10, bottom_padding = 5, 
+ left_padding = 15, right_padding = 10, bottom_padding = 5, top_padding = 5,
  erosion = 0,
  debug_mode = 0):
 	contrast_ratio = 1
@@ -21,7 +21,7 @@ def singleImageBFS (input_path, output_path,
 	gay_image = gayy.contrast (gayy.brightness(gayy.readImg(input_path),brightness_value), contrast_ratio)
 
 	ye = gayy.niggaBFS (gay_image, CoNhiPhanTime, blur_ratio, file_name, debug_mode)
-	ye = gayy.PaddingCleaning (ye, right_padding, bottom_padding, left_padding, file_name, debug_mode)
+	ye = gayy.PaddingCleaning (ye, right_padding, bottom_padding, left_padding, top_padding, file_name, debug_mode)
 	if (debug_mode == 1):
 		imsave("Data/DebugData/7_" + file_name + "_ero.png",255-ye,cmap='gray')
 	
