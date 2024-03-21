@@ -48,10 +48,33 @@
 						<h3> Example image </h3>
 						<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
 					</div>
+				<div class = "Part_3">
+					<div class="container">
+						<div id="background" class="o_image">
+							<img id="sample" src="./B450M Pro4-F(L5).png" alt="B450M Pro4-F(L5).png" />
+							<!--span>code taken from ©reactcodes blog</span-->
+						</div>
+						<div class="p_image">
+							<canvas id="imageInit"></canvas>
+							<canvas id="imageResult"></canvas>
+						</div>
+					</div>
+					<div class="b_container">
+						<p> Perspective correction tool, skip this part if your image is corrected already </p>
+						<button id="apply">Apply</button>
+					</div>
+					<link rel="stylesheet" href="./img/style.css">
+					<script src="./img/libs/qunit-2.0.1.js" type="text/javascript"></script>
+					<script src="./img/utils.js" type="text/javascript"></script>
+					<script src="./img/perspective.js" type="text/javascript"></script>
+					<script src="./img/libs/d3.v3.min.js"></script>
+					<script src="./img/libs/numeric-solve.min.js"></script>
+					<script src="./img/index.js"></script>
+				</div>
 					<div id = "Review_Image" class ="boxed Hidden">
 						<h2> Your uploaded image </h2>
 						<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
-						<p> This tool is sensitive to the brightness and contrast of the image. <br> Use photo editing tool to correct those value to get better results.
+						<p> Right-click the image and click "save image as..." to save it down. <br> Use paint to draw white boxes on image to denote io-shield blocking zone
 						</p> <h1>Looks good?</h1>
 						<button type="submit" form="ImageForm" class = "confirmButton" value="Like"> Yep, this is an IO image, <br> LET'S DO THIS </button>
 					</div>

@@ -1,0 +1,82 @@
+body{
+    margin:0;
+    padding: 0;
+}
+.container{
+    display: flex;
+	flex-flow: column;
+	align-items: center;
+      justify-content: space-between;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+    text-align: center;
+	object-fit: contain;
+}
+.container .o_image{
+	width: 55vw;
+	height: 25vh;
+	margin: 0;
+	padding: 0;
+    border-bottom: 1px solid;
+    text-align: center;
+	object-fit: contain;
+}
+.container .o_image img{
+	width: 100%;
+	height: 100%;
+	padding: 0;
+}
+.container .p_image{
+	width: 55vw;
+	height: 0;
+	margin: 0;
+	padding: 0;
+    border-top: 1px solid;
+    text-align: center;
+	object-fit: contain;
+}
+span{
+    display: block;
+    text-align: center;
+    background-color: blue;
+    color:white;
+    padding: 5px;
+    margin-bottom: 5px;; 
+}
+.container img{
+    border: 1px solid blue;
+	width: 100%;
+}
+.b_container{
+    text-align: center;
+    width: 100%;
+}
+button{
+    width: 80px;
+    height: 30px;
+    border: none;
+    background-color: coral;
+    
+}
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .line {
+    stroke: blue;
+    stroke-width: 0.7px;
+    stroke-linecap: square;
+  }
+  
+  .handle {
+    fill: blue;
+    pointer-events: all;
+    stroke:blue;
+    stroke-width: 2px;
+    cursor: move;
+    opacity: 0.8;
+  }

@@ -20,17 +20,18 @@ thickness = 1.5
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
-    url_for('static', filename='cum.css')
-    url_for('static', filename='B450M Pro4-F(L5).png')
-    url_for('static', filename='logic.js')
     return render_template('index.html')
+@app.route('/<path:path>')
+def static_file(path):
+    return app.send_static_file(path)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    print (request)
     if (request.method == 'POST') or (request.method == 'GET'):
         if request.files["file"].filename == '':
+            print ('No selected file')
             return 'No selected file'
-        #print (request)
         #print (request.form["InputBox"])
         f = request.files["file"]
         f.save(tempPath + str(os.getpid()) + 'uploaded.gay')

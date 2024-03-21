@@ -232,9 +232,9 @@ h1 {font-size:2.2em;}
 	}
 	.Part_2 *
 	{
-		padding: 0.5vh;
+		padding: 0.0vh;
 	}
-	.Part_2 img
+	.Part_2 .boxed img
 	{
 		padding: 1vh;
 		object-fit: cover;
@@ -264,6 +264,7 @@ h1 {font-size:2.2em;}
 	{
 		align-items: center;
 		width: 75%;
+		    height: auto;
 		margin-top: 1vh;
 		margin-bottom: 2vh;
 		background-color: #1ff463;
@@ -280,7 +281,7 @@ h1 {font-size:2.2em;}
 	{
 		display:flex;
 		flex-flow: column;
-		min-height: 50vh;
+		min-height: 20vh;
 		width:100%;
 		text-align:center;
 		justify-content: center;
@@ -345,6 +346,7 @@ h1 {font-size:2.2em;}
 		text-align: center;
 		align-items: center;
 		width: 50%;
+		height: auto;
 		margin-top: 1vh;
 		margin-bottom: 2vh;
 		margin-left:2vw;

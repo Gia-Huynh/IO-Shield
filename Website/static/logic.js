@@ -45,21 +45,23 @@ dropContainer.ondrop = function(evt) {
   InputBox.files = dT.files;
   InputBox2.files = dT.files;
   blah.src = URL.createObjectURL(evt.dataTransfer.files[0]);
+  document.getElementById("sample").src =  blah.src;
   evt.preventDefault();
-  document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
+  //document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
   document.getElementById("Review_Image").classList.remove("Hidden");
   var elmntToView = document.getElementById("AdjustmentBox");
-  elmntToView.scrollIntoView({ behavior: "smooth"}); 
+  elmntToView.scrollIntoView({ behavior: "smooth"});
 };
 InputBox.onchange = evt => {
   const [file] = InputBox.files;
   InputBox2.files = InputBox.files;
   if (file) {
-    blah.src = URL.createObjectURL(file)
+    blah.src = URL.createObjectURL(file);
+	document.getElementById("sample").src =  blah.src;
   }
-  document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
+  //document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
   document.getElementById("Review_Image").classList.remove("Hidden");
@@ -91,7 +93,7 @@ function changeImage(blobImage) {
 
 document.querySelector("#ImageForm").addEventListener("submit", function(e){
         e.preventDefault();    //stop form from submitting
-		const myForm = document.forms['ImageForm']
+		const myForm = document.forms['ImageForm'];
 		fetch(document.forms['ImageForm'].action, {method:'post', body: new FormData(myForm)})
 				.then((response) => {
 			if (!response.ok) {
