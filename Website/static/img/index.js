@@ -1,7 +1,7 @@
 const attachCropBox = function (imgWidth,imgHeight, img_top, img_left) { 
     
     console.log('image loaded : ',imgWidth ,' ', imgHeight)
-    var margin = {top: 10, right: 10, bottom: 10, left: 10},
+    var margin = {top: 5, right: 5, bottom: 5, left: 5},
     width = imgWidth - margin.left - margin.right,
     height = imgHeight - margin.top - margin.bottom;
 
@@ -13,14 +13,18 @@ const attachCropBox = function (imgWidth,imgHeight, img_top, img_left) {
     .attr("height", height + margin.top + margin.bottom)
     .attr("transform", "translate(" + img_left + "," + img_top + ")")
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    //.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("id","window_g");
 
     var line = svg.selectAll(".line")
-    .data(d3.range(0, width + 1, 40).map(function(x) { return [[x, 0], [x, height]]; })
-        .concat(d3.range(0, height + 1, 40).map(function(y) { return [[0, y], [width, y]]; })))
+    .data(d3.range(1, width + 1, 50).map(function(x) { return [[x, 0], [x, height]]; })
+        .concat(d3.range(1, height + 1, 50).map(function(y) { return [[0, y], [width, y]]; }))
+		.concat(d3.range(height-1, height, 50).map(function(y) { return [[0, y], [width, y]]; }))
+		.concat(d3.range(width-1, width, 50).map(function(x) { return [[x, 0], [x, height]]; }))
+		)
     .enter().append("path")
     .attr("class", "line line--x");
+	
 
     var handle = svg.selectAll(".handle")
     .data(targetPoints)
