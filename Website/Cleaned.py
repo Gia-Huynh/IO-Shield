@@ -1,5 +1,5 @@
 import gay_code as gayy
-import Meshlib as ml
+import MeshlibCode as ml
 import glob, os
 from matplotlib.pyplot import imsave
 data_path = "./Data/"
@@ -14,7 +14,8 @@ def singleImageBFS (input_path, output_path,
  debug_mode = 0):
 	contrast_ratio = 1
 	brightness_value = 0
-	blur_ratio = 0.0075
+	#blur_ratio = 0.0075
+	blur_ratio = 0.0015
 	CoNhiPhanTime = erosion
 
 	file_name = os.path.basename(input_path).split(".")[-2]

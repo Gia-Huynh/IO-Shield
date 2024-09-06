@@ -37,7 +37,6 @@ def upload_file():
         f.save(tempPath + str(os.getpid()) + 'uploaded.gay')
         cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
     return send_file( tempPath + str(os.getpid()) + 'twoDimFile.png')
-    #return None
     #return render_template('index.html')
 
 @app.route('/upload_adjust', methods=['GET', 'POST'])
