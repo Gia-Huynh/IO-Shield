@@ -5,18 +5,32 @@ from flask import request
 from flask import send_file
 from sys import platform
 import Cleaned as cleaned_code
-app = Flask(__name__)
-
+import glob
+import sys
 import os
 
-#cleaned_code.singleImage3DStl ('uploaded_file.png', 'threeDimFile.stl')
+app = Flask(__name__)
+
+print ("what?")
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    print ("yeeeee")
+    print (sys._MEIPASS)
+    os.chdir(sys._MEIPASS)
+
 tempPath = "TempFolder/"
+if not os.path.exists(tempPath):
+    os.makedirs(tempPath)
+
+files = glob.glob(tempPath+'*')
+for f in files:
+    os.remove(f)
+	
 
 #placeholder, value from configuration file will be prioritized,
 #these values are used only when there's no configuration file
 debug_mode = 0
 betterPrecision = 0
-thickness = 1.5
+thickness = 0.9
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
@@ -36,7 +50,7 @@ def upload_file():
         f = request.files["file"]
         f.save(tempPath + str(os.getpid()) + 'uploaded.gay')
         cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
-    return send_file( tempPath + str(os.getpid()) + 'twoDimFile.png')
+    return send_file(tempPath + str(os.getpid()) + 'twoDimFile.png')
     #return render_template('index.html')
 
 @app.route('/upload_adjust', methods=['GET', 'POST'])
@@ -66,7 +80,7 @@ def convert_file():
 	f.write(file)
 	f.close()
 	cleaned_code.singleImage3DStl (tempPath + str(os.getpid()) + 'uploaded.png', tempPath + str(os.getpid()) + 'threeDimFile.stl', betterPrecision = betterPrecision, thickness = thickness)
-	return send_file(tempPath + str(os.getpid()) + 'threeDimFile.stl', as_attachment=True)
+	return send_file(tempPath + str(os.getpid()) + 'threeDimFile.stl', as_attachment=True, download_name="3D_Model.stl")
 
 with app.test_request_context():
     print(url_for('static', filename='cum.css'))

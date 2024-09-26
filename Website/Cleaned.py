@@ -15,7 +15,7 @@ def singleImageBFS (input_path, output_path,
 	contrast_ratio = 1
 	brightness_value = 0
 	#blur_ratio = 0.0075
-	blur_ratio = 0.0015
+	blur_ratio = 0.0035
 	CoNhiPhanTime = erosion
 
 	file_name = os.path.basename(input_path).split(".")[-2]

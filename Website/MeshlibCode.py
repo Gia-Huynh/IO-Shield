@@ -1,13 +1,15 @@
 import meshlib.mrmeshpy as mr
+import os
 def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 	# load raster image:
 	# find the boundary contour between black and white:
 	# compute the triangulation inside the contour
 	dm = mr.loadDistanceMapFromImage(mr.Path(InputPath), 0)
 	polyline2 = mr.distanceMapTo2DIsoPolyline(dm, isoValue=10)
-	IO_Shield_Mesh = mr.triangulateContours(polyline2.contours2())
+	nigger = mr.HolesVertIds ()
+	IO_Shield_Mesh = mr.triangulateContours(polyline2.contours2(nigger))
 	#if (betterPrecision == 1):
-	#mr.subdivideMesh(IO_Shield_Mesh)
+                #mr.subdivideMesh(IO_Shield_Mesh)
 
 	#Thicken + resize
 	test_matrix = mr.Matrix3f()
@@ -16,6 +18,8 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 	test_matrix.x = mr.Vector3f(0.11325,0,0)
 	test_matrix.y = mr.Vector3f(0,0.1125,0)
 	test_matrix.z = mr.Vector3f(0,0,0.1)
+	#https://doc.meshinspector.com/classAffineXf3f.html
+	#AffineXf3f: affine transformation: y = A*x + b, where A in VxV, and b in V
 	scale = mr.AffineXf3f()
 	scale.A = test_matrix
 	#scale.b = mr.Vector3f(3,3.9,thickness)
@@ -32,7 +36,7 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 		mr.relax (IO_Shield_Mesh, testRelaxParam)
 
 	#Union is slow AF
-	emptyIO = mr.loadMesh(mr.Path("GayModel.stl"))
+	emptyIO = mr.loadMesh(os.PathLike("GayModel.stl"))
 	meshNigga = mr.boolean(IO_Shield_Mesh, emptyIO, mr.BooleanOperation.Union)
 	mr.saveMesh(meshNigga.mesh, mr.Path(OutputPath))
 	return None
