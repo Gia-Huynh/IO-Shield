@@ -44,43 +44,44 @@ const setUpApplyButton = function () {
     console.log(pointsArray)
     utils.loadImageToCanvas(imageUsed, 'imageInit', document.querySelector('#background svg').getBoundingClientRect().width, document.querySelector('#background svg').getBoundingClientRect().height);
     setTimeout(()=>{
-	
-    const svgCropHeight =  document.querySelector('#background svg').getAttribute('height');// why
-    const svgCropWidth =  document.querySelector('#background svg').getAttribute('width');// why
-	const imageHeight = document.querySelector('#background svg').getBoundingClientRect().height;
-	const imageWidth = document.querySelector('#background svg').getBoundingClientRect().width;
-    //const imageHeight = document.getElementById('imageInit').getBoundingClientRect().height;
-    //const imageWidth = document.getElementById('imageInit').getBoundingClientRect().width;
-    //const svgCropHeight =  document.querySelector('#background svg').getAttribute('height') - 80;// why
-    //const svgCropWidth =  document.querySelector('#background svg').getAttribute('width') - 80;// why
-    const scaleFactor = parseInt(imageWidth / svgCropWidth)
-    //debugger
-    pointsArray = pointsArray.map( e => {
-        const num = parseInt((parseInt(e))/scaleFactor)
-        return num
-    })
-	//document.getElementById('imageInit').style.width = imageWidth;
-	//document.getElementById('imageInit').style.height = imageHeight;
-	document.getElementById('imageResult').style.width = imageWidth;
-	document.getElementById('imageResult').style.height = 0;
-    let src = cv.imread('imageInit');
-    let dst = new cv.Mat();
-    let dsize = new cv.Size(imageWidth, imageHeight);
-    let srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, pointsArray);
-    //let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, imageHeight, 0, imageHeight, imageWidth, 0, imageWidth]);
-    let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, imageWidth, 0, imageWidth, imageHeight , 0, imageHeight]);
-	console.log ("array size comparison");
-	console.log (pointsArray);
-	console.log ([0, 0, imageWidth, 0, imageWidth, imageHeight , 0, imageHeight]);
-    let M = cv.getPerspectiveTransform(srcTri, dstTri);
-    cv.warpPerspective(src, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-    document.getElementById('imageInit').style.display = "none";
-    cv.imshow('imageResult', dst);
-    src.delete(); dst.delete(); M.delete(); srcTri.delete(); dstTri.delete();
-	blah.src = document.getElementById("imageResult").toDataURL();
-	//document.getElementById("InputBox").files = [dataURLtoFile (blah.src,'nigger.png')];
-	//document.getElementById("InputBox").files = blah.src;
-    },500)
+		
+		const svgCropHeight =  document.querySelector('#background svg').getAttribute('height');// why
+		const svgCropWidth =  document.querySelector('#background svg').getAttribute('width');// why
+		const imageHeight = document.querySelector('#background svg').getBoundingClientRect().height;
+		const imageWidth = document.querySelector('#background svg').getBoundingClientRect().width;
+		//const imageHeight = document.getElementById('imageInit').getBoundingClientRect().height;
+		//const imageWidth = document.getElementById('imageInit').getBoundingClientRect().width;
+		//const svgCropHeight =  document.querySelector('#background svg').getAttribute('height') - 80;// why
+		//const svgCropWidth =  document.querySelector('#background svg').getAttribute('width') - 80;// why
+		const scaleFactor = Math.ceil(imageWidth / svgCropWidth)
+		console.log (imageWidth + " " + svgCropWidth + " " + imageWidth / svgCropWidth + " " + parseInt(imageWidth / svgCropWidth) + " " + scaleFactor);
+		//debugger
+		pointsArray = pointsArray.map( e => {
+			const num = parseInt((parseInt(e))/scaleFactor)
+			return num
+		})
+		//document.getElementById('imageInit').style.width = imageWidth;
+		//document.getElementById('imageInit').style.height = imageHeight;
+		document.getElementById('imageResult').style.width = imageWidth;
+		document.getElementById('imageResult').style.height = 0;
+		let src = cv.imread('imageInit');
+		let dst = new cv.Mat();
+		let dsize = new cv.Size(imageWidth, imageHeight);
+		let srcTri = cv.matFromArray(4, 1, cv.CV_32FC2, pointsArray);
+		//let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, imageHeight, 0, imageHeight, imageWidth, 0, imageWidth]);
+		let dstTri = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, imageWidth, 0, imageWidth, imageHeight , 0, imageHeight]);
+		console.log ("array size comparison");
+		console.log (pointsArray);
+		console.log ([0, 0, imageWidth, 0, imageWidth, imageHeight , 0, imageHeight]);
+		let M = cv.getPerspectiveTransform(srcTri, dstTri);
+		cv.warpPerspective(src, dst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
+		document.getElementById('imageInit').style.display = "none";
+		cv.imshow('imageResult', dst);
+		src.delete(); dst.delete(); M.delete(); srcTri.delete(); dstTri.delete();
+		blah.src = document.getElementById("imageResult").toDataURL();
+		//document.getElementById("InputBox").files = [dataURLtoFile (blah.src,'nigger.png')];
+		//document.getElementById("InputBox").files = blah.src;
+    },1000)
     
         
 }

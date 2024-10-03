@@ -1,1 +1,2 @@
+pause
 pyinstaller --noconfirm --onedir --console --add-data "L:\IO-Shield\Website\static;static/" --add-data "L:\IO-Shield\Website\templates;templates/" --add-data "L:\IO-Shield\Website\Cleaned.py;." --add-data "L:\IO-Shield\Website\gay_code.py;." --add-data "L:\IO-Shield\Website\GayModel.stl;." --add-data "L:\IO-Shield\Website\MeshlibCode.py;." --add-data "L:\IO-Shield\Website\running_config.txt;."  "L:\IO-Shield\Website\app.py"
