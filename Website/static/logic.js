@@ -10,12 +10,17 @@ function binanceNigga()
 {
 	alert ("My binance user id: 21262360");
 }
-
 //for everyone else
 document.addEventListener("DOMContentLoaded", function () {
   document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
   
  }, false);
+
+//Overlaying the uploaded/calculated img.
+function overlayingImg ()
+{
+	overlayImg.src = document.getElementById("imageResult").toDataURL();
+}
 
 //Update range/slider input value
 //https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
@@ -110,7 +115,26 @@ document.querySelector("#ImageForm").addEventListener("submit", function(e){
 
 document.querySelector("#ImageForm2").addEventListener("submit", function(e){
         e.preventDefault();    //stop form from submitting
-		const myForm2 = document.forms['ImageForm2']
+		const myForm2 = document.forms['ImageForm2'];
+		
+		// Default values
+		const defaultValues = {
+			"myNum": "0",
+			"myNum2": "0",
+			"myNum3": "0",
+			"myNum4": "0",
+			"BlurRatio": "0",
+			"ErosionNum": "0",
+		};
+		
+		// Loop through the default values and set the field value if empty
+		Object.keys(defaultValues).forEach(fieldName => {
+			const field = myForm2[fieldName];
+			if (field && field.value.trim() === "") {
+				field.value = defaultValues[fieldName]; 
+			}
+		});
+	
 		fetch(document.forms['ImageForm2'].action, {method:'post', body: new FormData(myForm2)})
 				.then((response) => {
 			if (!response.ok) {

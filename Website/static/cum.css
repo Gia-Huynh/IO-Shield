@@ -358,6 +358,7 @@ h1 {font-size:2.2em;}
 	}
 	.slider
 	{
+		display: none;
 		width: 100%;	
 		height: 5vh;
 	}

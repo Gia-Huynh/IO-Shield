@@ -68,6 +68,7 @@ def upload_adjust():
 			bottom_padding = int(request.form['myNum3']),
 			top_padding = int(request.form['myNum4']),
 			erosion = int(request.form['ErosionNum']),
+                        blur_ratio = float (request.form['BlurRatio']),
                         debug_mode = debug_mode
 		)
 	return send_file( tempPath + str(os.getpid()) + 'twoDimFile.png')

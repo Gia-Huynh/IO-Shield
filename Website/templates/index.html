@@ -62,6 +62,7 @@
 					<div class="b_container">
 						<p> Perspective correction tool, skip this part if your image is corrected already </p>
 						<button id="apply">Apply</button>
+						<button id="overlayingButton" onclick="overlayingImg()">Move img below to overlay</button>
 					</div>
 					<link rel="stylesheet" href="./img/style.css">
 					<script src="./img/libs/qunit-2.0.1.js" type="text/javascript"></script>
@@ -119,7 +120,12 @@
 									<input type="range" name="myRange4" id="myRange4" onchange="updateTextInput(this.value, 'myNum4');" min="0" max="500" value="5" class="slider">
 									
 									<div style = "display: flex"> 
-										<p class = "left_text_box"> Smoothing: </p>
+										<p class = "left_text_box"> Blurring: </p>
+										<input class="inputNumber" name="BlurRatio" id="BlurRatio" type="number" step="any" min="0" max="1" value="0.005"/>
+									</div>
+									
+									<div style = "display: flex"> 
+										<p class = "left_text_box"> Erosion: </p>
 										<input class="inputNumber" name="ErosionNum" id="ErosionNum" onchange="updateTextInput(this.value, 'ErosionRange');" type="number" min="0" max="8" value="0"/>
 									</div>
 									<input type="range" name="ErosionRange" id="ErosionRange" onchange="updateTextInput(this.value, 'ErosionNum');" min="0" max="8" value="0" class="slider">

@@ -10,12 +10,10 @@ stl_path = "./stl/"
 
 def singleImageBFS (input_path, output_path,
  left_padding = 15, right_padding = 10, bottom_padding = 5, top_padding = 5,
- erosion = 0,
+ erosion = 0, blur_ratio = 0.005, #0075
  debug_mode = 0):
 	contrast_ratio = 1
 	brightness_value = 0
-	#blur_ratio = 0.0075
-	blur_ratio = 0.0035
 	CoNhiPhanTime = erosion
 
 	file_name = os.path.basename(input_path).split(".")[-2]

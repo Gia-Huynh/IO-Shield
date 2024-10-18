@@ -24,7 +24,7 @@ function dataURLtoFile(dataurl, filename) {
 
 
 const utils = new Utils('errorMessage');
-const applyButton = document.getElementById('apply')
+const applyButton = document.getElementById('apply');
 const setUpApplyButton = function () { 
     //console.log(cv)
 	const imageUsed = document.getElementById('sample').getAttribute('src');

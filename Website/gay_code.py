@@ -90,16 +90,7 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	
 	#Get background color, top left most of image
 	gay_color = image [0, 0]
-	#gayy_color = (gay_color + ((np.array([127,127,127]) - gay_color) * 0.002)).astype (np.uint8)
-	gayy_color = gay_color
-
-	#Mask for background color (which is the IO shield)
-	visited = np.full_like(image[:,:,0], 0)
-	if (np.linalg.norm(gay_color) < 10):
-		visited = np.where(np.all(image <= gayy_color,axis=2), 1, 0).astype (np.uint8)
-	else:
-		visited = np.where(np.all(image >= gayy_color,axis=2), 1, 0).astype (np.uint8)
-		
+	visited = np.all(image == gay_color, axis=-1).astype (np.uint8)
 	visited = KeepBiggestBlob(visited).astype (np.uint8)
 	
 	image[visited == 0] = 0
@@ -126,7 +117,7 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	CoNhiPhanArr = [1, 2, 3, 5, 10, 15, 25]
 	for i in range (0, CoNhiPhanTime):
                 #This loop only run once
-		print ("CoNhiphan")
+		#print ("CoNhiphan")
 		#visited = CoNhiPhan (visited, (visited.shape[1])//(25-CoNhiPhanArr[min(i, len(CoNhiPhanArr)-1)]))
 		visited = CoNhiPhan (visited, (CoNhiPhanArr[min(i, len(CoNhiPhanArr)-1)]))
 		#break
