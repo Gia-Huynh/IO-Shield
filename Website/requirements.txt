@@ -1,5 +1,5 @@
 Flask==2.2.3
-meshlib==0.1.7.18
+meshlib==2.4.4.153
 matplotlib==3.7.1
 numpy==1.24.2
 opencv-python-headless==4.7.0.72
