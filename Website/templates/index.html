@@ -45,8 +45,14 @@
 				</div>
 				<div id = "AdjustmentBox" class = "Part_2">
 					<div class ="boxed">
-						<h3> Example image </h3>
-						<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
+						<div style = "width: 60% ">
+							<h3> Example image </h3>
+							<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
+						</div>
+						<div style = "width: 39.9%">
+							<form id = "CropRotateForm">
+							</form>
+						</div>
 					</div>
 				<div class = "Part_3">
 					<div class="container">
@@ -143,6 +149,7 @@
 											<input type="file" name="fileTwo" value="" id="InputBoxOverlay" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
 										</form>
 									</div>
+									<button type="submit" class = "adjustButton" id = "GetCorrectParameterButton"> Get Correct Parameter </button>
 								</div>
 							</div>
 							<div class = "Part_3_flex_center">
@@ -152,6 +159,7 @@
 								<div style="width: 100%">
 									 <p> Press the green button and be patient, <br> the server is generating your file (10~20 seconds). <br> After downloading it, add ".stl" to the end of the file name. </p>
 									<button class = "confirmButton" id = "LastButton"> Looks like a good recognition to me, <br> GET 3D MODEL NOW </button>
+									<input id="PostFixTextBox" type="text" style = "width:66%; font-size:1vw;" value="File postfix will be here, don't touch this">
 								</div>
 							</div>
 						</div>

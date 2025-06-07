@@ -68,6 +68,18 @@ def CoNhiPhan (gay, s):
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
 	
+	#Erosion 
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay < s*s] = 0
+	gay [gay > (s*s-1)] = 1
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay > 0] = 1
+	#Dilation
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay > 0] = 1
+	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	gay [gay < s*s] = 0
+	gay [gay > (s*s-1)] = 1
 	#Dilation
 	#gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	#gay [gay > 0] = 1
@@ -80,9 +92,7 @@ def CoNhiPhan (gay, s):
 	gay = 1-gay
 	return gay.astype (np.uint8)
 	
-    
-def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug", debug_mode = 0):
-
+def niggaBFS_GetOffsetPostfix (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug", debug_mode = 0):
 	if (debug_mode == 1):
 			from matplotlib.pyplot import imsave
         #simple blur
@@ -97,6 +107,28 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	if (debug_mode == 1):
 		imsave("Data/DebugData/1_" + file_name + "_debug.png",image)
 	x,y,w,h = cv2.boundingRect((1-visited)*255)
+	print ("Visited.shape: ",visited.shape)
+	print ('Left: ',x,', Right: ',visited.shape[1] - (x+w),', Bottom: ',visited.shape[0]-(y+h),', Top: ',y)
+	visited2 = visited[y:y+h, x:x+w]
+	return [x, y, visited.shape[0] - (y+h), visited.shape[1] - (x+w)]
+    
+def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug", debug_mode = 0):
+	if (debug_mode == 1):
+			from matplotlib.pyplot import imsave
+        #simple blur
+	image = cv2.medianBlur(image, int(BlurRatio*(image.shape)[1])//2*2+1)
+	
+	#Get background color, top left most of image
+	gay_color = image [0, 0]
+	visited = np.all(image == gay_color, axis=-1).astype (np.uint8)
+	visited = KeepBiggestBlob(visited).astype (np.uint8)
+	
+	image[visited == 0] = 0
+	if (debug_mode == 1):
+		imsave("Data/DebugData/1_" + file_name + "_debug.png",image)
+	x,y,w,h = cv2.boundingRect((1-visited)*255)
+	print ('Left: ',x,', Right: ',visited.shape[1] - (x+w),', Bottom: ',visited.shape[0]-(y+h),', Top: ',y)
+	spacing = {'left':x, 'right':visited.shape[1] - (x+w), 'bottom':visited.shape[0]-(y+h), 'top':y}
 	visited = visited[y:y+h, x:x+w]
 	if (debug_mode == 1):
 		imsave("Data/DebugData/2_" + file_name + "_boundingRect.png",visited*255,cmap='gray')
@@ -124,7 +156,7 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	if (debug_mode == 1):
 		imsave("Data/DebugData/6_" + file_name + "_Final.png",visited*255,cmap='gray')
 	visited = clearMotherboard(visited).astype (np.uint8)
-	return ((visited)*255)
+	return ((visited)*255), spacing
 
 def contrast (image, ye):
     image = image * ye 

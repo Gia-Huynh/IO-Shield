@@ -2,10 +2,10 @@ from flask import Flask
 from flask import url_for
 from flask import render_template
 from flask import request
-from flask import send_file
+from flask import jsonify, send_file
 from sys import platform
 import Cleaned as cleaned_code
-import glob
+import glob, json
 import sys
 import os
 
@@ -49,8 +49,12 @@ def upload_file():
         #print (request.form["InputBox"])
         f = request.files["file"]
         f.save(tempPath + str(os.getpid()) + 'uploaded.gay')
-        cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
-    return send_file(tempPath + str(os.getpid()) + 'twoDimFile.png')
+        #spacing = {'left':x, 'right':visited.shape[1] - (x+w), 'bottom':visited.shape[0]-(y+h), 'top':y}
+        spacing = cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
+    #return send_file(tempPath + str(os.getpid()) + 'twoDimFile.png')
+    response = send_file(tempPath + str(os.getpid()) + 'twoDimFile.png', mimetype='image/png')
+    response.headers["Spacing"] = json.dumps(spacing) #jsonify(spacing).get_data(as_text=True)
+    return response
     #return render_template('index.html')
 
 @app.route('/upload_adjust', methods=['GET', 'POST'])

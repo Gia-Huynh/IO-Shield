@@ -19,13 +19,13 @@ def singleImageBFS (input_path, output_path,
 	file_name = os.path.basename(input_path).split(".")[-2]
 	gay_image = gayy.contrast (gayy.brightness(gayy.readImg(input_path),brightness_value), contrast_ratio)
 
-	ye = gayy.niggaBFS (gay_image, CoNhiPhanTime, blur_ratio, file_name, debug_mode)
+	ye, spacing = gayy.niggaBFS (gay_image, CoNhiPhanTime, blur_ratio, file_name, debug_mode)
 	ye = gayy.PaddingCleaning (ye, right_padding, bottom_padding, left_padding, top_padding, file_name, debug_mode)
 	if (debug_mode == 1):
 		imsave("Data/DebugData/7_" + file_name + "_ero.png",255-ye,cmap='gray')
 	
 	imsave(output_path,255-ye,cmap='gray')
-	return None
+	return spacing
 
 def singleImage3DStl (input_path, output_path, betterPrecision = 0, thickness = 2):
     ml.generate2DIO (input_path, output_path, betterPrecision, thickness)

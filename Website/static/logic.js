@@ -104,12 +104,19 @@ document.querySelector("#ImageForm").addEventListener("submit", function(e){
 			if (!response.ok) {
 			  throw new Error("HTTP error: ${response.status}");
 			}
+            let spacingData = JSON.parse(response.headers.get("Spacing")); // Extract metadata
+            console.log("Spacing Data: ", spacingData);
+			updateTextInput(spacingData.left, 'myNum');
+			updateTextInput(spacingData.right, 'myNum2');
+			updateTextInput(spacingData.bottom, 'myNum3');
+			updateTextInput(spacingData.top, 'myNum4');
 			return response.blob();
 		  })
 		  .then((blob) => {changeImage (blob); 
-  document.getElementById("confirmBox").classList.remove("Hidden");
-  setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
-  elmntToView.scrollIntoView({ behavior: "smooth"});},500);
+			document.getElementById("ImageForm2").requestSubmit();
+			document.getElementById("confirmBox").classList.remove("Hidden");
+			setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
+			elmntToView.scrollIntoView({ behavior: "smooth"});},500);
   });
 });
 
@@ -149,8 +156,16 @@ function disableLastButton(){
       document.getElementById("LastButton").disabled = true;
       setTimeout(function(){document.getElementById("LastButton").disabled = false;},20000);
   }
+function generateFilePostfix(){
+	var filename = document.getElementById('InputBox').files[0].name;
+	const myForm2 = document.forms['ImageForm2'];
+	var FilePostfix = "" + filename.replace(/\.[^/.]+$/, "") + " [" + myForm2["myNum"].value + '-' + myForm2["myNum2"].value + '-' + myForm2["myNum3"].value + '-' + myForm2["myNum4"].value + "].stl";
+	console.log (FilePostfix);
+	document.getElementById('PostFixTextBox').value = FilePostfix;
+}
 document.querySelector("#LastButton").addEventListener("click", function(e){
 	disableLastButton();
+	generateFilePostfix();
   fetch('/convert', {method:"POST", body:currentBlobImage})
                 .then(response  => {
 			if (!response.ok) {
