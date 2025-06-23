@@ -32,27 +32,55 @@ function updateTextInput(val, ID) {
 const dropContainer = document.getElementById("dropContainer");
 const InputBox = document.getElementById("InputBox");
 const InputBox2 = document.getElementById("InputBox2");
-  
+var userUploadedImage;
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
 };
+function rotateImage ()
+{
+	const canvas = document.getElementById("tempCanvas");
+	const ctx = canvas.getContext("2d");
+	var img = new Image();
+	img.onload = function () {
+		// Rotate 90 degrees clockwise
+		canvas.width = img.height;
+		canvas.height = img.width;
+
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.save();
+		//ctx.translate(canvas.width, 0);
+		ctx.translate(0, canvas.height);
+		ctx.rotate(-1 * Math.PI / 2);
+		ctx.drawImage(img, 0, 0);
+		ctx.restore();
+		console.log ("rotated 90 degree baby");
+		canvas.toBlob(blob => {
+			const rotatedFile = new File([blob], userUploadedImage[0].name, { type: userUploadedImage[0].type });
+			const dt = new DataTransfer();
+			dt.items.add(rotatedFile);
+			blah.src = URL.createObjectURL(rotatedFile);
+			InputBox.files = dt.files;
+			InputBox2.files = dt.files;
+		});
+	};
+	img.src = URL.createObjectURL(userUploadedImage[0]);
+}
 dropContainer.ondrop = function(evt) {
   // pretty simple -- but not for IE :(
   console.log ("ye");
   evt.preventDefault();
+  userUploadedImage = evt.dataTransfer.files;
   InputBox.files = evt.dataTransfer.files;
   InputBox2.files = evt.dataTransfer.files;
 
   // If you want to use some of the dropped files
   const dT = new DataTransfer();
   dT.items.add(evt.dataTransfer.files[0]);
-  //dT.items.add(evt.dataTransfer.files[3]);
   InputBox.files = dT.files;
   InputBox2.files = dT.files;
   blah.src = URL.createObjectURL(evt.dataTransfer.files[0]);
   document.getElementById("sample").src =  blah.src;
   evt.preventDefault();
-  //document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
   document.getElementById("Review_Image").classList.remove("Hidden");

@@ -230,10 +230,10 @@ h1 {font-size:2.2em;}
 		font-size: 1.5em;
     align-items: center;
 	}
-	.Part_2 *
+	/*.Part_2 *
 	{
 		padding: 0.0vh;
-	}
+	}*/
 	.Part_2 .boxed img
 	{
 		padding: 1vh;
@@ -335,6 +335,10 @@ h1 {font-size:2.2em;}
 		flex-flow: column;
 		width: 90%;
 		padding-left: 2vw;		
+	}
+	#CropRotateForm p 
+	{
+		padding-left: 2.5%;
 	}
 	.inputNumber
 	{
