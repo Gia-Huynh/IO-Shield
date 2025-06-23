@@ -50,15 +50,14 @@ h1 {font-size:2.2em;}
     -webkit-box-shadow:inset 0px 0px 10px 2px #333;
     -moz-box-shadow:inset 0px 0px 10px 2px #333;
     box-shadow:inset 0px 0px 10px 2px #333;
-		margin-bottom: 2vh;
+		margin-bottom: 0.5vh;
 	}
 	.ShowAfterShrink
 	{
 		display:none;
 	}
 /*PC Version*/
-@media (min-width:641px)
-{
+
 	.BigAss
 	{
 		width: 100%;
@@ -229,6 +228,7 @@ h1 {font-size:2.2em;}
     justify-content: center;
 		font-size: 1.5em;
     align-items: center;
+	padding-top: 3vh;
 	}
 	/*.Part_2 *
 	{
@@ -256,8 +256,8 @@ h1 {font-size:2.2em;}
 		padding: 0.5vh;
 		width: 95%;
 		height: auto;
-		margin-top: 1vh;
-		margin-bottom: 2vh;
+		margin-top: 0.5vh;
+		margin-bottom: 1vh;
 		outline: 4px dashed #062d8f;
 	}
 	.confirmButton
@@ -285,7 +285,7 @@ h1 {font-size:2.2em;}
 		width:100%;
 		text-align:center;
 		justify-content: center;
-		font-size: 1.5em;
+		font-size: 1em;
 		align-items: center;
 	}
 	.Part_3_flex_bot *
@@ -364,7 +364,7 @@ h1 {font-size:2.2em;}
 	{
 		/*display: none;*/
 		width: 100%;	
-		height: 5vh;
+		height: auto;
 	}
 	.left_text_box
 	{
@@ -394,4 +394,8 @@ h1 {font-size:2.2em;}
 		margin-right:15px;
 	}
 	#ad2{padding: 1%;text-align: right; right:0;}
-}
+	#overlay_drop_container
+	{
+		padding-top: 3vh;
+		min-height: 100px;
+		height: 25vh;}

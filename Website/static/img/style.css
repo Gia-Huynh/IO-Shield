@@ -59,7 +59,7 @@ button{
     height: auto;
     border: none;
     background-color: coral;
-    
+    cursor: pointer;
 }
 svg {
     position: absolute;
@@ -69,15 +69,16 @@ svg {
   
   .line {
     stroke: blue;
-    stroke-width: 0.7px;
+    stroke-width: 0.8px;
     stroke-linecap: square;
+    opacity: 0.8;
   }
   
   .handle {
-    fill: blue;
+    fill: green;
     pointer-events: all;
     stroke:blue;
-    stroke-width: 2px;
+    stroke-width: 1px;
     cursor: move;
-    opacity: 0.8;
+    opacity: 0.5;
   }

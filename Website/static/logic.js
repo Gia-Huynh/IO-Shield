@@ -27,15 +27,89 @@ function overlayingImg ()
 function updateTextInput(val, ID) {
           document.getElementById(ID).value=val; 
         }
-
+let CropValueChange = false;
+function ModifyCropValue ()
+{
+	if (CropValueChange == false)
+	{
+		CropValueChange = true;
+	};
+};
+function CropTopChecking ()
+{
+	if (CropValueChange == true)
+	{
+		cropImage();
+		CropValueChange = false;
+	};
+};
+setInterval(CropTopChecking, 100);
 //Drag N Drop Image
-const dropContainer = document.getElementById("dropContainer");
+let dropContainer = document.getElementById("dropContainer");
 const InputBox = document.getElementById("InputBox");
 const InputBox2 = document.getElementById("InputBox2");
-var userUploadedImage;
+let userUploadedImage;
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
 };
+dropContainer.ondrop = function(evt) {
+  // pretty simple -- but not for IE :(
+  console.log ("DragNDrop");
+  evt.preventDefault();
+  userUploadedImage = evt.dataTransfer.files;
+  InputBox.files = evt.dataTransfer.files;
+  InputBox2.files = evt.dataTransfer.files;
+
+  // If you want to use some of the dropped files
+  const dT = new DataTransfer();
+  dT.items.add(evt.dataTransfer.files[0]);
+  InputBox.files = dT.files;
+  InputBox2.files = dT.files;
+  blah.src = URL.createObjectURL(evt.dataTransfer.files[0]);
+  document.getElementById("sample").src =  blah.src;
+			const dlBtn = document.getElementById("downloadBtn");
+			dlBtn.href = URL.createObjectURL(evt.dataTransfer.files[0]);
+			dlBtn.download = userUploadedImage[0].name;
+			dlBtn.style.display = "inline-block";
+  evt.preventDefault();
+  document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
+  document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
+  document.getElementById("Review_Image").classList.remove("Hidden");
+  var elmntToView = document.getElementById("CropRotateForm");
+  elmntToView.scrollIntoView({ behavior: "smooth", block: "center" });
+};
+//Drag N Drop Overlay (Copy pasted from above)
+dropContainer = document.getElementById("overlay_drop_container");
+dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+  evt.preventDefault();
+};
+dropContainer.ondrop = function(evt) {
+  console.log ("DragNDrop Overlay");
+  evt.preventDefault();
+  overlayImg.src = URL.createObjectURL(evt.dataTransfer.files[0]);
+}
+
+InputBox.onchange = evt => {
+  const [file] = InputBox.files;
+  InputBox2.files = InputBox.files;
+  if (file) {
+    blah.src = URL.createObjectURL(file);
+	document.getElementById("sample").src =  blah.src;
+
+	const dlBtn = document.getElementById("downloadBtn");
+	dlBtn.href = URL.createObjectURL(file);
+	dlBtn.download = userUploadedImage[0].name;
+	dlBtn.style.display = "inline-block";
+  }
+  //document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
+  document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
+  document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
+  document.getElementById("Review_Image").classList.remove("Hidden");
+  var elmntToView = document.getElementById("AdjustmentBox");
+  elmntToView.scrollIntoView({ behavior: "smooth"}); 
+};
+
+
 function rotateImage ()
 {
 	const canvas = document.getElementById("tempCanvas");
@@ -63,13 +137,18 @@ function rotateImage ()
 			InputBox.files = dt.files;
 			InputBox2.files = dt.files;
 			userUploadedImage = dt.files;
+			
+			const dlBtn = document.getElementById("downloadBtn");
+			dlBtn.href = URL.createObjectURL(rotatedFile);
+			dlBtn.download = userUploadedImage[0].name;
+			dlBtn.style.display = "inline-block";
 		});
 	};
 	img.src = URL.createObjectURL(userUploadedImage[0]);
 }
 
 function cropImage() {
-	event.preventDefault(); // stop form submit
+	//event.preventDefault(); // stop form submit
 
 	const canvas = document.getElementById("tempCanvas");
 	const ctx = canvas.getContext("2d");
@@ -104,55 +183,16 @@ function cropImage() {
 			document.getElementById("sample").src = blah.src;
 			InputBox.files = dt.files;
 			InputBox2.files = dt.files;
+			
+			const dlBtn = document.getElementById("downloadBtn");
+			dlBtn.href = URL.createObjectURL(croppedFile);
+			dlBtn.download = userUploadedImage[0].name;
 		});
 	};
 
 	img.src = URL.createObjectURL(userUploadedImage[0]);
 }
-dropContainer.ondrop = function(evt) {
-  // pretty simple -- but not for IE :(
-  console.log ("ye");
-  evt.preventDefault();
-  userUploadedImage = evt.dataTransfer.files;
-  InputBox.files = evt.dataTransfer.files;
-  InputBox2.files = evt.dataTransfer.files;
 
-  // If you want to use some of the dropped files
-  const dT = new DataTransfer();
-  dT.items.add(evt.dataTransfer.files[0]);
-  InputBox.files = dT.files;
-  InputBox2.files = dT.files;
-  blah.src = URL.createObjectURL(evt.dataTransfer.files[0]);
-  document.getElementById("sample").src =  blah.src;
-  evt.preventDefault();
-  document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
-  document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
-  document.getElementById("Review_Image").classList.remove("Hidden");
-  var elmntToView = document.getElementById("AdjustmentBox");
-  elmntToView.scrollIntoView({ behavior: "smooth"});
-};
-InputBox.onchange = evt => {
-  const [file] = InputBox.files;
-  InputBox2.files = InputBox.files;
-  if (file) {
-    blah.src = URL.createObjectURL(file);
-	document.getElementById("sample").src =  blah.src;
-  }
-  //document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
-  document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
-  document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
-  document.getElementById("Review_Image").classList.remove("Hidden");
-  var elmntToView = document.getElementById("AdjustmentBox");
-  elmntToView.scrollIntoView({ behavior: "smooth"}); 
-};
-
-/*var ele = document.getElementById("ImageForm");
-if(ele.addEventListener){
-    ele.addEventListener("submit", function(e){
-		console.log ("Success");
-		
-	}, false);  //Modern browsers
-}*/
 const InputBoxOverlay = document.getElementById("InputBoxOverlay");
 InputBoxOverlay.onchange = evt => {
   const [file] = InputBoxOverlay.files;
@@ -168,8 +208,10 @@ function changeImage(blobImage) {
  document.getElementById('resultImg').src = urlCreator.createObjectURL(blobImage);
 }
 
-document.querySelector("#ImageForm").addEventListener("submit", function(e){
-        e.preventDefault();    //stop form from submitting
+//document.querySelector("#ImageForm").addEventListener("submit", function(e){
+//        e.preventDefault();    //stop form from submitting
+function submitWithParam ()
+{
 		const myForm = document.forms['ImageForm'];
 		fetch(document.forms['ImageForm'].action, {method:'post', body: new FormData(myForm)})
 				.then((response) => {
@@ -188,10 +230,26 @@ document.querySelector("#ImageForm").addEventListener("submit", function(e){
 			document.getElementById("ImageForm2").requestSubmit();
 			document.getElementById("confirmBox").classList.remove("Hidden");
 			setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
-			elmntToView.scrollIntoView({ behavior: "smooth"});},500);
+			elmntToView.scrollIntoView({ behavior: "smooth"});},1000);
   });
-});
-
+};
+function submitOnly ()
+{const myForm = document.forms['ImageForm'];
+		fetch(document.forms['ImageForm'].action, {method:'post', body: new FormData(myForm)})
+				.then((response) => {
+			if (!response.ok) {
+			  throw new Error("HTTP error: ${response.status}");
+			}
+			return response.blob();
+		  })
+		  .then((blob) => {
+			changeImage (blob); 
+			document.getElementById("ImageForm2").requestSubmit();
+			document.getElementById("confirmBox").classList.remove("Hidden");
+			setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
+			elmntToView.scrollIntoView({ behavior: "smooth"});},1000);
+  });
+}
 document.querySelector("#ImageForm2").addEventListener("submit", function(e){
         e.preventDefault();    //stop form from submitting
 		const myForm2 = document.forms['ImageForm2'];

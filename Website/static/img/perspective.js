@@ -79,11 +79,13 @@ const setUpApplyButton = function () {
 		cv.imshow('imageResult', dst);
 		src.delete(); dst.delete(); M.delete(); srcTri.delete(); dstTri.delete();
 		blah.src = document.getElementById("imageResult").toDataURL();
+	
+		const dlBtn = document.getElementById("downloadBtn");
+		dlBtn.href = document.getElementById("imageResult").toDataURL();
 		//document.getElementById("InputBox").files = [dataURLtoFile (blah.src,'nigger.png')];
 		//document.getElementById("InputBox").files = blah.src;
     },1000)
-    
-        
+    CropTopNum.scrollIntoView({ behavior: 'smooth', block: 'start'});
 }
 applyButton.setAttribute('disabled','true')
 applyButton.onclick = setUpApplyButton

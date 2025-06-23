@@ -46,42 +46,42 @@
 				<div id = "AdjustmentBox" class = "Part_2">
 					<div class ="boxed">
 						<div style = "display: flex">
-							<div style = "width: 40% ">
+							<div style = "width: 25%; margin-top: auto; padding-right: 3vw;">
 								<h3> Example image </h3>
 								<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
 							</div>
-							<div style = "width: 20%; display: grid;">
-								<button style = " margin: 1vh;" onclick = "rotateImage();"> Rotate Left 90 Degree <br> (Permanent) </button>
-								<button  style = " margin: 1vh;" onclick = "cropImage();"> Crop Image <br> (Non Permanent) </button>
-								<canvas id="tempCanvas" style="display:none;"></canvas>
-							</div>
-							<div style = "width: 39.9%">
+							<div style = "width: 29.9%;">
 								<form id = "CropRotateForm">
 									<div style = "display: flex;"> 
 										<input class="inputNumber" name="CropLeftNum" id="CropLeftNum" onchange="updateTextInput(this.value, 'CropLeftRange');" type="number" min="0" max="2000" value="0"/>
 										<p class = "left_text_box"> Left Cropping </p>
 									</div>
-									<input type="range" name="CropLeftRange" id="CropLeftRange" onchange="updateTextInput(this.value, 'CropLeftNum');" min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropLeftRange" id="CropLeftRange" oninput="updateTextInput(this.value, 'CropLeftNum'); ModifyCropValue();" min="0" max="2000" value="0" class="slider">
 									
 									
 									<div style = "display: flex"> 
 										<input class="inputNumber" name="CropRightNum" id="CropRightNum" onchange="updateTextInput(this.value, 'CropRightRange');" type="number"  min="0" max="2000" value="0" />
 										<p class = "left_text_box"> Right Cropping </p>
 									</div>
-									<input type="range" name="CropRightRange" id="CropRightRange" onchange="updateTextInput(this.value, 'CropRightNum');"  min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropRightRange" id="CropRightRange" oninput="updateTextInput(this.value, 'CropRightNum'); ModifyCropValue();"  min="0" max="2000" value="0" class="slider">
 									
 									<div style = "display: flex"> 
 										<input class="inputNumber" name="CropBotNum" id="CropBotNum" onchange="updateTextInput(this.value, 'CropBotRange');" type="number"  min="0" max="2000" value="0"/>
 										<p class = "left_text_box"> Bottom Cropping </p>
 									</div>
-									<input type="range" name="CropBotRange" id="CropBotRange" onchange="updateTextInput(this.value, 'CropBotNum');" min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropBotRange" id="CropBotRange" oninput="updateTextInput(this.value, 'CropBotNum') ;ModifyCropValue();" min="0" max="2000" value="0" class="slider">
 									
 									<div style = "display: flex"> 
 										<input class="inputNumber" name="CropTopNum" id="CropTopNum" onchange="updateTextInput(this.value, 'CropTopRange');" type="number" min="0" max="2000" value="0"/>
 										<p class = "left_text_box"> Top Cropping </p>
 									</div>
-									<input type="range" name="CropTopRange" id="CropTopRange" onchange="updateTextInput(this.value, 'CropTopNum');" min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropTopRange" id="CropTopRange" oninput="updateTextInput(this.value, 'CropTopNum'); ModifyCropValue();" min="0" max="2000" value="0" class="slider">
 								</form>
+							</div>
+							<div style = "width: 20%; display: grid;">
+								<button style = " margin: 1vh;" onclick = "rotateImage();"> Rotate Left 90 Degree <br> (Permanent) </button>
+								<button  style = " margin: 1vh;" onclick = "cropImage();"> Crop Image <br> (Non Permanent) </button>
+								<canvas id="tempCanvas" style="display:none;"></canvas>
 							</div>
 						</div>
 					</div>
@@ -98,7 +98,7 @@
 					</div>
 					<div class="b_container">
 						<p> Perspective correction tool, skip this part if your image is corrected already </p>
-						<button id="apply">Apply</button>
+						<button id="apply" onclick="">Apply</button>
 						<button id="overlayingButton" onclick="overlayingImg()">Move img below to overlay</button>
 					</div>
 					<link rel="stylesheet" href="./img/style.css">
@@ -113,8 +113,15 @@
 						<h2> Your uploaded image </h2>
 						<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<p> Right-click the image and click "save image as..." to save it down. <br> Use paint to draw white boxes on image to denote io-shield blocking zone
-						</p> <h1>Looks good?</h1>
-						<button type="submit" form="ImageForm" class = "confirmButton" value="Like"> Yep, this is an IO image, <br> LET'S DO THIS </button>
+						</p> 
+						<!--h1>Looks good?</h1-->
+						<div style = "width: 99%; margin-top: 0.5vh;"> 
+							<a id="downloadBtn" value="Like"> 
+								<button style = "background-color: purple;">  Download Image </button> 
+							</a> 
+							<button style = "background-color: cadetblue" onclick="submitOnly()" form="ImageForm" value="Like"> Submit ONLY </button>
+						</div>
+						<button onclick="submitWithParam()" form="ImageForm" class = "confirmButton" value="Like"> Submit with auto-parameter </button>
 					</div>
 				</div>
 					<div id = "confirmBox" class = "Part_3 Hidden">
@@ -136,25 +143,25 @@
 										<p class = "left_text_box"> Left padding: </p>
 										<input class="inputNumber" name="myNum" id="myNum" onchange="updateTextInput(this.value, 'myRange');" type="number" min="0" max="6000" value="15"/>
 									</div>
-									<input type="range" name="myRange" id="myRange" onchange="updateTextInput(this.value, 'myNum');" min="0" max="6000" value="15" class="slider">
+									<input style = "display:none;" type="range" name="myRange" id="myRange" onchange="updateTextInput(this.value, 'myNum');" min="0" max="6000" value="15" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Right padding: </p>
 										<input class="inputNumber" name="myNum2" id="myNum2"  onchange="updateTextInput(this.value, 'myRange2');" type="number"  min="0" max="6000" value="10" />
 									</div>
-									<input type="range" name="myRange2" id="myRange2" onchange="updateTextInput(this.value, 'myNum2');"  min="0" max="6000" value="10" class="slider">
+									<input style = "display:none;" type="range" name="myRange2" id="myRange2" onchange="updateTextInput(this.value, 'myNum2');"  min="0" max="6000" value="10" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Bottom padding: </p>
 										<input class="inputNumber" name="myNum3" id="myNum3" onchange="updateTextInput(this.value, 'myRange3');" type="number"  min="0" max="6000" value="5"/>
 									</div>
-									<input type="range" name="myRange3" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="0" max="6000" value="5" class="slider">
+									<input style = "display:none;" type="range" name="myRange3" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="0" max="6000" value="5" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Top padding: </p>
 										<input class="inputNumber" name="myNum4" id="myNum4" onchange="updateTextInput(this.value, 'myRange4');" type="number"  min="0" max="6000" value="5"/>
 									</div>
-									<input type="range" name="myRange4" id="myRange4" onchange="updateTextInput(this.value, 'myNum4');" min="0" max="6000" value="5" class="slider">
+									<input style = "display:none;" type="range" name="myRange4" id="myRange4" onchange="updateTextInput(this.value, 'myNum4');" min="0" max="6000" value="5" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Blurring: </p>
@@ -165,7 +172,7 @@
 										<p class = "left_text_box"> Erosion: </p>
 										<input class="inputNumber" name="ErosionNum" id="ErosionNum" onchange="updateTextInput(this.value, 'ErosionRange');" type="number" min="0" max="8" value="0"/>
 									</div>
-									<input type="range" name="ErosionRange" id="ErosionRange" onchange="updateTextInput(this.value, 'ErosionNum');" min="0" max="8" value="0" class="slider">
+									<input style = "display:none;" type="range" name="ErosionRange" id="ErosionRange" onchange="updateTextInput(this.value, 'ErosionNum');" min="0" max="8" value="0" class="slider">
 									
 									
 								</form>
@@ -173,7 +180,7 @@
 								</div>
 								
 								<div class = "Part_3_flex_right">
-									<div class = "boxed">
+									<div class = "boxed" id ="overlay_drop_container">
 										<h3> Overlay another image on top </h3>
 										<p> Search the io shield image <br> of your mobo and use it here</p>
 										<form id="ImageOverlay" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
