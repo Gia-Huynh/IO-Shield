@@ -59,10 +59,54 @@ function rotateImage ()
 			const dt = new DataTransfer();
 			dt.items.add(rotatedFile);
 			blah.src = URL.createObjectURL(rotatedFile);
+			document.getElementById("sample").src =  blah.src;
+			InputBox.files = dt.files;
+			InputBox2.files = dt.files;
+			userUploadedImage = dt.files;
+		});
+	};
+	img.src = URL.createObjectURL(userUploadedImage[0]);
+}
+
+function cropImage() {
+	event.preventDefault(); // stop form submit
+
+	const canvas = document.getElementById("tempCanvas");
+	const ctx = canvas.getContext("2d");
+	const img = new Image();
+
+	const cropLeft = parseInt(document.getElementById("CropLeftNum").value);
+	const cropRight = parseInt(document.getElementById("CropRightNum").value);
+	const cropTop = parseInt(document.getElementById("CropTopNum").value);
+	const cropBot = parseInt(document.getElementById("CropBotNum").value);
+
+	img.onload = function () {
+		const cropWidth = img.width - cropLeft - cropRight;
+		const cropHeight = img.height - cropTop - cropBot;
+
+		canvas.width = cropWidth;
+		canvas.height = cropHeight;
+
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.drawImage(
+			img,
+			cropLeft, cropTop,           // start x,y on source
+			cropWidth, cropHeight,       // source width/height
+			0, 0,                         // draw at top-left on canvas
+			cropWidth, cropHeight        // draw size
+		);
+
+		canvas.toBlob(blob => {
+			const croppedFile = new File([blob], userUploadedImage[0].name, { type: userUploadedImage[0].type });
+			const dt = new DataTransfer();
+			dt.items.add(croppedFile);
+			blah.src = URL.createObjectURL(croppedFile);
+			document.getElementById("sample").src = blah.src;
 			InputBox.files = dt.files;
 			InputBox2.files = dt.files;
 		});
 	};
+
 	img.src = URL.createObjectURL(userUploadedImage[0]);
 }
 dropContainer.ondrop = function(evt) {

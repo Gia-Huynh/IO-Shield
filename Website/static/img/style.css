@@ -56,7 +56,7 @@ span{
 button{
     width: auto;
 	padding: 1vh;
-    height: 3vh;
+    height: auto;
     border: none;
     background-color: coral;
     

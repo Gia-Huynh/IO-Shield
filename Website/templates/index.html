@@ -50,32 +50,37 @@
 								<h3> Example image </h3>
 								<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
 							</div>
-							<div style = "width: 20%">
-								<button onclick = "rotateImage();"> Rotate Left 90 Degree </button>
-								<canvas id="tempCanvas" style=""></canvas> <!--display:none;-->
+							<div style = "width: 20%; display: grid;">
+								<button style = " margin: 1vh;" onclick = "rotateImage();"> Rotate Left 90 Degree <br> (Permanent) </button>
+								<button  style = " margin: 1vh;" onclick = "cropImage();"> Crop Image <br> (Non Permanent) </button>
+								<canvas id="tempCanvas" style="display:none;"></canvas>
 							</div>
 							<div style = "width: 39.9%">
 								<form id = "CropRotateForm">
 									<div style = "display: flex;"> 
-										<input class="inputNumber" name="CropLeftNum" id="CropLeftNum" type="number" min="0" max="6000" value="15"/>
-										<p class = "left_text_box"> Left Cropping: </p>
+										<input class="inputNumber" name="CropLeftNum" id="CropLeftNum" onchange="updateTextInput(this.value, 'CropLeftRange');" type="number" min="0" max="2000" value="0"/>
+										<p class = "left_text_box"> Left Cropping </p>
 									</div>
+									<input type="range" name="CropLeftRange" id="CropLeftRange" onchange="updateTextInput(this.value, 'CropLeftNum');" min="0" max="2000" value="0" class="slider">
+									
 									
 									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropRightNum" id="CropRightNum" type="number"  min="0" max="6000" value="10" />
-										<p class = "left_text_box"> Right Cropping: </p>
+										<input class="inputNumber" name="CropRightNum" id="CropRightNum" onchange="updateTextInput(this.value, 'CropRightRange');" type="number"  min="0" max="2000" value="0" />
+										<p class = "left_text_box"> Right Cropping </p>
 									</div>
+									<input type="range" name="CropRightRange" id="CropRightRange" onchange="updateTextInput(this.value, 'CropRightNum');"  min="0" max="2000" value="0" class="slider">
 									
 									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropBotNum" id="CropBotNum" type="number"  min="0" max="6000" value="5"/>
-										<p class = "left_text_box"> Bottom Cropping: </p>
+										<input class="inputNumber" name="CropBotNum" id="CropBotNum" onchange="updateTextInput(this.value, 'CropBotRange');" type="number"  min="0" max="2000" value="0"/>
+										<p class = "left_text_box"> Bottom Cropping </p>
 									</div>
+									<input type="range" name="CropBotRange" id="CropBotRange" onchange="updateTextInput(this.value, 'CropBotNum');" min="0" max="2000" value="0" class="slider">
 									
 									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropTopNum" id="CropTopNum" type="number" min="0" max="6000" value="5"/>
-										<p class = "left_text_box"> Top Cropping: </p>
+										<input class="inputNumber" name="CropTopNum" id="CropTopNum" onchange="updateTextInput(this.value, 'CropTopRange');" type="number" min="0" max="2000" value="0"/>
+										<p class = "left_text_box"> Top Cropping </p>
 									</div>
-									
+									<input type="range" name="CropTopRange" id="CropTopRange" onchange="updateTextInput(this.value, 'CropTopNum');" min="0" max="2000" value="0" class="slider">
 								</form>
 							</div>
 						</div>
