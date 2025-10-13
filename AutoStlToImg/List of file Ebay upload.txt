@@ -1,0 +1,149 @@
+Asrock B365M-HDV
+Asrock B550AM Gaming
+Asrock B560M-HDV
+Asrock B650M-H M.2
+Asrock B760 D4 Lightning
+Asrock H110D-M4
+Asrock H310M-ITXac(M5)
+Asrock H410M-HDV
+Asrock H610M-HVS M.2
+Asrock IMB 390-l
+Asrock J4105-ITX
+Asrock X370 Pro4
+Asrock X570 Phantom Gaming 4S
+Asrock Z270 Taichi
+Asrock Z690-C D5
+Asus A520M-E 
+Asus B150M Pro Gaming
+Asus B350 Gaming Plus TUF
+Asus B350M-K
+Asus B450M-A
+Asus B450m Tuf Pro 2
+Asus B460I Prime Plus
+Asus B550 Plus
+Asus B650M-A CSM
+Asus B660m TUF
+Asus B760m-A CSM
+Asus B85M-G
+Asus Crosshair 6
+Asus D500TD Main BD
+Asus EX-B365M-V5
+Asus H310M-D Qat
+Asus Maximus 4 Extreme IO V2
+Asus P8H61-I R2.0
+Asus P8Z77-V LK
+Asus P8Z77-V Pro
+Asus PRIME B350-PLUS
+Asus PRIME H410M-R
+Asus PRIME H510M-A WIFI
+Asus PRIME Z690M-PLUS D4
+Asus Prime B650 Plus
+Asus X79 Sabertooth
+Asus Z270E_v2
+Asus Z87 Sabertooth
+Asus Z87-A
+Biostar A55MD2
+Biostar B350GTN
+Biostar B560MX-E Pro
+Biostar H310MHP
+Biostar TA990fxe
+Coinmine GZQ A8M4555 GM26V11 GM26V12
+Colorful BTC B250C
+Colorful H110
+Colorful H610 Smart Wifi V2 
+Colorful Igame Z170-U
+Datto MD70
+Dell H81 OptiPlex 3020SFF
+Dell MIH81R VHWTR
+Dell Precision T3630 0NNNCT NNNCT
+ECS A320AM4-M3D
+ECS A55F2P-M2
+ECS H110i - C33
+ECS H310CH5-M2
+ECS H610H7-M2 IO
+EVGA NForce 750i SLI
+EVGA SR 2 (NOT SURE)
+EVGA SR 2 (SAFE 1)
+EVGA SR 2 (SAFE PUSSY)
+EVGA Z270 FTW K V1 (I think it's  bad)
+FIC SD11
+Galax H510
+Gigabyte A370 GA-AX370M-DS3H
+Gigabyte A520i AC
+Gigabyte B150M-D3H
+Gigabyte B150N Phoenix Wifi
+Gigabyte B365 D2V
+Gigabyte B450M Gaming
+Gigabyte B550 Eagle WIFI6
+Gigabyte B550 UD AC
+Gigabyte B550M DS3H (Rev 1.0 to 1.3) 
+Gigabyte B550M DS3H AC Rev 1.5 1.7
+Gigabyte B550M DS3H Rev 1.5 1.7
+Gigabyte B760 DS3H DDR4
+Gigabyte B85H3-M4
+Gigabyte F2A68HM-S1
+Gigabyte GA-970A-DS3P
+Gigabyte GA-F2A55m-hd2 
+Gigabyte GA-H110M-S2H
+Gigabyte GA-Z87X-UD3H
+Gigabyte H510m-h
+Gigabyte W480M Modded
+Gigabyte X58A UD7 V2
+Gigabyte Z370 P BadImg
+Gigabyte Z690I AORUS ULTRA V3
+Gigabyte z170-d3h  (V1, phien ban image old)
+HP 600 G2
+HP 761514-001  Z440
+HP FMB-1401
+HP Omen Obelisk 875
+HP Prodesk 400 G2 motherboard, model 795970-002
+HP Z690 Blizzard Oc
+HP Z790 Arctic
+Huananzhi H610M-K
+Huananzhi X58 R3.0
+Huananzhi X79-ZD3
+Huananzhi X99 F8D Plus
+Huananzhi X99-F8D
+Huananzhi X99H  (IO Case Fixed-ish)
+Huananzhi X99H  (IO Case)
+Huananzhi X99H  (IO internet)
+Intel DP67BG_IO
+Jginyue B450i
+Maxsun A320M.2-VH
+Msi 865GM2 MS-6743
+Msi 970A GAMING PRO CARBON
+Msi A320M Gaming Pro
+Msi A320M Grenade  - Copy
+Msi A320M-A Pro Max
+Msi B150m Mortar
+Msi B360m Pro VH 
+Msi B450 Tomahawk Max 
+Msi B650 Gaming Plus Wifi IO shield
+Msi B650 Tomahawk
+Msi B660
+Msi B85-G43 Gaming
+Msi H81M P33
+Msi MAG B550 TOMAHAWK PRO B550-VC MPG B550 Gaming Plus
+Msi MPG Z390 GAMING EDGE AC
+Msi Maximus 6
+Msi PRO B760-P DDR4
+Msi Packard Bell-branded -6168
+Msi Pro B650-P Wifi
+Msi X370 SLI PLUS
+Msi X470 gaming plus V2
+Msi Z170-A PRO
+Msi Z370 Mortar Corrected
+Msi Z370 Mortar Rear (May not fit)
+Msi Z390 Gaming Edge AC
+Msi Z390-A PRO
+Msi Z97 Gaming 3
+Msi Z97s SLI Krait Edition
+Msi _Z690-A_Pro_shield
+OEM X58 Xeon
+OEM X79G
+OEM X99 DUAL ZX-DU99D3  DDR3
+OEM X99M-G
+SuperMicro X11DAi-N
+Via epia 5000
+XWG X58V1608
+Zotac H87 ITX

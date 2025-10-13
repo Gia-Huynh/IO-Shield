@@ -52,6 +52,13 @@ let userUploadedImage;
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
 };
+function AllowDownloadImageButton (eventDtTransferFile, fileName){ //evt.dataTransfer.files[0], userUploadedImage[0].name
+	const dlBtn = document.getElementById("downloadBtn");
+	dlBtn.href = URL.createObjectURL(eventDtTransferFile);
+	//dlBtn.download = fileName;
+	dlBtn.download = fileName.replace(/\.[^/.]+$/, "") + ".png";
+	dlBtn.style.display = "inline-block";
+}
 dropContainer.ondrop = function(evt) {
   // pretty simple -- but not for IE :(
   console.log ("DragNDrop");
@@ -67,10 +74,7 @@ dropContainer.ondrop = function(evt) {
   InputBox2.files = dT.files;
   blah.src = URL.createObjectURL(evt.dataTransfer.files[0]);
   document.getElementById("sample").src =  blah.src;
-			const dlBtn = document.getElementById("downloadBtn");
-			dlBtn.href = URL.createObjectURL(evt.dataTransfer.files[0]);
-			dlBtn.download = userUploadedImage[0].name;
-			dlBtn.style.display = "inline-block";
+	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
   evt.preventDefault();
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
@@ -96,10 +100,11 @@ InputBox.onchange = evt => {
     blah.src = URL.createObjectURL(file);
 	document.getElementById("sample").src =  blah.src;
 
-	const dlBtn = document.getElementById("downloadBtn");
+	/*const dlBtn = document.getElementById("downloadBtn");
 	dlBtn.href = URL.createObjectURL(file);
 	dlBtn.download = userUploadedImage[0].name;
-	dlBtn.style.display = "inline-block";
+	dlBtn.style.display = "inline-block";*/	
+	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
   }
   //document.getElementById ("dropContainer").classList.add('Part_1_shrinked');
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
@@ -138,10 +143,12 @@ function rotateImage ()
 			InputBox2.files = dt.files;
 			userUploadedImage = dt.files;
 			
-			const dlBtn = document.getElementById("downloadBtn");
+			/*const dlBtn = document.getElementById("downloadBtn");
 			dlBtn.href = URL.createObjectURL(rotatedFile);
 			dlBtn.download = userUploadedImage[0].name;
-			dlBtn.style.display = "inline-block";
+			dlBtn.style.display = "inline-block";*/
+			
+			AllowDownloadImageButton(rotatedFile, userUploadedImage[0].name);
 		});
 	};
 	img.src = URL.createObjectURL(userUploadedImage[0]);
@@ -184,9 +191,10 @@ function cropImage() {
 			InputBox.files = dt.files;
 			InputBox2.files = dt.files;
 			
-			const dlBtn = document.getElementById("downloadBtn");
+			/*const dlBtn = document.getElementById("downloadBtn");
 			dlBtn.href = URL.createObjectURL(croppedFile);
-			dlBtn.download = userUploadedImage[0].name;
+			dlBtn.download = userUploadedImage[0].name;*/
+			AllowDownloadImageButton(croppedFile, userUploadedImage[0].name);
 		});
 	};
 
