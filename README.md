@@ -11,7 +11,7 @@ The tool is designed to work specifically with images where the background color
 ### Online version
 To generate a 3D model, follow these steps:
 
-- Visit the online version of the tool at http://ioshield.thietgia.com/.
+- Visit the online version of the tool at this [link](https://io.thietgia.com/). 
 - Upload an image of the Io Shield where the background color is consistently the same, the tool will select the color of the top left pixel of your image as the background color.
 - The tool will analyze the image and generate a 2D temporal image based on the area that does not contain the background color.
 - Once the temporal image is generated, you can preview it and make any necessary adjustments.
