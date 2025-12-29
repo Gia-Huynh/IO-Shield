@@ -52,7 +52,7 @@ def CoNhiPhan (gay, s):
 	#Invert
 	#np.unique (gay) => [0 1]
 	gay = 1-gay
-	gay= gay.astype (np.int16)
+	gay = gay.astype (np.int16)
 	
 	#Dilation
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
@@ -75,11 +75,11 @@ def CoNhiPhan (gay, s):
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
 	#Dilation
-	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
+	"""gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay > 0] = 1
 	gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	gay [gay < s*s] = 0
-	gay [gay > (s*s-1)] = 1
+	gay [gay > (s*s-1)] = 1"""
 	#Dilation
 	#gay = cv2.filter2D (gay, ddepth = -1, kernel = (np.ones ((s, s)).astype(np.int32)))
 	#gay [gay > 0] = 1
@@ -146,7 +146,7 @@ def niggaBFS (image, CoNhiPhanTime = 0	, BlurRatio = 0.0075, file_name = "debug"
 	if (debug_mode == 1):
 		imsave("Data/DebugData/5_" + file_name + "_BeforeErosion.png",visited*255,cmap='gray')
 	
-	CoNhiPhanArr = [1, 2, 3, 5, 10, 15, 25]
+	CoNhiPhanArr = [1, 2, 3, 5, 10, 15, 25, 30, 35, 45, 50, 60, 70, 80, 100]
 	for i in range (0, CoNhiPhanTime):
                 #This loop only run once
 		#print ("CoNhiphan")

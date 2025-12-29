@@ -11,7 +11,7 @@ EbayFileWordList = ["IO", " io", "I/O", "I/o", "i/o", "Shield",
                     "Black", "White", "WHITE", "BLACK",
                     "Random", " Plat", " color", " Color", " or ",
                     "[", "]", "/", ",", "\n", "  "]
-EbayFileIdx = "C:/Users/Za/Desktop/3D Printing/Shopee/IO Shield/Uploaded IO Ebay.txt"
+EbayFileIdx = "./0_Uploaded IO Ebay.txt"
 EbayFileLineList =  []
 
 FatherPath = "C:/Users/Za/Desktop/3D Printing/Shopee/IO Shield/"
@@ -40,6 +40,7 @@ for FolderName in FolderList:
         if (t[0] == ' '):
             t = t[1:]
         t = re.sub(r'\[.*?\]', '', t)
+        t = re.sub(r'\(.*?\)', '', t)
         t = t.replace (" .", ".")
         #t = t.replace (".stl", "")
         t = re.sub(".stl", '', t, flags=re.IGNORECASE)
@@ -70,10 +71,27 @@ while True:
     break
 #Match Ebay file with pc file
 print ("Matching Ebay with pc")
+print ("Printing badly matched files, or maybe file that hasn't been uploaded:")
+print ("First la file on Ebay, Second la file on pc, third la score.")
+for i in EbayFileLineList:
+    matchResult = process.extractOne(i, PcFileNameList)
+    if matchResult[1]<95:
+        print (i)
+print ("___________")
+for i in EbayFileLineList:
+    matchResult = process.extractOne(i, PcFileNameList)
+    if matchResult[1]<95:
+        print (matchResult[0])
+print ("___________")
+for i in EbayFileLineList:
+    matchResult = process.extractOne(i, PcFileNameList)
+    if matchResult[1]<95:
+        print (matchResult[1])
+print ("___________")
 for i in EbayFileLineList:
     matchResult = process.extractOne(i, PcFileNameList)#, scorer=fuzz.partial_token_sort_ratio)
     if matchResult[1]<95:
-        print (i,'\n',matchResult[0],'_',matchResult[1])
+        print (i,'\n',matchResult[0],'\n',matchResult[1])
     else:
         Remove_index = PcFileNameList.index(matchResult[0])
         #print (PcFileList[Remove_index],' ',PcFileNameList[Remove_index])
@@ -81,7 +99,7 @@ for i in EbayFileLineList:
         PcFileList.pop(Remove_index)
 #print (EbayFileLineList)
 
-"""dest_folder = r"[Maybe Not Posted File]"
+dest_folder = r"Maybe Not Posted File"
 os.makedirs(dest_folder, exist_ok=True)
 for idx, path in enumerate(PcFileList):
     prefix = PcFileNameList[idx] + " ___ "
@@ -89,7 +107,7 @@ for idx, path in enumerate(PcFileList):
     dest_path = os.path.join(dest_folder, new_name)
     shutil.copy2(path, dest_path)
     #shutil.copy2(path, dest_folder)
-"""
+
 
 t = PcFileNameList
 t.sort()

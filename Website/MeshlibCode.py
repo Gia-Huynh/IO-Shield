@@ -1,6 +1,6 @@
 import meshlib.mrmeshpy as mr
 import os
-def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
+def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 2):
 	# load raster image:
 	# find the boundary contour between black and white:
 	# compute the triangulation inside the contour
@@ -14,8 +14,10 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 	#Thicken + resize
 	test_matrix = mr.Matrix3f()
 	#test_matrix.x = mr.Vector3f(0.11325,0,0) #working
-	test_matrix.x = mr.Vector3f(0.1145,0,0) #length-wise
-	test_matrix.y = mr.Vector3f(0,0.1125,0) #nigga-wise
+	#test_matrix.x = mr.Vector3f(0.1145,0,0) #length-wise
+	#test_matrix.x = mr.Vector3f(0.11575,0,0) #length-wise #almost PERFECT #1.
+	test_matrix.x = mr.Vector3f(0.11481,0,0) #length-wise
+	test_matrix.y = mr.Vector3f(0,0.1125,0) #width-wise
 	test_matrix.z = mr.Vector3f(0,0,0.1) #height-wise
 	
 	#https://doc.meshinspector.com/classAffineXf3f.html
@@ -23,7 +25,9 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 1.5):
 	scale = mr.AffineXf3f()
 	scale.A = test_matrix
 	#scale.b = mr.Vector3f(2,2,thickness) #working
-	scale.b = mr.Vector3f(1.2,2,thickness)
+	#scale.b = mr.Vector3f(1.2,2,thickness) #working
+	#scale.b = mr.Vector3f(0.8,2,thickness) #almost PERFECT #1.
+	scale.b = mr.Vector3f(0.9,2,thickness)
 	IO_Shield_Mesh.transform (scale)
 	mr.addBaseToPlanarMesh(IO_Shield_Mesh, zOffset=thickness)
 
