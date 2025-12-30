@@ -125,7 +125,7 @@ h1 {font-size:2.2em;}
 	{
 		padding:1%;
 		width: 92%;
-		height: 30.4vh;
+		height: 17.5vh;
 		text-align: center;
 		margin-top:3vh;
 		margin-bottom:3vh;
@@ -140,7 +140,7 @@ h1 {font-size:2.2em;}
 	  color: #e9edf0;
 	  background-color: #3e82c2;
 	  display: inline-block;
-	  padding-top:15vh;
+	  padding-top:7vh;
 	}
 	.Part_1:focus,
 	.Part_1:hover {
@@ -237,7 +237,8 @@ h1 {font-size:2.2em;}
 	.Part_2 .boxed img
 	{
 		padding: 1vh;
-		object-fit: cover;
+		object-fit: fill;
+		aspect-ratio: 3.57142857143;
 		min-height: 4vh;
 		max-height: 30vh;
 		width: auto;
@@ -270,7 +271,35 @@ h1 {font-size:2.2em;}
 		background-color: #1ff463;
 		font-size: 1em;
 		border-radius: 3vh;
-	} 
+	}
+	#konva_container_container{
+		width: 100%;
+		margin-top: 1vh;
+	}
+	#konva_container_qat{
+		margin: auto;
+	}
+	#konva_container{
+		/*padding: 1vh;
+		min-height: 4vh;
+		max-height: 30vh;
+		max-width: 107.142857143vh;*/
+		background-color: transparent;
+		transform: translate(0%, -100%);
+		width: auto;
+		height: auto;
+		margin: auto;
+	}
+	#konva_background_image{
+		width: 100%;
+		height: 100%;
+		object-fit: fill;
+		padding: 0;
+		aspect-ratio: unset;
+		min-height: unset;
+		max-height: unset;
+		max-width: unset;
+	}
 	.TwoDOverlay
 	{
 		width: 99%;

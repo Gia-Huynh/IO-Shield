@@ -28,7 +28,7 @@ function updateTextInput(val, ID) {
           document.getElementById(ID).value=val; 
         }
 let CropValueChange = false;
-function ModifyCropValue ()
+function ModifyCropValue () //Will be called by the slider (in html, lol).
 {
 	if (CropValueChange == false)
 	{

@@ -1,0 +1,1 @@
+export {STAGE_WIDTH, STAGE_HEIGHT, GRID_RES, DEFAULT_X, DEFAULT_Y} from '../konva_config.js';

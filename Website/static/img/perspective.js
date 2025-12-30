@@ -28,8 +28,8 @@ const applyButton = document.getElementById('apply');
 const setUpApplyButton = function () { 
     //console.log(cv)
 	const imageUsed = document.getElementById('sample').getAttribute('src');
-	console.log ("NIGGERNIGGERNIGGER");
-	console.log(imageUsed);
+	//console.log ("NIGGERNIGGERNIGGER");
+	//console.log(imageUsed);
     
     let pointsArray = []
     const children = document.querySelectorAll('#window_g .handle')
@@ -41,7 +41,7 @@ const setUpApplyButton = function () {
         pointsArray.push(point[0])
         pointsArray.push(point[1])
     })
-    console.log(pointsArray)
+    //console.log(pointsArray)
     utils.loadImageToCanvas(imageUsed, 'imageInit', document.querySelector('#background svg').getBoundingClientRect().width, document.querySelector('#background svg').getBoundingClientRect().height);
     setTimeout(()=>{
 		

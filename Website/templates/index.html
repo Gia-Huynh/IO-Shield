@@ -122,6 +122,38 @@
 							<button style = "background-color: cadetblue" onclick="submitOnly()" form="ImageForm" value="Like"> Submit ONLY </button>
 						</div>
 						<button onclick="submitWithParam()" form="ImageForm" class = "confirmButton" value="Like"> Submit with auto-parameter </button>
+				<div style = "margin: 5px">
+					<button id = "konva-load-image"> Load Image </button>
+					<button id = "konva-clear-canvas"> Clear Canvas </button>
+				</div>
+				<div style = "margin: 5px">
+					<button id = "add-ps2"> Add PS2 </button>
+					<button id = "add-usb"> Add USB </button>
+					<button id = "add-usb2x"> Add USBx2 </button>
+					<button id = "add-usbC"> Add USB Type C </button>
+				</div>
+				<div style = "margin: 5px">
+					<button id = "add-dp"> Add DisplayPort </button>
+					<button id = "add-hdmi"> Add Hdmi </button>
+					<button id = "add-dsub"> Add Dsub </button>
+					<button id = "add-dvi"> Add DVI</button>
+				</div>
+				<div style = "margin: 5px">
+					<button id = "add-ethernet"> Add Ethernet </button>
+					<button id = "add-wifi"> Add Wifi</button>
+					<button id = "add-audio-column"> Add Audio Column</button>
+					<button id = "add-audio-optic"> Add Audio Optic</button>
+					<div id="konva_container_container">
+						<div id="konva_container_qat">
+							<img id = "konva_background_image" src = ""> </img>
+							<div id="konva_container">
+							</div>
+						</div>
+					</div>
+					<script src="https://unpkg.com/konva@9/konva.min.js"></script>
+					<script type="module" src="./konva_entrypoint.js">
+					</script>
+				</div>
 					</div>
 				</div>
 					<div id = "confirmBox" class = "Part_3 Hidden">

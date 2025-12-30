@@ -1,13 +1,12 @@
 const attachCropBox = function (imgWidth,imgHeight, img_top, img_left) { 
-    
-    console.log('image loaded : ',imgWidth ,' ', imgHeight)
+    //console.log('image loaded : ',imgWidth ,' ', imgHeight)
     var margin = {top: 5, right: 5, bottom: 5, left: 5},
     width = imgWidth - margin.left - margin.right,
     height = imgHeight - margin.top - margin.bottom;
 
     var sourcePoints = [[0, 0], [width, 0], [width, height], [0, height]],
     targetPoints = [[0, 0], [width, 0], [width, height], [0, height]];
-
+	d3.select("#background").selectAll("svg").remove(); //Clear all old SVG
     var svg = d3.select("#background").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -116,20 +115,13 @@ const getOffsetRect = (el) =>
   return { left, top, right, bottom, x, y, width, height };
 };
 window.onload = function() {
-    
-    var img = new Image();
-    // img.crossOrigin = "anonymous";
-    img.src = "./B450M Pro4-F(L5).png";
 	var viewportOffset = getOffsetRect(document.getElementById("sample"));
 	// these are relative to the viewport
-	var img_top = viewportOffset.top;
-	var img_left = viewportOffset.left;
-    img.onload = function () {
-		console.log ("onload");
-        const imgWidth = viewportOffset.width;
-        const imgHeight = viewportOffset.height;
-        attachCropBox(imgWidth,imgHeight, img_top, img_left);
-    }	
+	//var img_top = viewportOffset.top;	var img_left = viewportOffset.left;	const imgWidth = viewportOffset.width;	const imgHeight = viewportOffset.height; attachCropBox(imgWidth,imgHeight, img_top, img_left);
+	attachCropBox(viewportOffset.width,viewportOffset.height, viewportOffset.top, viewportOffset.left);
 }
 
-
+document.getElementById("sample").addEventListener("load", () => {
+	var viewportOffset = getOffsetRect(document.getElementById("sample"));
+	attachCropBox(viewportOffset.width,viewportOffset.height, viewportOffset.top, viewportOffset.left);
+});
