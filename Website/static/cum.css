@@ -278,6 +278,7 @@ h1 {font-size:2.2em;}
 	}
 	#konva_container_qat{
 		margin: auto;
+		font-size: 0;
 	}
 	#konva_container{
 		/*padding: 1vh;

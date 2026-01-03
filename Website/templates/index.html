@@ -53,34 +53,34 @@
 							<div style = "width: 29.9%;">
 								<form id = "CropRotateForm">
 									<div style = "display: flex;"> 
-										<input class="inputNumber" name="CropLeftNum" id="CropLeftNum" onchange="updateTextInput(this.value, 'CropLeftRange');" type="number" min="0" max="2000" value="0"/>
+										<input class="inputNumber" name="CropLeftNum" id="CropLeftNum"  type="number" min="0" max="2000" value="0"/>
 										<p class = "left_text_box"> Left Cropping </p>
 									</div>
-									<input type="range" name="CropLeftRange" id="CropLeftRange" oninput="updateTextInput(this.value, 'CropLeftNum'); ModifyCropValue();" min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropLeftRange" id="CropLeftRange" min="0" max="2000" value="0" class="slider">
 									
 									
 									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropRightNum" id="CropRightNum" onchange="updateTextInput(this.value, 'CropRightRange');" type="number"  min="0" max="2000" value="0" />
+										<input class="inputNumber" name="CropRightNum" id="CropRightNum" type="number"  min="0" max="2000" value="0" />
 										<p class = "left_text_box"> Right Cropping </p>
 									</div>
-									<input type="range" name="CropRightRange" id="CropRightRange" oninput="updateTextInput(this.value, 'CropRightNum'); ModifyCropValue();"  min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropRightRange" id="CropRightRange" min="0" max="2000" value="0" class="slider">
 									
 									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropBotNum" id="CropBotNum" onchange="updateTextInput(this.value, 'CropBotRange');" type="number"  min="0" max="2000" value="0"/>
+										<input class="inputNumber" name="CropBotNum" id="CropBotNum" type="number"  min="0" max="2000" value="0"/>
 										<p class = "left_text_box"> Bottom Cropping </p>
 									</div>
-									<input type="range" name="CropBotRange" id="CropBotRange" oninput="updateTextInput(this.value, 'CropBotNum') ;ModifyCropValue();" min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropBotRange" id="CropBotRange" min="0" max="2000" value="0" class="slider">
 									
 									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropTopNum" id="CropTopNum" onchange="updateTextInput(this.value, 'CropTopRange');" type="number" min="0" max="2000" value="0"/>
+										<input class="inputNumber" name="CropTopNum" id="CropTopNum" type="number" min="0" max="2000" value="0"/>
 										<p class = "left_text_box"> Top Cropping </p>
 									</div>
-									<input type="range" name="CropTopRange" id="CropTopRange" oninput="updateTextInput(this.value, 'CropTopNum'); ModifyCropValue();" min="0" max="2000" value="0" class="slider">
+									<input type="range" name="CropTopRange" id="CropTopRange" min="0" max="2000" value="0" class="slider">
 								</form>
 							</div>
 							<div style = "width: 20%; display: grid;">
-								<button style = " margin: 1vh;" onclick = "rotateImage();"> Rotate Left 90 Degree <br> (Permanent) </button>
-								<button  style = " margin: 1vh;" onclick = "cropImage();"> Crop Image <br> (Non Permanent) </button>
+								<button style = " margin: 1vh;" id = "rotateImage"> Rotate Left 90 Degree <br> (Permanent) </button>
+								<button  style = " margin: 1vh;" id = "cropImage"> Crop Image <br> (Non Permanent) </button>
 								<canvas id="tempCanvas" style="display:none;"></canvas>
 							</div>
 						</div>
@@ -98,16 +98,13 @@
 					</div>
 					<div class="b_container">
 						<p> Perspective correction tool, skip this part if your image is corrected already </p>
-						<button id="apply" onclick="">Apply</button>
-						<button id="overlayingButton" onclick="overlayingImg()">Move img below to overlay</button>
+						<button id="apply">Apply</button>
+						<button id="overlayingButton">Move img below to overlay</button>
 					</div>
 					<link rel="stylesheet" href="./img/style.css">
 					<script src="./img/libs/qunit-2.0.1.js" type="text/javascript"></script>
-					<script src="./img/utils.js" type="text/javascript"></script>
-					<script src="./img/perspective.js" type="text/javascript"></script>
 					<script src="./img/libs/d3.v3.min.js"></script>
 					<script src="./img/libs/numeric-solve.min.js"></script>
-					<script src="./img/index.js"></script>
 				</div>
 					<div id = "Review_Image" class ="boxed Hidden">
 						<h2> Your uploaded image </h2>
@@ -119,41 +116,44 @@
 							<a id="downloadBtn" value="Like"> 
 								<button style = "background-color: purple;">  Download Image </button> 
 							</a> 
-							<button style = "background-color: cadetblue" onclick="submitOnly()" form="ImageForm" value="Like"> Submit ONLY </button>
+							<button style = "background-color: cadetblue" id="submitOnly" form="ImageForm" value="Like"> Submit ONLY </button>
 						</div>
-						<button onclick="submitWithParam()" form="ImageForm" class = "confirmButton" value="Like"> Submit with auto-parameter </button>
-				<div style = "margin: 5px">
-					<button id = "konva-load-image"> Load Image </button>
-					<button id = "konva-clear-canvas"> Clear Canvas </button>
-				</div>
-				<div style = "margin: 5px">
-					<button id = "add-ps2"> Add PS2 </button>
-					<button id = "add-usb"> Add USB </button>
-					<button id = "add-usb2x"> Add USBx2 </button>
-					<button id = "add-usbC"> Add USB Type C </button>
-				</div>
-				<div style = "margin: 5px">
-					<button id = "add-dp"> Add DisplayPort </button>
-					<button id = "add-hdmi"> Add Hdmi </button>
-					<button id = "add-dsub"> Add Dsub </button>
-					<button id = "add-dvi"> Add DVI</button>
-				</div>
-				<div style = "margin: 5px">
-					<button id = "add-ethernet"> Add Ethernet </button>
-					<button id = "add-wifi"> Add Wifi</button>
-					<button id = "add-audio-column"> Add Audio Column</button>
-					<button id = "add-audio-optic"> Add Audio Optic</button>
-					<div id="konva_container_container">
-						<div id="konva_container_qat">
-							<img id = "konva_background_image" src = ""> </img>
-							<div id="konva_container">
+						<button id="submitWithParam" form="ImageForm" class = "confirmButton" value="Like"> Submit with auto-parameter </button>
+						<div style = "margin: 5px">
+							<button id = "konva-load-image"> Load Image </button>
+							<button id = "konva-clear-canvas"> Clear Canvas </button>
+						</div>
+						<div style = "margin: 5px">
+							<button id = "add-ps2"> Add PS2 </button>
+							<button id = "add-usb"> Add USB </button>
+							<button id = "add-usb2x"> Add USBx2 </button>
+							<button id = "add-usbC"> Add USB Type C </button>
+						</div>
+						<div style = "margin: 5px">
+							<button id = "add-dp"> Add DisplayPort </button>
+							<button id = "add-hdmi"> Add Hdmi </button>
+							<button id = "add-dsub"> Add Dsub </button>
+							<button id = "add-dvi"> Add DVI</button>
+						</div>
+						<div style = "margin: 5px">
+							<button id = "add-ethernet"> Add Ethernet </button>
+							<button id = "add-wifi"> Add Wifi</button>
+							<button id = "add-audio-column"> Add Audio Column</button>
+							<button id = "add-audio-optic"> Add Audio Optic</button>
+							<div id="konva_container_container">
+								<div id="konva_container_qat">
+									<img id = "konva_background_image" src = ""> </img>
+									<div id="konva_container">
+									</div>
+								</div>
 							</div>
+							<script src="https://unpkg.com/konva@9/konva.min.js"></script>
+							<script type="module" src="./konva_entrypoint.js">
+							</script>
 						</div>
-					</div>
-					<script src="https://unpkg.com/konva@9/konva.min.js"></script>
-					<script type="module" src="./konva_entrypoint.js">
-					</script>
-				</div>
+						<div style = "margin: 5px">
+							<button id = "send-konva-img"> Send Konva Canvas </button>
+						</div>
 					</div>
 				</div>
 					<div id = "confirmBox" class = "Part_3 Hidden">
@@ -173,40 +173,33 @@
 									
 									<div style = "display: flex;"> 
 										<p class = "left_text_box"> Left padding: </p>
-										<input class="inputNumber" name="myNum" id="myNum" onchange="updateTextInput(this.value, 'myRange');" type="number" min="0" max="6000" value="15"/>
+										<input class="inputNumber" name="myNum" id="myNum" type="number" min="0" max="6000" value="15"/> 
 									</div>
-									<input style = "display:none;" type="range" name="myRange" id="myRange" onchange="updateTextInput(this.value, 'myNum');" min="0" max="6000" value="15" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Right padding: </p>
-										<input class="inputNumber" name="myNum2" id="myNum2"  onchange="updateTextInput(this.value, 'myRange2');" type="number"  min="0" max="6000" value="10" />
+										<input class="inputNumber" name="myNum2" id="myNum2"  type="number"  min="0" max="6000" value="10" />
 									</div>
-									<input style = "display:none;" type="range" name="myRange2" id="myRange2" onchange="updateTextInput(this.value, 'myNum2');"  min="0" max="6000" value="10" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Bottom padding: </p>
-										<input class="inputNumber" name="myNum3" id="myNum3" onchange="updateTextInput(this.value, 'myRange3');" type="number"  min="0" max="6000" value="5"/>
+										<input class="inputNumber" name="myNum3" id="myNum3" type="number"  min="0" max="6000" value="5"/>
 									</div>
-									<input style = "display:none;" type="range" name="myRange3" id="myRange3" onchange="updateTextInput(this.value, 'myNum3');" min="0" max="6000" value="5" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Top padding: </p>
-										<input class="inputNumber" name="myNum4" id="myNum4" onchange="updateTextInput(this.value, 'myRange4');" type="number"  min="0" max="6000" value="5"/>
+										<input class="inputNumber" name="myNum4" id="myNum4" type="number"  min="0" max="6000" value="5"/>
 									</div>
-									<input style = "display:none;" type="range" name="myRange4" id="myRange4" onchange="updateTextInput(this.value, 'myNum4');" min="0" max="6000" value="5" class="slider">
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Blurring: </p>
-										<input class="inputNumber" name="BlurRatio" id="BlurRatio" type="number" step="any" min="0" max="1" value="0.005"/>
+										<input class="inputNumber" name="BlurRatio" id="BlurRatio" type="number" step="any" min="0" max="1" value="0.003"/>
 									</div>
 									
 									<div style = "display: flex"> 
 										<p class = "left_text_box"> Erosion: </p>
-										<input class="inputNumber" name="ErosionNum" id="ErosionNum" onchange="updateTextInput(this.value, 'ErosionRange');" type="number" min="0" max="8" value="0"/>
+										<input class="inputNumber" name="ErosionNum" id="ErosionNum" type="number" min="0" max="8" value="0"/>
 									</div>
-									<input style = "display:none;" type="range" name="ErosionRange" id="ErosionRange" onchange="updateTextInput(this.value, 'ErosionNum');" min="0" max="8" value="0" class="slider">
-									
-									
 								</form>
 								<button type="submit" form="ImageForm2" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
 								</div>
@@ -243,7 +236,7 @@
 					<a href = "https://paypal.me/zahuynh6969" target="_blank">Paypal</a>
 					<a href = "https://steamcommunity.com/tradeoffer/new/?partner=243084914&token=Wd4eyX_8" target="_blank">Steam</a>
 					<a href = "https://me.momo.vn/vjIyu2T7TOFMtqsxURsb" target="_blank">Momo</a>
-					<a href = "#" onclick ="binanceNigga();return false;" target="_blank">Binance </a>
+					<a href = "#" onclick ="alert ('My binance user id: 21262360'); return false;" target="_blank">Binance </a>
 					<a href = "https://shopee.vn/thietgia3452002" target="_blank"> Shopee store page </a>
 				</div> 
 				</div>
@@ -265,7 +258,7 @@
 					<a href = "https://paypal.me/zahuynh6969" target="_blank">Paypal</a>
 					<a href = "https://steamcommunity.com/tradeoffer/new/?partner=243084914&token=Wd4eyX_8" target="_blank">Steam</a>
 					<a href = "https://me.momo.vn/vjIyu2T7TOFMtqsxURsb" target="_blank">Momo</a>
-					<a href = "#" onclick ="binanceNigga();return false;" target="_blank">Binance</a>					
+					<a href = "#" onclick ="alert ('My binance user id: 21262360'); return false;" target="_blank">Binance</a>					
 				</div> 
 			</div>
 			<div class = "RightHalf"> I can't place ad on this website lol. 
@@ -280,6 +273,9 @@
     </main>
 	<!--<script src="logic.js"></script>-->
 	<!--<script src="./static/logic.js"></script>-->
-	<script src="../static/logic.js"></script>
+	<!--script src="./img/utils.js" type="text/javascript"></script-->
+	<!--script src="./img/perspective.js" type="text/javascript"></script-->
+	<!--script src="./img/index.js"></script-->
+	<script type="module" src="../static/logic.js"></script>
   </body>
 </html>

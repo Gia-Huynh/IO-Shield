@@ -1,4 +1,4 @@
-function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
+export function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
     let self = this;
     this.errorOutput = document.getElementById(errorOutputId);
 

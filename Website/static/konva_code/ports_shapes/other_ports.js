@@ -32,11 +32,19 @@ export function Port_USB({
 	const body = new Konva.Rect({
 	  x: x,
 	  y: y,	  
-	  width: 120,	  height: 57,
+	  width: 115,	  height: 54,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	
 	  cornerRadius: 3
 	});
+	const center = new Konva.Rect({
+	  x: x+11,
+	  y: y+8,	  
+	  width: 93,	  height: 38,
+	  stroke: STROKE_COLOR,	  strokeWidth: 1,	
+	  cornerRadius: 3
+	});
 	shape.add(body);
+	shape.add(center);
 	
   return [shape];
 }
@@ -52,14 +60,14 @@ export function Port_USB_2x({
 	const body = new Konva.Rect({
 	  x: x,
 	  y: y,	  
-	  width: 120,	  height: 57,
+	  width: 115,	  height: 54,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	
 	  cornerRadius: 3
 	});
 	const body2 = new Konva.Rect({
 	  x: x,
-	  y: y+57+10,	  
-	  width: 120,	  height: 57,
+	  y: y+54+9,	  
+	  width: 115,	  height: 54,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	
 	  cornerRadius: 3
 	});
@@ -80,7 +88,7 @@ export function Port_USB_TypeC({
 	const body = new Konva.Rect({
 	  x: x,
 	  y: y,	  
-	  width: 90,	  height: 40,
+	  width: 90,	  height: 42,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	
 	  cornerRadius: 10
 	});

@@ -9,25 +9,25 @@ export function Port_Ethernet({
 	});
 	// main rectangle
 	const body = new Konva.Rect({
-	  x: x+15,     // attached to right side
+	  x: x+12,     // attached to right side
 	  y: y,	  
-	  width: 108,	  height: 100,
+	  width: 116,	  height: 94,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	cornerRadius: 0
 	});
 	// bulge
 	const Right_bulge = new Konva.Rect({
-	  x: x+123,     // attached to right side
+	  x: x+(116+12),     // attached to right side
 	  y: y+0,
-	  width: 15,
-	  height: 36,
+	  width: 12,
+	  height: 33,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
 	  cornerRadius: 1
 	});
 	const Left_bulge = new Konva.Rect({
 	  x: x,     // attached to right side
 	  y: y+0,
-	  width: 15,
-	  height: 36,
+	  width: 12,
+	  height: 33,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
 	  cornerRadius: 1
 	});

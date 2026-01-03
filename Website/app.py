@@ -77,6 +77,20 @@ def upload_adjust():
 		)
 	return send_file( tempPath + str(os.getpid()) + 'twoDimFile.png')
 
+@app.route('/upload_png', methods=['POST'])
+def upload_png():
+    if request.content_type != 'image/png':
+        return 'Invalid content type', 400
+    data = request.data  # raw bytes
+    if not data:
+        return 'No image data', 400
+    #path = f"{tempPath}{os.getpid()}_uploaded.png"
+    with open(tempPath + str(os.getpid()) + 'uploaded.gay', 'wb') as f:
+        f.write(data)
+    spacing = cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
+    response = send_file(tempPath + str(os.getpid()) + 'twoDimFile.png', mimetype='image/png')
+    response.headers["Spacing"] = json.dumps(spacing)
+    return response
 
 @app.route('/convert', methods=['GET', 'POST'])
 def convert_file():
@@ -84,7 +98,10 @@ def convert_file():
 	f = open(tempPath + str(os.getpid()) + 'uploaded.png', "wb")
 	f.write(file)
 	f.close()
-	cleaned_code.singleImage3DStl (tempPath + str(os.getpid()) + 'uploaded.png', tempPath + str(os.getpid()) + 'threeDimFile.stl', betterPrecision = betterPrecision, thickness = thickness)
+	cleaned_code.singleImage3DStl (tempPath + str(os.getpid()) + 'uploaded.png',
+                                       tempPath + str(os.getpid()) + 'threeDimFile.stl',
+                                       betterPrecision = betterPrecision,
+                                       thickness = thickness)
 	return send_file(tempPath + str(os.getpid()) + 'threeDimFile.stl', as_attachment=True, download_name="3D_Model.stl")
 
 with app.test_request_context():

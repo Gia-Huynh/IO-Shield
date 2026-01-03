@@ -2,6 +2,7 @@ import {Port_HDMI, Port_DP, Port_DSub, Port_DVI} from './konva_code/ports_shapes
 import {Port_Audio_Column, Port_Audio_Optic} from './konva_code/ports_shapes/audio_ports.js';
 import {Port_PS2, Port_USB, Port_USB_2x, Port_USB_TypeC} from './konva_code/ports_shapes/other_ports.js';
 import {Port_Ethernet} from './konva_code/ports_shapes/ethernet_wifi_ports.js';
+import {updateTextInput} from './tiny_util_functions.js'
 
 import {addPort, get_transform_node, 
 		right_click_remove_shape, left_click_show_transformer} 
@@ -85,6 +86,57 @@ function Konva_canvas_load_image (clear_canvas = false)
 	}
 	document.getElementById("konva_background_image").src = document.getElementById("blah").src;
 };
+export function getKonvaCanvas ()
+{
+	//simply return dataURL of KonvaCanvas:
+	return stage.toDataURL({ 
+									mimeType: 'image/png',
+									backgroundColor: 'white',
+									pixelRatio: 1,
+									});
+}
+async function submitKonvasCanvas ()
+{ //Vấn đề lớn nhất của hàm này là chỉ có 1-2 dòng đầu là quan trọng liên quan tới Konva, 
+  //còn lại là API Post và messing around with images, không liên quan konva, need to move this back to logic.js or similar.
+	const dataURL = stage.toDataURL({ 
+									mimeType: 'image/png',
+									backgroundColor: 'white',
+									pixelRatio: 1,
+									});
+	//const blob = await (await fetch(dataURL)).blob();
+	const blob = await (await fetch(dataURL)).blob();
+	fetch('/upload_png', {
+	  method: 'POST',
+	  headers: {
+		'Content-Type': 'image/png'
+	  },
+	  body: blob
+	}).then((response) => 
+			{
+				if (!response.ok) 
+				{
+				  throw new Error("HTTP error: ${response.status}");
+				}
+				let spacingData = JSON.parse(response.headers.get("Spacing")); // Extract metadata
+				//console.log("Spacing Data: ", spacingData);
+				updateTextInput(spacingData.left, 'myNum');
+				updateTextInput(spacingData.right, 'myNum2');
+				updateTextInput(spacingData.bottom, 'myNum3');
+				updateTextInput(spacingData.top, 'myNum4');
+				return response.blob();
+			})
+		  .then((blob) => 
+			{
+				//changeImage (blob); 
+				//document.getElementById("ImageForm2").requestSubmit();
+				document.getElementById("confirmBox").classList.remove("Hidden");
+				setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
+				elmntToView.scrollIntoView({ behavior: "smooth"});},1000);
+			});
+}
+//document.getElementById('send-konva-img').onclick = () => {
+//	submitKonvasCanvas();
+//};
 document.getElementById('konva-load-image').onclick = () => {
 	Konva_canvas_load_image ();
 };

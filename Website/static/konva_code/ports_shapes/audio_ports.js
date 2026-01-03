@@ -11,11 +11,18 @@ export function Port_Audio_Column({
 	const body = new Konva.Rect({
 	  x: x,
 	  y: y,	  
-	  width: 83,	  height: 265,
+	  width: 76,	  height: 260,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	
 	  cornerRadius: 13
 	});
+	const center = new Konva.Rect({
+	  x: x+(76/2 | 0), //integer division
+	  y: y,	  
+	  width: 1,	  height: 260,
+	  stroke: STROKE_COLOR,	  strokeWidth: 1,	
+	});
 	shape.add(body);
+	shape.add(center);
 	
   return [shape];
 }

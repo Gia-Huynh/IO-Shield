@@ -1,4 +1,4 @@
-const attachCropBox = function (imgWidth,imgHeight, img_top, img_left) { 
+const attachPerspectiveBox = function (imgWidth,imgHeight, img_top, img_left) {
     //console.log('image loaded : ',imgWidth ,' ', imgHeight)
     var margin = {top: 5, right: 5, bottom: 5, left: 5},
     width = imgWidth - margin.left - margin.right,
@@ -114,14 +114,10 @@ const getOffsetRect = (el) =>
 
   return { left, top, right, bottom, x, y, width, height };
 };
-window.onload = function() {
-	var viewportOffset = getOffsetRect(document.getElementById("sample"));
-	// these are relative to the viewport
-	//var img_top = viewportOffset.top;	var img_left = viewportOffset.left;	const imgWidth = viewportOffset.width;	const imgHeight = viewportOffset.height; attachCropBox(imgWidth,imgHeight, img_top, img_left);
-	attachCropBox(viewportOffset.width,viewportOffset.height, viewportOffset.top, viewportOffset.left);
-}
 
-document.getElementById("sample").addEventListener("load", () => {
+export function SetUpPerspectiveBox ()
+{
 	var viewportOffset = getOffsetRect(document.getElementById("sample"));
-	attachCropBox(viewportOffset.width,viewportOffset.height, viewportOffset.top, viewportOffset.left);
-});
+	attachPerspectiveBox(viewportOffset.width,viewportOffset.height, viewportOffset.top, viewportOffset.left);
+	
+}

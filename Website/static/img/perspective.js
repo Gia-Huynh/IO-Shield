@@ -1,42 +1,29 @@
-function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[arr.length - 1]), 
-        n = bstr.length, 
-        u8arr = new Uint8Array(n);
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, {type:mime});
-}
-    function DataURIToBlob(dataURI) {
-        const splitDataURI = dataURI.split(',')
-        const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
-        const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+/*
+function DataURIToBlob(dataURI) {
+	const splitDataURI = dataURI.split(',')
+	const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+	const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
 
-        const ia = new Uint8Array(byteString.length)
-        for (let i = 0; i < byteString.length; i++)
-            ia[i] = byteString.charCodeAt(i)
+	const ia = new Uint8Array(byteString.length)
+	for (let i = 0; i < byteString.length; i++)
+		ia[i] = byteString.charCodeAt(i)
 
-        return new Blob([ia], { type: mimeString })
-      }
+	return new Blob([ia], { type: mimeString })
+}*/
 
 
 
-const utils = new Utils('errorMessage');
-const applyButton = document.getElementById('apply');
-const setUpApplyButton = function () { 
-    //console.log(cv)
+
+export function setUpApplyButton (utils) 
+{  //Setup cai perspective correction algorithm
+	console.log ("setUpApplyButton called");
 	const imageUsed = document.getElementById('sample').getAttribute('src');
-	//console.log ("NIGGERNIGGERNIGGER");
-	//console.log(imageUsed);
-    
     let pointsArray = []
     const children = document.querySelectorAll('#window_g .handle')
-    console.log(children)
-    children.forEach(e =>{
+    //console.log(children)
+    children.forEach(e => {
         const pos = e.getAttribute('transform');
-        console.dir(pos)
+        //console.dir(pos)
         const point = pos.replace('translate(','').replace(')','').split(',')
         pointsArray.push(point[0])
         pointsArray.push(point[1])
@@ -87,10 +74,3 @@ const setUpApplyButton = function () {
     },1000)
     CropTopNum.scrollIntoView({ behavior: 'smooth', block: 'start'});
 }
-applyButton.setAttribute('disabled','true')
-applyButton.onclick = setUpApplyButton
-utils.loadOpenCv(() => {
-    setTimeout(function () { 
-        applyButton.removeAttribute('disabled');
-    },500)
-});

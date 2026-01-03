@@ -1,15 +1,16 @@
+import {setUpApplyButton} from './img/perspective.js'
+import {Utils} from './img/utils.js'
+import {SetUpPerspectiveBox} from './img/index.js'
+import {updateTextInput, dataURLtoFile} from './tiny_util_functions.js'
+import {getKonvaCanvas} from './konva_entrypoint.js'
 //Hide ad when clicked
-var ad_list = document.querySelectorAll('.advertisement');
+/*var ad_list = document.querySelectorAll('.advertisement');
 var ad_list_arr = [...ad_list];
 ad_list_arr.forEach(i => {
 	i.onclick = function() {
-	  //this.style.visibility = 'hidden';
+	  this.style.visibility = 'hidden';
 	};
-});
-function binanceNigga()
-{
-	alert ("My binance user id: 21262360");
-}
+});*/
 //for everyone else
 document.addEventListener("DOMContentLoaded", function () {
   document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
@@ -17,16 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
  }, false);
 
 //Overlaying the uploaded/calculated img.
-function overlayingImg ()
-{
-	overlayImg.src = document.getElementById("imageResult").toDataURL();
-}
+//function overlayingImg ()
+//{
+//	overlayImg.src = document.getElementById("imageResult").toDataURL();
+//}
 
-//Update range/slider input value
-//https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
-function updateTextInput(val, ID) {
-          document.getElementById(ID).value=val; 
-        }
 let CropValueChange = false;
 function ModifyCropValue () //Will be called by the slider (in html, lol).
 {
@@ -297,7 +293,7 @@ function disableLastButton(){
 function generateFilePostfix(){
 	var filename = document.getElementById('InputBox').files[0].name;
 	const myForm2 = document.forms['ImageForm2'];
-	var FilePostfix = "" + filename.replace(/\.[^/.]+$/, "") + " [" + myForm2["myNum"].value + '-' + myForm2["myNum2"].value + '-' + myForm2["myNum3"].value + '-' + myForm2["myNum4"].value + "].stl";
+	var FilePostfix = "" + filename.replace(/\.[^/.]+$/, "").replace(" - Copy", "") + " [" + myForm2["myNum"].value + '-' + myForm2["myNum2"].value + '-' + myForm2["myNum3"].value + '-' + myForm2["myNum4"].value + "].stl";
 	console.log (FilePostfix);
 	document.getElementById('PostFixTextBox').value = FilePostfix;
 }
@@ -316,3 +312,112 @@ document.querySelector("#LastButton").addEventListener("click", function(e){
 					window.location.assign(file);
 					});
 });
+
+const utils = new Utils('errorMessage');
+window.onload = function() {
+	SetUpPerspectiveBox ();
+	const applyButton = document.getElementById('apply');
+	applyButton.setAttribute('disabled','true');
+	applyButton.onclick = () => setUpApplyButton(utils);
+	console.log ("Apply Button assigned but disabled");
+}
+
+document.getElementById("sample").addEventListener("load", () => {
+	SetUpPerspectiveBox ();
+});
+
+utils.loadOpenCv(() => {
+    setTimeout(function () { 
+        document.getElementById('apply').removeAttribute('disabled');
+		console.log ("Apply Button enabled");
+    },500)
+});
+
+//Bind functions to buttons.
+document.getElementById('submitWithParam').onclick = () => {
+  submitWithParam();
+};
+document.getElementById('submitOnly').onclick = () => {
+  submitOnly();
+};
+document.getElementById('overlayingButton').onclick = () => {
+  overlayImg.src = document.getElementById("imageResult").toDataURL();
+};
+document.getElementById('rotateImage').onclick = () => {
+  rotateImage();
+};
+document.getElementById('cropImage').onclick = () => {
+  cropImage();
+};
+document.getElementById('CropLeftNum').onchange = (e) => {
+  updateTextInput(e.target.value, 'CropLeftRange');
+};
+document.getElementById('CropLeftRange').oninput = (e) => {
+  updateTextInput(e.target.value, 'CropLeftNum'); 
+  ModifyCropValue();
+};
+document.getElementById('CropRightNum').onchange = (e) => {
+  updateTextInput(e.target.value, 'CropRightRange');
+};
+document.getElementById('CropRightRange').oninput = (e) => {
+  updateTextInput(e.target.value, 'CropRightNum'); 
+  ModifyCropValue();
+};
+document.getElementById('CropBotNum').onchange = (e) => {
+  updateTextInput(e.target.value, 'CropBotRange');
+};
+document.getElementById('CropBotRange').oninput = (e) => {
+  updateTextInput(e.target.value, 'CropBotNum'); 
+  ModifyCropValue();
+};
+document.getElementById('CropTopNum').onchange = (e) => {
+  updateTextInput(e.target.value, 'CropTopRange');
+};
+document.getElementById('CropTopRange').oninput = (e) => {
+  updateTextInput(e.target.value, 'CropTopNum'); 
+  ModifyCropValue();
+};
+
+
+
+async function submitKonvasCanvas ()
+{ 	const dataURL = getKonvaCanvas();
+	const blob = await (await fetch(dataURL)).blob();
+	fetch('/upload_png', {
+	  method: 'POST',
+	  headers: {
+		'Content-Type': 'image/png'
+	  },
+	  body: blob
+	}).then((response) => 
+			{
+				if (!response.ok) 
+				{
+				  throw new Error("HTTP error: ${response.status}");
+				}
+				let spacingData = JSON.parse(response.headers.get("Spacing")); // Extract metadata
+				//console.log("Spacing Data: ", spacingData);
+				updateTextInput(spacingData.left, 'myNum');
+				updateTextInput(spacingData.right, 'myNum2');
+				updateTextInput(spacingData.bottom, 'myNum3');
+				updateTextInput(spacingData.top, 'myNum4');
+				
+				let temp_file_list = new DataTransfer();
+				temp_file_list.items.add(dataURLtoFile (dataURL, 'nigger.png'));
+				document.getElementById("InputBox").files = temp_file_list.files;
+				document.getElementById("InputBox2").files = temp_file_list.files;
+
+				return response.blob();
+			})
+		  .then((blob) => 
+			{
+				changeImage (blob); 
+				document.getElementById("ImageForm2").requestSubmit();
+				document.getElementById("confirmBox").classList.remove("Hidden");
+				setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
+				elmntToView.scrollIntoView({ behavior: "smooth"});},1000);
+			});
+}
+document.getElementById('send-konva-img').onclick = () => {
+	submitKonvasCanvas();
+};
