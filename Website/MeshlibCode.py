@@ -6,15 +6,24 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 2):
 	# compute the triangulation inside the contour
 	dm = mr.loadDistanceMapFromImage(os.path.abspath(InputPath), 0)
 	polyline2 = mr.distanceMapTo2DIsoPolyline(dm, isoValue=10)
-	nigger = mr.HolesVertIds ()
-	IO_Shield_Mesh = mr.triangulateContours(polyline2.contours2(nigger))
+	#nigger = mr.HolesVertIds ()
+	print ("Num contours: ",len(polyline2.contours()))
+	t = mr.DecimatePolylineSettings_Vector2f ()
+	t.maxError = 1.0
+	t.maxEdgeLen = 999999 #Unlimited
+	t.maxDeletedVertices = 999999 #Unlimited
+	t.stabilizer = 0.2
+	t.optimizeVertexPos = True
+	for i in range (len(polyline2.contours())):
+		print ("Before decimating: ", len(polyline2.contours()[i]))
+		a = mr.decimateContour(polyline2.contours()[i], t)
+		print ("After decimating: ", len(polyline2.contours()[i]))
+	#tt = mr.std_vector_std_vector_Id_VertTag (0)
+	contour_list = polyline2.contours() #	std_vector_std_vector_Vector2_double
+	IO_Shield_Mesh = mr.PlanarTriangulation.triangulateContours(contour_list)
 	#if (betterPrecision == 1):
                 #mr.subdivideMesh(IO_Shield_Mesh)
-	IO_Shield_Mesh = mr.mergeCoplanarFaces(
-            IO_Shield_Mesh,
-            angle=1e-5,          # max angle (radians) between face normals
-            area=0.0             # optional: ignore tiny faces threshold
-        )
+	
 	#Thicken + resize
 	test_matrix = mr.Matrix3f()
 	#test_matrix.x = mr.Vector3f(0.11325,0,0) #working
@@ -45,30 +54,31 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 2):
 	test_matrix.x = mr.Vector3f(0.11373509856,0,0) #length-wise, chiều dài
 	test_matrix.y = mr.Vector3f(0,0.1125,0) #width-wise, chiều ngắn
 	test_matrix.z = mr.Vector3f(0,0,0.1) #height-wise, chiều cao
-	offset_matrix = mr.Vector3f(0.58714129921,2,thickness) # Lố qua phải 0.334
-	offset_matrix = mr.Vector3f(-0.33385870079,2,thickness) # Lố qua trái 0.587
 	offset_matrix = mr.Vector3f(0.25315,2,thickness) # 
 	
 	# https://doc.meshinspector.com/classAffineXf3f.html
 	# AffineXf3f: affine transformation: y = A*x + b, where A in VxV, and b in V
 	scale = mr.AffineXf3f()
 	scale.A = test_matrix
-	scale.b =  offset_matrix 
+	scale.b = offset_matrix 
 	
 	IO_Shield_Mesh.transform (scale)
-	mr.addBaseToPlanarMesh(IO_Shield_Mesh, zOffset=thickness)
+	mr.addBaseToPlanarMesh(IO_Shield_Mesh, zOffset=-thickness)
 
 	if (betterPrecision == 0):
 		#Comment out this part for a slower but more precise model
 		testRelaxParam = mr.MeshRelaxParams()
 		testRelaxParam.force = 0.01
-		testRelaxParam.iterations = 10
+		testRelaxParam.iterations = 4
 		mr.relax (IO_Shield_Mesh, testRelaxParam)
 
+	mr.saveMesh(IO_Shield_Mesh, os.path.abspath("FlatModel.stl"))
 	#Union is slow AF
 	emptyIO = mr.loadMesh(os.path.abspath("GayModel.stl"))
 	meshNigga = mr.boolean(IO_Shield_Mesh, emptyIO, mr.BooleanOperation.Union)
 	mr.saveMesh(meshNigga.mesh, os.path.abspath(OutputPath))
+	meshNigga = mr.boolean(IO_Shield_Mesh, emptyIO, mr.BooleanOperation.Intersection)
+	mr.saveMesh(meshNigga.mesh, os.path.abspath("Intersection.stl"))
 	return None
 if __name__ == "__main__":
-    generate2DIO ("twoDimFile.png", "test.stl", 1)
+    generate2DIO ("20552uploaded.png", "test.stl", betterPrecision = 1)
