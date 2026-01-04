@@ -6,23 +6,17 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 2):
 	# compute the triangulation inside the contour
 	dm = mr.loadDistanceMapFromImage(os.path.abspath(InputPath), 0)
 	polyline2 = mr.distanceMapTo2DIsoPolyline(dm, isoValue=10)
-	#nigger = mr.HolesVertIds ()
-	print ("Num contours: ",len(polyline2.contours()))
+
 	t = mr.DecimatePolylineSettings_Vector2f ()
-	t.maxError = 1.0
+	t.maxError = 3.0
 	t.maxEdgeLen = 999999 #Unlimited
 	t.maxDeletedVertices = 999999 #Unlimited
-	t.stabilizer = 0.2
+	t.stabilizer = 0.1
 	t.optimizeVertexPos = True
-	for i in range (len(polyline2.contours())):
-		print ("Before decimating: ", len(polyline2.contours()[i]))
-		a = mr.decimateContour(polyline2.contours()[i], t)
-		print ("After decimating: ", len(polyline2.contours()[i]))
-	#tt = mr.std_vector_std_vector_Id_VertTag (0)
+	a = mr.decimatePolyline(polyline2, t)
+	
 	contour_list = polyline2.contours() #	std_vector_std_vector_Vector2_double
 	IO_Shield_Mesh = mr.PlanarTriangulation.triangulateContours(contour_list)
-	#if (betterPrecision == 1):
-                #mr.subdivideMesh(IO_Shield_Mesh)
 	
 	#Thicken + resize
 	test_matrix = mr.Matrix3f()
@@ -72,13 +66,10 @@ def generate2DIO (InputPath, OutputPath, betterPrecision = 0, thickness = 2):
 		testRelaxParam.iterations = 4
 		mr.relax (IO_Shield_Mesh, testRelaxParam)
 
-	mr.saveMesh(IO_Shield_Mesh, os.path.abspath("FlatModel.stl"))
 	#Union is slow AF
 	emptyIO = mr.loadMesh(os.path.abspath("GayModel.stl"))
 	meshNigga = mr.boolean(IO_Shield_Mesh, emptyIO, mr.BooleanOperation.Union)
 	mr.saveMesh(meshNigga.mesh, os.path.abspath(OutputPath))
-	meshNigga = mr.boolean(IO_Shield_Mesh, emptyIO, mr.BooleanOperation.Intersection)
-	mr.saveMesh(meshNigga.mesh, os.path.abspath("Intersection.stl"))
 	return None
 if __name__ == "__main__":
     generate2DIO ("20552uploaded.png", "test.stl", betterPrecision = 1)
