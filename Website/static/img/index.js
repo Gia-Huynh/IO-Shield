@@ -5,7 +5,7 @@ const attachPerspectiveBox = function (imgWidth,imgHeight, img_top, img_left) {
     height = imgHeight - margin.top - margin.bottom;
 
     var sourcePoints = [[0, 0], [width, 0], [width, height], [0, height]],
-    targetPoints = [[0, 0], [width, 0], [width, height], [0, height]];
+    targetPoints = [[10, 10], [width, 10], [width, height], [10, height]];
 	d3.select("#background").selectAll("svg").remove(); //Clear all old SVG
     var svg = d3.select("#background").append("svg")
     .attr("width", width + margin.left + margin.right)
