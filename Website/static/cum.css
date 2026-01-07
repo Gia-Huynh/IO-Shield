@@ -305,7 +305,7 @@ h1 {font-size:2.2em;}
 	{
 		width: 99%;
 		padding: none;
-		height: 23vh;
+		height: 30vh;
 	}
 	.Part_3
 	{
@@ -329,7 +329,7 @@ h1 {font-size:2.2em;}
 		padding: 1vh;
 		object-fit: fill;
 		min-height: 4vh;
-		height: 23vh;
+		height: 30vh;
 		width: 50%;
 		-webkit-box-shadow:inset 0px 0px 10px 2px #333;
 		-moz-box-shadow:inset 0px 0px 10px 2px #333;

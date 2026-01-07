@@ -1,7 +1,7 @@
 import glob, os, re
 import shutil
 import os
-from sex import render_stl_screenshot
+from ImgRender import render_stl_screenshot
 STL_Folder_Path = "./Maybe Not Posted File"
 result_img_path = "./ResultImg"
 for file in glob.glob (os.path.join(STL_Folder_Path, "*.stl")):
