@@ -43,15 +43,15 @@
 						<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
 					</form>
 				</div>
-				<div id = "AdjustmentBox" class = "Part_2">
+				<div id = "CroppingBox" class = "Section_ImageCropping General_Section">
 					<!--div class="container">
 						<div id="background" class="o_image">
 							<img id="image_uploaded_cropping" src="./B450M Pro4-F(L5).png" alt="B450M Pro4-F(L5).png" />
 						</div>
 					</div-->
-					<div class ="boxed"  style = "display: flex">
+					<div id="Cropping-Parameter" class ="boxed" style = "display: flex">
 						<div style = "width: 25%; margin-top: auto; padding-right: 3vw;">
-							<h3> Example image </h3>
+							<h3> Example image format </h3>
 							<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
 						</div>
 						<div style = "width: 29.9%;">
@@ -88,7 +88,8 @@
 							<canvas id="tempCanvas" style="display:none;"></canvas>
 						</div>
 					</div>
-				<div class = "Part_3">
+				</div>
+				<div id="PerspectiveCorrectionBox" class = "General_Section">
 					<div class="container">
 						<div id="background" class="o_image">
 							<img id="image_uploaded_cropping" src="./B450M Pro4-F(L5).png" alt="B450M Pro4-F(L5).png" />
@@ -109,8 +110,9 @@
 					<script src="./img/libs/d3.v3.min.js"></script>
 					<script src="./img/libs/numeric-solve.min.js"></script>
 				</div>
+				<div class = "General_Section">
 					<div id = "Review_Image" class ="boxed Hidden">
-						<h2> Your uploaded image </h2>
+						<h2> Cropped and Perspective-Corrected Image </h2>
 						<img id="image_cropped_perspectiveCorrected" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<p> Right-click the image and click "save image as..." to save it down. <br> Use paint to draw white boxes on image to denote io-shield blocking zone
 						</p> 
@@ -159,8 +161,8 @@
 						</div>
 					</div>
 				</div>
-					<div id = "confirmBox" class = "Part_3 Hidden">
-				<div class ="boxed">
+				<div id = "confirmBox" class = "Part_3 General_Section Hidden">
+					<div class ="boxed ">
 						<h1> Confirm & Re-adjust image
 								<br></h1>
 						<div class = "TwoDOverlay">

@@ -6,13 +6,14 @@ body{
     display: flex;
 	flex-flow: column;
 	align-items: center;
-      justify-content: space-between;
+    text-align: center;
+	
 	margin: 0;
 	padding: 0;
 	width: 100%;
 	height: 100%;
-    text-align: center;
 	object-fit: contain;
+    justify-content: space-between;
 }
 .container .o_image{
 	width: auto;

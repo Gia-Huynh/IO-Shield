@@ -209,23 +209,21 @@ h1 {font-size:2.2em;}
 	{
 		font-size: 5vh;
 	}
-	.Part_2
-	{
+	.General_Section {
 		display:flex;
 		flex-flow: column;
-		min-height: 30vh;
-		width:100%;
+		justify-content: center;
+		align-items: center;
 		text-align:center;
-    justify-content: center;
-		font-size: 1.5em;
-    align-items: center;
-	padding-top: 3vh;
+		width:100%;
+		font-size: 1.5em;		
 	}
-	/*.Part_2 *
+	.Section_ImageCropping
 	{
-		padding: 0.0vh;
-	}*/
-	.Part_2 .boxed img
+		min-height: 30vh;
+		padding-top: 3vh;
+	}
+	.Section_ImageCropping .boxed img
 	{
 		padding: 1vh;
 		object-fit: fill;
@@ -236,7 +234,7 @@ h1 {font-size:2.2em;}
 		max-width: 90%;
 		height: auto;
 	}
-	.Part_2 p 
+	.Section_ImageCropping p 
 	{
 		width: auto;
 		padding-left:15%;
@@ -297,17 +295,6 @@ h1 {font-size:2.2em;}
 		width: 99%;
 		padding: none;
 		height: 30vh;
-	}
-	.Part_3
-	{
-		display:flex;
-		flex-flow: column;
-		min-height: 20vh;
-		width:100%;
-		text-align:center;
-		justify-content: center;
-		font-size: 1em;
-		align-items: center;
 	}
 	.Part_3_flex_bot *
 	{
