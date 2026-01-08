@@ -103,7 +103,12 @@ async function submitKonvasCanvas ()
 									backgroundColor: 'white',
 									pixelRatio: 1,
 									});
-	//const blob = await (await fetch(dataURL)).blob();
+	
+	const a = document.createElement('a');
+	a.href = dataURL;
+	a.download = 'aaaaaaaaaaa - Copy.png';
+	a.click();
+  
 	const blob = await (await fetch(dataURL)).blob();
 	fetch('/upload_png', {
 	  method: 'POST',

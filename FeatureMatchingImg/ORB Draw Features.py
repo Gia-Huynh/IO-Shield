@@ -1,6 +1,17 @@
 import numpy as np
 import cv2 as cv, cv2
 from matplotlib import pyplot as plt
+import os
+
+port_id_dict = {"ethernet":     1, 1:"ethernet",
+                "usb":  2, 2:"usb",
+                "audio":3, 3:"audio",
+                "2usb": 4, 4:"2usb",
+                "ps2-wifi":     6, 6:"ps2-wifi",
+                "displayport":  5, 5:"displayport",
+                "dvi":7, 7:"dvi",
+                "com":8, 8:"com",
+                }
 
 def getConnectedWithStat (inp_img):
     num_labels, labels, stats, centroids = cv.connectedComponentsWithStats(
@@ -55,15 +66,6 @@ def cleaningConnectedCompoents(inp_img):
     keep_mask_closed = cv.morphologyEx(keep_mask, cv.MORPH_CLOSE, kernel, iterations=1)
     return keep_mask_closed
 
-port_id_dict = {"ethernet":     1, 1:"ethernet",
-                "usb":  2, 2:"usb",
-                "audio":3, 3:"audio",
-                "2usb": 4, 4:"2usb",
-                "ps2-wifi":     6, 6:"ps2-wifi",
-                "displayport":  5, 5:"displayport",
-                "dvi":7, 7:"dvi",
-                "com":8, 8:"com",
-                }
 def port_detect_heuristic (SingleConnectedComponent):
     x, y, w, h = SingleConnectedComponent["bbox"]
     area = SingleConnectedComponent["area"]
@@ -110,10 +112,14 @@ def textOverlayOnImage (img, text_string, x, y):
     return img
 
 def show_Canny (img_path):
+    #Output:
+    #   - result_list_port_position with format: list(dict{"port_id": int, "centroid": list of 2 int})
+    #  result_text_overlayed_img, result_mask, both are binary image of size (1100, 310)
     img = cv.imread(img_path, cv.IMREAD_GRAYSCALE) #CLAHE Applicable
     img = cv2.resize (img, (1100, 310))
+
+    #Canny edge detection, then morphology close, then invert it, then OPEN it up, then adding a border of size 1 around (to get connected components later on).
     edges = cv.Canny(cv.blur(img, (11, 11)), 40, 120)
-    
     kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7)) #(cv.MORPH_RECT, (5, 5))
     closed = cv.morphologyEx(edges, cv.MORPH_CLOSE, kernel, iterations=2) #THINNING_ZHANGSUEN possible
     closed_invert = np.max(closed) - closed
@@ -121,45 +127,46 @@ def show_Canny (img_path):
     closed_invert = cv.morphologyEx(closed_invert, cv.MORPH_OPEN, kernel, iterations=1)
     closed_invert = cv2.copyMakeBorder(closed_invert,1,1,1,1,cv2.BORDER_CONSTANT,value=255)
 
-
+    #Get connected components, then clean it, repeat until the ConnectedWithStat result does not change anymore.
     old_components_sorted, old_areas_sorted = None, None
     display_img_list = []
-    keep_mask_closed = np.copy(closed_invert)
-    while True:
-        keep_mask_closed = cleaningConnectedCompoents (keep_mask_closed.astype (np.uint8))
-        components_sorted, areas_sorted = getConnectedWithStat (keep_mask_closed.astype (np.uint8))
+    result_mask = np.copy(closed_invert)
+    while len(display_img_list) < 3: #Run at most 3 times, else wtf is wrong?
+        result_mask = cleaningConnectedCompoents (result_mask.astype (np.uint8))
+        components_sorted, areas_sorted = getConnectedWithStat (result_mask.astype (np.uint8))
         if (old_areas_sorted is None) or (areas_sorted != old_areas_sorted):
             old_areas_sorted = areas_sorted
-            display_img_list.append (keep_mask_closed)
+            display_img_list.append (result_mask)
         else:
             break
     del old_components_sorted, old_areas_sorted
 
-    list_port_position = []
-    text_overlayed_img = np.copy(keep_mask_closed)
+    #Got final connected components with the assumption that they are disconnected and resembling ports
+    result_list_port_position = []
+    result_text_overlayed_img = np.copy(result_mask)
     for component in components_sorted:
-        port_id = port_detect_heuristic (component)
+        port_id = port_detect_heuristic (component) #Port determination
         if (port_id is None):
             continue
-        text_overlayed_img = textOverlayOnImage (text_overlayed_img, port_id_dict[port_id], component["bbox"][0], component["bbox"][1])
-        list_port_position.append ({"port_id": port_id, "centroid": component["centroid"]})
-  
-    img = np.vstack((img, edges, closed, closed_invert[1:-1, 1:-1])) #, closed_thinned
-    cv2.imshow(img_path, img)
-    display_img_list.append (text_overlayed_img)  
-    mask_process_img = np.vstack(display_img_list) #delete_mask, keep_mask, 
-    cv2.imshow ("inp, deleted, keep, keep_mask_closed", mask_process_img)
-    return list_port_position, text_overlayed_img, keep_mask_closed
+        result_text_overlayed_img = textOverlayOnImage (result_text_overlayed_img, port_id_dict[port_id], component["bbox"][0], component["bbox"][1])
+        result_list_port_position.append ({"port_id": port_id, "centroid": component["centroid"]})
 
-import os
-folder = r"./Manufacturer IO/"
-for fname in sorted(os.listdir(folder)):
-    img_path = os.path.join(folder, fname)
-    print(f"Showing: {fname}")
-    show_Canny(img_path)
+    def show_img (img, edges, closed, closed_invert, img_path, display_img_list, result_text_overlayed_img):
+        img = np.vstack((img, edges, closed, closed_invert[1:-1, 1:-1])) #, closed_thinned
+        cv2.imshow(img_path, img)
+        display_img_list.append (result_text_overlayed_img)  
+        mask_process_img = np.vstack(display_img_list) #delete_mask, keep_mask, 
+        cv2.imshow ("inp, deleted, keep, keep_mask_closed", mask_process_img)
+    show_img(img, edges, closed, closed_invert, img_path, display_img_list, result_text_overlayed_img)
+    return result_list_port_position, result_text_overlayed_img, result_mask
+if __name__ == "__main__":
+    folder = r"./Manufacturer IO/"
+    for fname in sorted(os.listdir(folder)):
+        img_path = os.path.join(folder, fname)
+        print(f"Showing: {fname}")
+        show_Canny(img_path)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    
-
-cv2.waitKey(0)
-cv2.destroyAllWindows()
