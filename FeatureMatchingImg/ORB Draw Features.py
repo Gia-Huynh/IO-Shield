@@ -44,34 +44,42 @@ def cleaningConnectedCompoents(inp_img):
             (areas_sorted[i] < bot_cap) or #If region too small
             (areas_sorted[i] < circle_cap and ((temp_height/temp_width > 1.4) or (temp_width/temp_height>1.4) or (temp_height*temp_width/components_sorted[i]["area"]>1.25))) or #If region is kinda small but not a circle shape, or has huge hole in middle or weird shape
             (temp_height/temp_width > 1.25) or #If region too "tall"
-            (temp_width/temp_height>5) or #If region too "wide"
+            (temp_width/temp_height > 4.5) or #If region too "wide", tested DVI cua B350m mortar thi ratio la 3.75
             (temp_height*temp_width/components_sorted[i]["area"]>1.5)): #If region shape is too weird (bounding box is twice as large as area)
             delete_mask = delete_mask + components_sorted[i]["mask"]
         else:
             keep_mask = keep_mask + components_sorted[i]["mask"]            
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (6, 6))
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (6, 6))[1:-1]
     keep_mask_closed = cv.morphologyEx(keep_mask, cv.MORPH_CLOSE, kernel, iterations=1)
     return keep_mask_closed
 port_id_dict = {"ethernet":1, 1:"ethernet",
                 "usb":2, 2:"usb",
                 "audio":3, 3:"audio",
-                "ps2-wifi":4, 4:"ps2-wifi"
+                "ps2-wifi":4, 4:"ps2-wifi",
+                "displayport":5, 5:"displayport"
                 }
 def port_detect_heuristic (SingleConnectedComponent):
     x, y, w, h = SingleConnectedComponent["bbox"]
     area = SingleConnectedComponent["area"]
-    mask = SingleConnectedComponent["mask"]
+    full_mask = np.copy(SingleConnectedComponent["mask"])
+    mask = np.copy(full_mask)[y:y+h, x:x+w]
     centroid = SingleConnectedComponent["centroid"]
-    print (w, h)
-    if (w > 75) and     (85 > h) and    (h > 55):
-        return port_id_dict ["ethernet"]
-    if (90 > w) and     (w  > 50) and   (45 > h) and (h > 15):
+    if (95>w) and (w > 58) and     (95 > h) and    (h > 55):
+        if ((np.sum(mask[0:10]!=0) / (10*w)) < 0.7) or ((np.sum(mask[0:30]!=0) / (30*w)) < 0.8):
+            return port_id_dict ["ethernet"]
+        else:
+            print ("Ethernet candidate rejected: ", w, h)
+    if (95 > w) and     (w  > 50) and   (45 > h) and (h > 15):
         return port_id_dict ["usb"]
+    elif (130 > w) and  (w  >= 95) and   (58 > h) and (h > 20):
+        return port_id_dict ["displayport"]
+        
     if (w/h > 0.75) and (h/w > 0.75):  #If circular
         if (40 > w) and (40 > h): #And small size
             return port_id_dict ["audio"]
-        else:
+        if (80 > w) and (80 > h): #And small size
             return port_id_dict ["ps2-wifi"]
+    print ("Unknown ports [w, h]: ", w, h)
 def textOverlayOnImage (img, text_string, x, y):
     font                   = cv2.FONT_HERSHEY_SIMPLEX
     bottomLeftCornerOfText = (x, y)
@@ -92,10 +100,10 @@ def textOverlayOnImage (img, text_string, x, y):
 
 def show_Canny (img_path):
     img = cv.imread(img_path, cv.IMREAD_GRAYSCALE)
-    clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(12,12))
-    img = clahe.apply(img)
+    #clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(6,6))
+    #img = clahe.apply(img)
     img = cv2.resize (img, (1100, 310))
-    edges = cv.Canny(cv.blur(img, (9, 9)), 40, 120)
+    edges = cv.Canny(cv.blur(img, (11, 11)), 40, 120)
     
     kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (6, 6))
     #kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
