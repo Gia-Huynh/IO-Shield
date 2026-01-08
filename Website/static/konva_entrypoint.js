@@ -75,16 +75,16 @@ function Konva_canvas_load_image (clear_canvas = false)
 	//const dataURL = document.getElementById('imageResult').toDataURL();
 	if ((stage == null) || (clear_canvas == true)){
 		Setup_konva_canvas ('konva_container', 
-			document.getElementById("blah").width, 
-			document.getElementById("blah").height
+			document.getElementById("image_cropped_perspectiveCorrected").width, 
+			document.getElementById("image_cropped_perspectiveCorrected").height
 		);
 	}
 	else
 	{
-		stage.width(document.getElementById("blah").width);
-		stage.height(document.getElementById("blah").height);
+		stage.width(document.getElementById("image_cropped_perspectiveCorrected").width);
+		stage.height(document.getElementById("image_cropped_perspectiveCorrected").height);
 	}
-	document.getElementById("konva_background_image").src = document.getElementById("blah").src;
+	document.getElementById("konva_background_image").src = document.getElementById("image_cropped_perspectiveCorrected").src;
 };
 export function getKonvaCanvas ()
 {

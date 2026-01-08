@@ -45,7 +45,7 @@ h1 {font-size:2.2em;}
 		height:8vh;
 	}
 	#confirmBox{}
-	#blah
+	#image_cropped_perspectiveCorrected
 	{
     -webkit-box-shadow:inset 0px 0px 10px 2px #333;
     -moz-box-shadow:inset 0px 0px 10px 2px #333;
@@ -121,7 +121,7 @@ h1 {font-size:2.2em;}
 		width: auto;
 		height:8vh;
 	}
-	.Part_1
+	.Section_FileUpload
 	{
 		padding:1%;
 		width: 92%;
@@ -134,7 +134,7 @@ h1 {font-size:2.2em;}
 		-webkit-transition: height 1s ease;
 		-transition: height 1s ease;
 	}
-	.Part_1 {
+	.Section_FileUpload {
 	  font-size: 2.5em;
 	  font-weight: 700;
 	  color: #e9edf0;
@@ -142,20 +142,11 @@ h1 {font-size:2.2em;}
 	  display: inline-block;
 	  padding-top:7vh;
 	}
-	.Part_1:focus,
-	.Part_1:hover {
+	.Section_FileUpload:focus,
+	.Section_FileUpload:hover {
 	  color: white;
 	  background-color: #3e82c2;
 		outline:12px dashed #346594;
-	}
-	.Part_1_shrinked {
-		height:10vh;
-	  font-size: 1.5em;
-	  font-weight: 700;
-	  color: #e9edf0;
-	  background-color: #3e82c2;
-	  display: inline-block;
-	  padding-top:1.5vh;
 	}
 	#ad1
 	{

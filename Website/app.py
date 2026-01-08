@@ -10,8 +10,8 @@ import sys
 import os
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-print ("what?")
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
     print ("yeeeee")
     print (sys._MEIPASS)
@@ -127,7 +127,9 @@ def readConfigFile (path):
     
 if __name__ == '__main__':
     readConfigFile ('running_config.txt')
+    print ("Running from __main__")
     app.run(threaded=True, host='0.0.0.0', debug=True)
 else:		
     readConfigFile ('running_config.txt')
+    print ("Running from gunicorn")
     gunicorn_app = app

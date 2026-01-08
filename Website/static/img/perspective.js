@@ -17,7 +17,7 @@ function DataURIToBlob(dataURI) {
 export function setUpApplyButton (utils) 
 {  //Setup cai perspective correction algorithm
 	console.log ("setUpApplyButton called");
-	const imageUsed = document.getElementById('sample').getAttribute('src');
+	const imageUsed = document.getElementById('image_uploaded_cropping').getAttribute('src');
     let pointsArray = []
     const children = document.querySelectorAll('#window_g .handle')
     //console.log(children)
@@ -65,12 +65,12 @@ export function setUpApplyButton (utils)
 		document.getElementById('imageInit').style.display = "none";
 		cv.imshow('imageResult', dst);
 		src.delete(); dst.delete(); M.delete(); srcTri.delete(); dstTri.delete();
-		blah.src = document.getElementById("imageResult").toDataURL();
+		image_cropped_perspectiveCorrected.src = document.getElementById("imageResult").toDataURL();
 	
 		const dlBtn = document.getElementById("downloadBtn");
 		dlBtn.href = document.getElementById("imageResult").toDataURL();
-		//document.getElementById("InputBox").files = [dataURLtoFile (blah.src,'nigger.png')];
-		//document.getElementById("InputBox").files = blah.src;
+		//document.getElementById("InputBox").files = [dataURLtoFile (image_cropped_perspectiveCorrected.src,'nigger.png')];
+		//document.getElementById("InputBox").files = image_cropped_perspectiveCorrected.src;
     },1000)
     CropTopNum.scrollIntoView({ behavior: 'smooth', block: 'start'});
 }

@@ -35,7 +35,7 @@
 				</div>
 			</div>
 			<div class = "content-wrapper">
-				<div  id="dropContainer" class = "Part_1">
+				<div  id="dropContainer" class = "Section_FileUpload">
 						 <p class ="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
 						or by clicking the button below<br></p>
 						 <p class = "ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
@@ -44,51 +44,54 @@
 					</form>
 				</div>
 				<div id = "AdjustmentBox" class = "Part_2">
-					<div class ="boxed">
-						<div style = "display: flex">
-							<div style = "width: 25%; margin-top: auto; padding-right: 3vw;">
-								<h3> Example image </h3>
-								<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
-							</div>
-							<div style = "width: 29.9%;">
-								<form id = "CropRotateForm">
-									<div style = "display: flex;"> 
-										<input class="inputNumber" name="CropLeftNum" id="CropLeftNum"  type="number" min="0" max="2000" value="0"/>
-										<p class = "left_text_box"> Left Cropping </p>
-									</div>
-									<input type="range" name="CropLeftRange" id="CropLeftRange" min="0" max="2000" value="0" class="slider">
-									
-									
-									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropRightNum" id="CropRightNum" type="number"  min="0" max="2000" value="0" />
-										<p class = "left_text_box"> Right Cropping </p>
-									</div>
-									<input type="range" name="CropRightRange" id="CropRightRange" min="0" max="2000" value="0" class="slider">
-									
-									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropBotNum" id="CropBotNum" type="number"  min="0" max="2000" value="0"/>
-										<p class = "left_text_box"> Bottom Cropping </p>
-									</div>
-									<input type="range" name="CropBotRange" id="CropBotRange" min="0" max="2000" value="0" class="slider">
-									
-									<div style = "display: flex"> 
-										<input class="inputNumber" name="CropTopNum" id="CropTopNum" type="number" min="0" max="2000" value="0"/>
-										<p class = "left_text_box"> Top Cropping </p>
-									</div>
-									<input type="range" name="CropTopRange" id="CropTopRange" min="0" max="2000" value="0" class="slider">
-								</form>
-							</div>
-							<div style = "width: 20%; display: grid;">
-								<button style = " margin: 1vh;" id = "rotateImage"> Rotate Left 90 Degree <br> (Permanent) </button>
-								<button  style = " margin: 1vh;" id = "cropImage"> Crop Image <br> (Non Permanent) </button>
-								<canvas id="tempCanvas" style="display:none;"></canvas>
-							</div>
+					<!--div class="container">
+						<div id="background" class="o_image">
+							<img id="image_uploaded_cropping" src="./B450M Pro4-F(L5).png" alt="B450M Pro4-F(L5).png" />
+						</div>
+					</div-->
+					<div class ="boxed"  style = "display: flex">
+						<div style = "width: 25%; margin-top: auto; padding-right: 3vw;">
+							<h3> Example image </h3>
+							<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
+						</div>
+						<div style = "width: 29.9%;">
+							<form id = "CropRotateForm">
+								<div style = "display: flex;"> 
+									<input class="inputNumber" name="CropLeftNum" id="CropLeftNum"  type="number" min="0" max="2000" value="0"/>
+									<p class = "left_text_box"> Left Cropping </p>
+								</div>
+								<input type="range" name="CropLeftRange" id="CropLeftRange" min="0" max="2000" value="0" class="slider">
+								
+								
+								<div style = "display: flex"> 
+									<input class="inputNumber" name="CropRightNum" id="CropRightNum" type="number"  min="0" max="2000" value="0" />
+									<p class = "left_text_box"> Right Cropping </p>
+								</div>
+								<input type="range" name="CropRightRange" id="CropRightRange" min="0" max="2000" value="0" class="slider">
+								
+								<div style = "display: flex"> 
+									<input class="inputNumber" name="CropBotNum" id="CropBotNum" type="number"  min="0" max="2000" value="0"/>
+									<p class = "left_text_box"> Bottom Cropping </p>
+								</div>
+								<input type="range" name="CropBotRange" id="CropBotRange" min="0" max="2000" value="0" class="slider">
+								
+								<div style = "display: flex"> 
+									<input class="inputNumber" name="CropTopNum" id="CropTopNum" type="number" min="0" max="2000" value="0"/>
+									<p class = "left_text_box"> Top Cropping </p>
+								</div>
+								<input type="range" name="CropTopRange" id="CropTopRange" min="0" max="2000" value="0" class="slider">
+							</form>
+						</div>
+						<div style = "width: 20%; display: grid;">
+							<button style = " margin: 1vh;" id = "rotateImage"> Rotate Left 90 Degree <br> (Permanent) </button>
+							<button  style = " margin: 1vh;" id = "cropImage"> Crop Image <br> (Non Permanent) </button>
+							<canvas id="tempCanvas" style="display:none;"></canvas>
 						</div>
 					</div>
 				<div class = "Part_3">
 					<div class="container">
 						<div id="background" class="o_image">
-							<img id="sample" src="./B450M Pro4-F(L5).png" alt="B450M Pro4-F(L5).png" />
+							<img id="image_uploaded_cropping" src="./B450M Pro4-F(L5).png" alt="B450M Pro4-F(L5).png" />
 							<!--span>code taken from ©reactcodes blog</span-->
 						</div>
 						<div class="p_image">
@@ -108,7 +111,7 @@
 				</div>
 					<div id = "Review_Image" class ="boxed Hidden">
 						<h2> Your uploaded image </h2>
-						<img id="blah" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
+						<img id="image_cropped_perspectiveCorrected" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<p> Right-click the image and click "save image as..." to save it down. <br> Use paint to draw white boxes on image to denote io-shield blocking zone
 						</p> 
 						<!--h1>Looks good?</h1-->
