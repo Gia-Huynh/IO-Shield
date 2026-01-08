@@ -1,12 +1,12 @@
 import numpy as np
 import cv2 as cv, cv2
-#import thinning
 from matplotlib import pyplot as plt
 
 def getConnectedWithStat (inp_img):
     num_labels, labels, stats, centroids = cv.connectedComponentsWithStats(
         inp_img, connectivity = 4
     )
+    # FORMAT: 
     #centroids[i]: (x, y)
     #labels.shape = (312, 1102)
     #stats.shape = (number of labels, 5)
@@ -30,6 +30,7 @@ def getConnectedWithStat (inp_img):
     components_sorted = sorted(components, key = lambda c: c["area"], reverse=True)
     areas_sorted = sorted(areas, reverse=True)
     return components_sorted, areas_sorted
+
 def cleaningConnectedCompoents(inp_img):    
     components_sorted, areas_sorted = getConnectedWithStat (inp_img.astype (np.uint8))    
     top_cap = 9000
@@ -53,6 +54,7 @@ def cleaningConnectedCompoents(inp_img):
     kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7))[2:-2] #ElLIPSE DOES NOT LIKE EVEN NUMBER
     keep_mask_closed = cv.morphologyEx(keep_mask, cv.MORPH_CLOSE, kernel, iterations=1)
     return keep_mask_closed
+
 port_id_dict = {"ethernet":     1, 1:"ethernet",
                 "usb":  2, 2:"usb",
                 "audio":3, 3:"audio",
@@ -85,16 +87,16 @@ def port_detect_heuristic (SingleConnectedComponent):
     if (w/h > 0.66) and (h/w > 0.66):  #If circular
         if (45 > w) and (45 > h): #And small size
             return port_id_dict ["audio"]
-        if (80 > w) and (80 > h): #And small size
+        if (80 > w) and (80 > h): #But if big size, maybe adding circle check? But does the heuristic need to be *that* precise?
             return port_id_dict ["ps2-wifi"]
-
+        
     if (95 > w)  and   (w  > 50)  and   (120 > h) and (h > 80):
         return port_id_dict ["2usb"] #ps2 de bi lon thanh 2usb
 def textOverlayOnImage (img, text_string, x, y):
     font                   = cv2.FONT_HERSHEY_SIMPLEX
     bottomLeftCornerOfText = (x, y)
     fontScale              = 1
-    fontColor              = (125) #(125,125,125)
+    fontColor              = (125)
     thickness              = 1
     lineType               = 2
     img = cv2.putText(  img,
@@ -108,16 +110,12 @@ def textOverlayOnImage (img, text_string, x, y):
     return img
 
 def show_Canny (img_path):
-    img = cv.imread(img_path, cv.IMREAD_GRAYSCALE)
-    #clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(6,6))
-    #img = clahe.apply(img)
+    img = cv.imread(img_path, cv.IMREAD_GRAYSCALE) #CLAHE Applicable
     img = cv2.resize (img, (1100, 310))
     edges = cv.Canny(cv.blur(img, (11, 11)), 40, 120)
     
-    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7))
-    #kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
-    closed = cv.morphologyEx(edges, cv.MORPH_CLOSE, kernel, iterations=2)
-    #closed_thinned = cv.ximgproc.thinning(closed,thinningType=cv.ximgproc.THINNING_ZHANGSUEN)
+    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7)) #(cv.MORPH_RECT, (5, 5))
+    closed = cv.morphologyEx(edges, cv.MORPH_CLOSE, kernel, iterations=2) #THINNING_ZHANGSUEN possible
     closed_invert = np.max(closed) - closed
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (7, 7))
     closed_invert = cv.morphologyEx(closed_invert, cv.MORPH_OPEN, kernel, iterations=1)
@@ -125,68 +123,37 @@ def show_Canny (img_path):
 
 
     old_components_sorted, old_areas_sorted = None, None
-    gay_list = []
+    display_img_list = []
     keep_mask_closed = np.copy(closed_invert)
     while True:
         keep_mask_closed = cleaningConnectedCompoents (keep_mask_closed.astype (np.uint8))
         components_sorted, areas_sorted = getConnectedWithStat (keep_mask_closed.astype (np.uint8))
         if (old_areas_sorted is None) or (areas_sorted != old_areas_sorted):
             old_areas_sorted = areas_sorted
-            gay_list.append (keep_mask_closed)
+            display_img_list.append (keep_mask_closed)
         else:
             break
     del old_components_sorted, old_areas_sorted
+
+    list_port_position = []
     text_overlayed_img = np.copy(keep_mask_closed)
     for component in components_sorted:
         port_id = port_detect_heuristic (component)
         if (port_id is None):
             continue
         text_overlayed_img = textOverlayOnImage (text_overlayed_img, port_id_dict[port_id], component["bbox"][0], component["bbox"][1])
-    gay_list.append (text_overlayed_img)
-        
+        list_port_position.append ({"port_id": port_id, "centroid": component["centroid"]})
+  
     img = np.vstack((img, edges, closed, closed_invert[1:-1, 1:-1])) #, closed_thinned
     cv2.imshow(img_path, img)
-    mask_process_img = np.vstack(gay_list) #delete_mask, keep_mask, 
+    display_img_list.append (text_overlayed_img)  
+    mask_process_img = np.vstack(display_img_list) #delete_mask, keep_mask, 
     cv2.imshow ("inp, deleted, keep, keep_mask_closed", mask_process_img)
-    
-    """plt.figure(figsize=(8,5))
-    plt.plot(areas_sorted, marker='o')
-    plt.title("Connected Component Areas (sorted)")
-    plt.xlabel("Component rank")
-    plt.ylabel("Area (pixels)")
-    plt.grid(True)
-    plt.show()"""
+    return list_port_position, text_overlayed_img, keep_mask_closed
 
-    
-"""img = cv.imread('B660M ITX.png', cv.IMREAD_GRAYSCALE)
- 
-# Initiate ORB detector
-orb = cv.ORB_create()
-# find the keypoints with ORB
-kp = orb.detect(img,None)
-# compute the descriptors with ORB
-kp, des = orb.compute(img, kp)
-# draw only keypoints location,not size and orientation
-img2 = cv.drawKeypoints(img, kp, None, color=(0,255,0), flags=0)"""
-#plt.imshow(img2)
-#plt.show()
-
-"""show_Canny ("280 PRO G1 MT FX-ISB-8X-3.png")
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-show_Canny ("A320M-R Prime.png")
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-#show_Canny ("B660M ITX.png")
-show_Canny ("B350M Mortar.png")
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-show_Canny ("Z87-G55.png")"""
 import os
 folder = r"./Manufacturer IO/"
 for fname in sorted(os.listdir(folder)):
-    #if not fname.lower().endswith(valid_exts):
-    #    continue
     img_path = os.path.join(folder, fname)
     print(f"Showing: {fname}")
     show_Canny(img_path)
