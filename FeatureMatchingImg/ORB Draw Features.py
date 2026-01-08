@@ -51,8 +51,6 @@ def cleaningConnectedCompoents(inp_img):
         else:
             keep_mask = keep_mask + components_sorted[i]["mask"]            
     kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7))[2:-2] #ElLIPSE DOES NOT LIKE EVEN NUMBER
-    print ("kernel: ", kernel.shape)
-    print ("kernel: ", kernel)  
     keep_mask_closed = cv.morphologyEx(keep_mask, cv.MORPH_CLOSE, kernel, iterations=1)
     return keep_mask_closed
 port_id_dict = {"ethernet":     1, 1:"ethernet",
@@ -71,17 +69,17 @@ def port_detect_heuristic (SingleConnectedComponent):
     mask = np.copy(full_mask)[y:y+h, x:x+w]
     centroid = SingleConnectedComponent["centroid"]
     if (95>w) and (w > 58) and     (95 > h) and    (h > 55):
-        if ((np.sum(mask[0:10]!=0) / (10*w)) < 0.7) or ((np.sum(mask[0:30]!=0) / (30*w)) < 0.8):
+        if ((np.sum(mask[0:12]!=0) / (12*w)) < 0.5) or ((np.sum(mask[0:30]!=0) / (30*w)) < 0.75):
             return port_id_dict ["ethernet"]
         else:
             print ("Ethernet candidate rejected: ", w, h)
-    if (w > 250) and (80 > h):
+    if (w > 320) and (80 > h):
         return port_id_dict["com"]
-    if (w > 130) and (80 > h):
+    if (w > 150) and (80 > h):
         return port_id_dict["dvi"]
     if (95 > w) and     (w  > 50) and   (45 > h) and (h > 15):
         return port_id_dict ["usb"]
-    elif (130 > w) and  (w  >= 95) and   (58 > h) and (h > 20):
+    elif (140 > w) and  (w  >= 100) and   (58 > h) and (h > 15):
         return port_id_dict ["displayport"]
     
     if (w/h > 0.66) and (h/w > 0.66):  #If circular
@@ -99,7 +97,6 @@ def textOverlayOnImage (img, text_string, x, y):
     fontColor              = (125) #(125,125,125)
     thickness              = 1
     lineType               = 2
-    print (text_string, bottomLeftCornerOfText)
     img = cv2.putText(  img,
                         text_string, 
                         bottomLeftCornerOfText, 
@@ -117,7 +114,7 @@ def show_Canny (img_path):
     img = cv2.resize (img, (1100, 310))
     edges = cv.Canny(cv.blur(img, (11, 11)), 40, 120)
     
-    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (6, 6))
+    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7))
     #kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
     closed = cv.morphologyEx(edges, cv.MORPH_CLOSE, kernel, iterations=2)
     #closed_thinned = cv.ximgproc.thinning(closed,thinningType=cv.ximgproc.THINNING_ZHANGSUEN)
