@@ -43,20 +43,26 @@ def cleaningConnectedCompoents(inp_img):
         if ((areas_sorted[i] > top_cap) or #If region too big
             (areas_sorted[i] < bot_cap) or #If region too small
             (areas_sorted[i] < circle_cap and ((temp_height/temp_width > 1.4) or (temp_width/temp_height>1.4) or (temp_height*temp_width/components_sorted[i]["area"]>1.25))) or #If region is kinda small but not a circle shape, or has huge hole in middle or weird shape
-            (temp_height/temp_width > 1.25) or #If region too "tall"
-            (temp_width/temp_height > 4.5) or #If region too "wide", tested DVI cua B350m mortar thi ratio la 3.75
-            (temp_height*temp_width/components_sorted[i]["area"]>1.5)): #If region shape is too weird (bounding box is twice as large as area)
+            (temp_height/temp_width > 2.25) or #If region too "tall"
+            (temp_width/temp_height > 4.5) #If region too "wide", tested DVI cua B350m mortar thi ratio la 3.75
+            or (temp_height*temp_width/components_sorted[i]["area"]>1.5)  #If region shape is too weird (bounding box is twice as large as area)
+            ):
             delete_mask = delete_mask + components_sorted[i]["mask"]
         else:
             keep_mask = keep_mask + components_sorted[i]["mask"]            
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (6, 6))[1:-1]
+    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7))[2:-2] #ElLIPSE DOES NOT LIKE EVEN NUMBER
+    print ("kernel: ", kernel.shape)
+    print ("kernel: ", kernel)  
     keep_mask_closed = cv.morphologyEx(keep_mask, cv.MORPH_CLOSE, kernel, iterations=1)
     return keep_mask_closed
-port_id_dict = {"ethernet":1, 1:"ethernet",
-                "usb":2, 2:"usb",
+port_id_dict = {"ethernet":     1, 1:"ethernet",
+                "usb":  2, 2:"usb",
                 "audio":3, 3:"audio",
-                "ps2-wifi":4, 4:"ps2-wifi",
-                "displayport":5, 5:"displayport"
+                "2usb": 4, 4:"2usb",
+                "ps2-wifi":     6, 6:"ps2-wifi",
+                "displayport":  5, 5:"displayport",
+                "dvi":7, 7:"dvi",
+                "com":8, 8:"com",
                 }
 def port_detect_heuristic (SingleConnectedComponent):
     x, y, w, h = SingleConnectedComponent["bbox"]
@@ -69,17 +75,23 @@ def port_detect_heuristic (SingleConnectedComponent):
             return port_id_dict ["ethernet"]
         else:
             print ("Ethernet candidate rejected: ", w, h)
+    if (w > 250) and (80 > h):
+        return port_id_dict["com"]
+    if (w > 130) and (80 > h):
+        return port_id_dict["dvi"]
     if (95 > w) and     (w  > 50) and   (45 > h) and (h > 15):
         return port_id_dict ["usb"]
     elif (130 > w) and  (w  >= 95) and   (58 > h) and (h > 20):
         return port_id_dict ["displayport"]
-        
-    if (w/h > 0.75) and (h/w > 0.75):  #If circular
-        if (40 > w) and (40 > h): #And small size
+    
+    if (w/h > 0.66) and (h/w > 0.66):  #If circular
+        if (45 > w) and (45 > h): #And small size
             return port_id_dict ["audio"]
         if (80 > w) and (80 > h): #And small size
             return port_id_dict ["ps2-wifi"]
-    print ("Unknown ports [w, h]: ", w, h)
+
+    if (95 > w)  and   (w  > 50)  and   (120 > h) and (h > 80):
+        return port_id_dict ["2usb"] #ps2 de bi lon thanh 2usb
 def textOverlayOnImage (img, text_string, x, y):
     font                   = cv2.FONT_HERSHEY_SIMPLEX
     bottomLeftCornerOfText = (x, y)
