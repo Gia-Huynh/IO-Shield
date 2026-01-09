@@ -22,7 +22,7 @@ function CropTopChecking()
 {
 	if (CropValueChange == true)
 	{
-		cropImage(userUploadedImage[0]);
+		cropImage(userUploaded_OG_Image[0]);
 		CropValueChange = false;
 	};
 };
@@ -30,8 +30,8 @@ setInterval(CropTopChecking, 100);
 //Drag N Drop Image
 const InputBox = document.getElementById("InputBox");
 const InputBox2 = document.getElementById("InputBox2");
-let userUploadedImage;
-function AllowDownloadImageButton (eventDtTransferFile, fileName){ //evt.dataTransfer.files[0], userUploadedImage[0].name
+let userUploaded_OG_Image;
+function AllowDownloadImageButton (eventDtTransferFile, fileName){ //evt.dataTransfer.files[0], userUploaded_OG_Image[0].name
 	const dlBtn = document.getElementById("downloadBtn");
 	dlBtn.href = URL.createObjectURL(eventDtTransferFile);
 	dlBtn.download = fileName.replace(/\.[^/.]+$/, "") + ".png";
@@ -48,11 +48,11 @@ dropContainer.ondrop = function(evt) {
   const dT = new DataTransfer();
   dT.items.add(evt.dataTransfer.files[0]);
   
-  userUploadedImage = dT.files;
+  userUploaded_OG_Image = dT.files;
   UpdateDisplayingImages(evt.dataTransfer.files[0]);  
   InputBox.files = dT.files;
   //InputBox2.files = dT.files;
-  AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
+  AllowDownloadImageButton(evt.dataTransfer.files[0], userUploaded_OG_Image[0].name);
   
   evt.preventDefault();
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
@@ -78,7 +78,7 @@ InputBox.onchange = evt => {
   //InputBox2.files = InputBox.files;
   if (file) {
 	UpdateDisplayingImages(file);
-	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
+	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploaded_OG_Image[0].name);
   }
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
@@ -112,15 +112,15 @@ function rotateImage(OG_Image_URL) //Non-pure function, but I tried to keep it's
 		ctx.restore();
 
 		canvas.toBlob(blob => { //Unacceptable, not pure function, this is ass.
-			const rotatedFile = new File([blob], userUploadedImage[0].name, { type: userUploadedImage[0].type });
+			const rotatedFile = new File([blob], userUploaded_OG_Image[0].name, { type: userUploaded_OG_Image[0].type });
 			const dt = new DataTransfer();
 			dt.items.add(rotatedFile);
 			
 			UpdateDisplayingImages(rotatedFile);
-			userUploadedImage = dt.files;	
+			userUploaded_OG_Image = dt.files;	
 			InputBox.files = dt.files;
 			//InputBox2.files = dt.files;	
-			AllowDownloadImageButton(rotatedFile, userUploadedImage[0].name);
+			AllowDownloadImageButton(rotatedFile, userUploaded_OG_Image[0].name);
 		});
 	};
 }
@@ -162,14 +162,13 @@ function cropImage(OG_Image_URL) {
 		);
 
 		canvas.toBlob(blob => {
-			const croppedFile = new File([blob], userUploadedImage[0].name, { type: userUploadedImage[0].type });
+			const croppedFile = new File([blob], userUploaded_OG_Image[0].name, { type: userUploaded_OG_Image[0].type });
 			const dt = new DataTransfer();
 			dt.items.add(croppedFile);
 			
 			UpdateDisplayingImages(croppedFile);	
 			InputBox.files = dt.files;
-			//InputBox2.files = dt.files;
-			AllowDownloadImageButton(croppedFile, userUploadedImage[0].name);
+			AllowDownloadImageButton(croppedFile, userUploaded_OG_Image[0].name);
 		});
 	};
 }
@@ -182,10 +181,10 @@ InputBoxOverlay.onchange = evt => {
   }
 }
 
-var currentBlobImage;
+var serverReturned_BlobImage;
 function changeImage(blobImage) {
  const urlCreator = window.URL || window.webkitURL;
- currentBlobImage = blobImage;
+ serverReturned_BlobImage = blobImage;
  document.getElementById('resultImg').src = urlCreator.createObjectURL(blobImage);
 }
 
@@ -261,7 +260,7 @@ function generateFilePostfix(){
 document.querySelector("#LastButton").addEventListener("click", function(e){
 	disableLastButton();
 	generateFilePostfix();
-  fetch('/convert', {method:"POST", body:currentBlobImage})
+  fetch('/convert', {method:"POST", body:serverReturned_BlobImage})
                 .then(response  => {
 			if (!response.ok) {
 			  throw new Error("HTTP error: ${response.status}");
@@ -305,14 +304,14 @@ document.getElementById('overlayingButton').onclick =() => {
   overlayImg.src = document.getElementById("imageResult").toDataURL();
 };
 document.getElementById('rotateImage').onclick =() => {
-  rotateImage(userUploadedImage[0]);
+  rotateImage(userUploaded_OG_Image[0]);
 };
 document.getElementById('cropImage').onclick =() => {
-  cropImage(userUploadedImage[0]);
+  cropImage(userUploaded_OG_Image[0]);
 };
 document.getElementById('resetCropValue').onclick =() => {
   resetCropSliderValue();
-  cropImage(userUploadedImage[0]);
+  cropImage(userUploaded_OG_Image[0]);
 };
 document.getElementById('CropLeftNum').onchange = (e) => {
   updateTextInput(e.target.value, 'CropLeftRange');
