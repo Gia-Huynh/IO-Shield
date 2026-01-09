@@ -1,4 +1,4 @@
-export function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
+export function UtilsPerspective(errorOutputId) { // eslint-disable-line no-unused-vars
     let self = this;
     this.errorOutput = document.getElementById(errorOutputId);
 
@@ -19,6 +19,20 @@ export function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
         node.parentNode.insertBefore(script, node);
     };
 
+    this.loadImageToCanvas = function(url, cavansId, width, height) {
+        let canvas = document.getElementById(cavansId);
+        let ctx = canvas.getContext('2d');
+        let img = new Image();
+        img.onload = function() {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+        };
+        img.src = url;
+    };
+    /*
+
+
     this.createFileFromUrl = function(path, url, callback) {
         let request = new XMLHttpRequest();
         request.open('GET', url, true);
@@ -36,21 +50,6 @@ export function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
         };
         request.send();
     };
-
-    this.loadImageToCanvas = function(url, cavansId, width, height) {
-        let canvas = document.getElementById(cavansId);
-        let ctx = canvas.getContext('2d');
-        let img = new Image();
-        //img.crossOrigin = 'anonymous';
-        img.onload = function() {
-            canvas.width = width;
-            canvas.height = height;
-            //ctx.drawImage(img, 0, 0, 300, 400);
-            ctx.drawImage(img, 0, 0, width, height);
-        };
-        img.src = url;
-    };
-
     this.executeCode = function(textAreaId) {
         try {
             this.clearError();
@@ -94,7 +93,7 @@ export function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
             throw Error('Unknown code snippet type');
         }
         textArea.value = scriptNode.text.replace(/^\n/, '');*/
-    };
+    /*};
 
     this.addFileInputHandler = function(fileInputId, canvasId) {
         let inputElement = document.getElementById(fileInputId);
@@ -105,9 +104,7 @@ export function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
                 self.loadImageToCanvas(imgUrl, canvasId);
             }
         }, false);
-    };
-
-    function onVideoCanPlay() {
+    };function onVideoCanPlay() {
         if (self.onCameraStartedCallback) {
             self.onCameraStartedCallback(self.stream, self.video);
         }
@@ -150,5 +147,5 @@ export function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
         if (this.stream) {
             this.stream.getVideoTracks()[0].stop();
         }
-    };
+    };*/
 };
