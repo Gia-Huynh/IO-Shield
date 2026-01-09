@@ -32,15 +32,15 @@ let dropContainer = document.getElementById("dropContainer");
 const InputBox = document.getElementById("InputBox");
 const InputBox2 = document.getElementById("InputBox2");
 let userUploadedImage;
-dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
-  evt.preventDefault();
-};
 function AllowDownloadImageButton (eventDtTransferFile, fileName){ //evt.dataTransfer.files[0], userUploadedImage[0].name
 	const dlBtn = document.getElementById("downloadBtn");
 	dlBtn.href = URL.createObjectURL(eventDtTransferFile);
 	dlBtn.download = fileName.replace(/\.[^/.]+$/, "") + ".png";
 	dlBtn.style.display = "inline-block";
 }
+dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+  evt.preventDefault();
+};
 dropContainer.ondrop = function(evt) {
   evt.preventDefault();
   
@@ -195,7 +195,7 @@ function changeImage(blobImage) {
 function submitImage (withParam = false)
 {
 		const myForm = document.forms['ImageForm_NoParameter'];
-		fetch(document.forms['ImageForm_NoParameter'].action, {method:'post', body: new FormData(myForm)})
+		fetch('/upload', {method:'post', body: new FormData(myForm)})
 				.then((response) => {
 			if (!response.ok) {
 			  throw new Error("HTTP error: ${response.status}");
@@ -210,10 +210,8 @@ function submitImage (withParam = false)
 			return response.blob();
 		  })
 		  .then((blob) => {
-			changeImage (blob); 
-			//if  (withParam == true){ //Don't touch what's working
-				document.getElementById("ImageForm_WithParameter").requestSubmit();
-			//}
+			changeImage(blob); 
+			document.getElementById("ImageForm_WithParameter").requestSubmit();
 			document.getElementById("confirmBox").classList.remove("Hidden");
 			setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
 			elmntToView.scrollIntoView({ behavior: "smooth", block:"center", inline: "center"});},1000);
@@ -262,6 +260,7 @@ function generateFilePostfix(){
 	console.log (FilePostfix);
 	document.getElementById('PostFixTextBox').value = FilePostfix;
 }
+
 document.querySelector("#LastButton").addEventListener("click", function(e){
 	disableLastButton();
 	generateFilePostfix();
