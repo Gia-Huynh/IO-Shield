@@ -28,7 +28,6 @@ function CropTopChecking()
 };
 setInterval(CropTopChecking, 100);
 //Drag N Drop Image
-let dropContainer = document.getElementById("dropContainer");
 const InputBox = document.getElementById("InputBox");
 const InputBox2 = document.getElementById("InputBox2");
 let userUploadedImage;
@@ -38,24 +37,21 @@ function AllowDownloadImageButton (eventDtTransferFile, fileName){ //evt.dataTra
 	dlBtn.download = fileName.replace(/\.[^/.]+$/, "") + ".png";
 	dlBtn.style.display = "inline-block";
 }
+let dropContainer = document.getElementById("dropContainer");
 dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
   evt.preventDefault();
 };
 dropContainer.ondrop = function(evt) {
   evt.preventDefault();
   
-  //userUploadedImage = evt.dataTransfer.files;
-  //InputBox.files = evt.dataTransfer.files;
-  //InputBox2.files = evt.dataTransfer.files;
 
-  // If you want to use some of the dropped files
   const dT = new DataTransfer();
   dT.items.add(evt.dataTransfer.files[0]);
   
   userUploadedImage = dT.files;
   UpdateDisplayingImages(evt.dataTransfer.files[0]);  
   InputBox.files = dT.files;
-  InputBox2.files = dT.files;
+  //InputBox2.files = dT.files;
   AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
   
   evt.preventDefault();
@@ -65,12 +61,13 @@ dropContainer.ondrop = function(evt) {
   var elmntToView = document.getElementById("CropRotateForm");
   elmntToView.scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
 };
-//Drag N Drop Overlay (Copy pasted from above)
-dropContainer = document.getElementById("overlay_drop_container");
-dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
+
+//Drag N Drop only for the adjustment part's overlay image (Copy pasted from above)
+let overlayDropContainer = document.getElementById("overlay_drop_container");
+overlayDropContainer.ondragover = overlayDropContainer.ondragenter = function(evt) {
   evt.preventDefault();
 };
-dropContainer.ondrop = function(evt) {
+overlayDropContainer.ondrop = function(evt) {
   console.log ("DragNDrop Overlay");
   evt.preventDefault();
   overlayImg.src = URL.createObjectURL(evt.dataTransfer.files[0]);
@@ -78,7 +75,7 @@ dropContainer.ondrop = function(evt) {
 
 InputBox.onchange = evt => {
   const [file] = InputBox.files;
-  InputBox2.files = InputBox.files;
+  //InputBox2.files = InputBox.files;
   if (file) {
 	UpdateDisplayingImages(file);
 	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
@@ -122,7 +119,7 @@ function rotateImage(OG_Image_URL) //Non-pure function, but I tried to keep it's
 			UpdateDisplayingImages(rotatedFile);
 			userUploadedImage = dt.files;	
 			InputBox.files = dt.files;
-			InputBox2.files = dt.files;	
+			//InputBox2.files = dt.files;	
 			AllowDownloadImageButton(rotatedFile, userUploadedImage[0].name);
 		});
 	};
@@ -171,7 +168,7 @@ function cropImage(OG_Image_URL) {
 			
 			UpdateDisplayingImages(croppedFile);	
 			InputBox.files = dt.files;
-			InputBox2.files = dt.files;
+			//InputBox2.files = dt.files;
 			AllowDownloadImageButton(croppedFile, userUploadedImage[0].name);
 		});
 	};
@@ -220,7 +217,7 @@ function submitImage (withParam = false)
 document.querySelector("#ImageForm_WithParameter").addEventListener("submit", function(e){
         e.preventDefault();    //stop form from submitting
 		const myForm2 = document.forms['ImageForm_WithParameter'];
-		
+		InputBox2.files = InputBox.files;
 		// Default values
 		const defaultValues = {
 			"myNum": "0",
