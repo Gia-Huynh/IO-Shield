@@ -133,7 +133,7 @@ async function submitKonvasCanvas ()
 		  .then((blob) => 
 			{
 				//changeImage (blob); 
-				//document.getElementById("ImageForm2").requestSubmit();
+				//document.getElementById("ImageForm_WithParameter").requestSubmit();
 				document.getElementById("confirmBox").classList.remove("Hidden");
 				setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
 				elmntToView.scrollIntoView({ behavior: "smooth"});},1000);

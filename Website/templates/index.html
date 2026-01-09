@@ -39,17 +39,18 @@
 						 <p class ="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
 						or by clicking the button below<br></p>
 						 <p class = "ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
-					<form id="ImageForm" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
+					<form id="ImageForm_NoParameter" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
 						<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
 					</form>
 				</div>
 				<div id = "CroppingBox" class = "Section_ImageCropping General_Section boxed">
+					<h2> Cropping Tool </h2>
 					<div class="General_Section perspectiveCorrection_ImageContainer">
 						<div id="CropImage_Background" class="perspectiveCorrection_o_image">
 							<img id="image_uploaded_cropping" src=""/>
 						</div>
 					</div>
-					<div id="Cropping-Parameter" class ="" style = "display: flex;width: 95%;height: auto;">
+					<div id="Cropping-Parameter" class ="" style = "display:flex;width:95%;height:auto;margin-top: 1vh;">
 						<div style = "width: 25%; margin-top: auto; padding-right: 3vw;">
 							<h3> Example image format </h3>
 							<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
@@ -83,16 +84,18 @@
 							</form>
 						</div>
 						<div style = "width: 20%; display: grid;">
-							<button style = " margin: 1vh;" id = "rotateImage"> Rotate 90 Degree  </button>
-							<button  style = " margin: 1vh;" id = "cropImage"> Crop Image </button>
+							<button style = " margin: 0.3vh;" id = "rotateImage"> Rotate 90 Degree  </button>
+							<button style = " margin: 0.3vh;" id = "resetCropValue"> Reset Crop Value  </button>
+							<button  style = " margin: 0.3vh;" id = "cropImage"> Crop Image </button>
 							<canvas id="tempCanvas" style="display:none;"></canvas>
 						</div>
 					</div>
 				</div>
-				<div id="PerspectiveCorrectionBox" class = "General_Section">
+				<div id="PerspectiveCorrectionBox" class = "General_Section boxed">
+					<h2> Perspective Correction Tool </h2>
 					<div class="General_Section perspectiveCorrection_ImageContainer">
 						<div id="background" class="perspectiveCorrection_o_image">
-							<img id="image_cropped_PerspectiveCorrecting" src="./B450M Pro4-F(L5).png" alt="B450M Pro4-F(L5).png" />
+							<img id="image_cropped_PerspectiveCorrecting" src="" />
 							<!--span>code taken from ©reactcodes blog</span-->
 						</div>
 						<div class="p_image">
@@ -121,9 +124,9 @@
 							<a id="downloadBtn" value="Like"> 
 								<button style = "background-color: purple;">  Download Image </button> 
 							</a> 
-							<button style = "background-color: cadetblue" id="submitOnly" form="ImageForm" value="Like"> Submit ONLY </button>
+							<button style = "background-color: cadetblue" id="submitOnly" value="Like"> Submit ONLY </button>
 						</div>
-						<button id="submitWithParam" form="ImageForm" class = "confirmButton" value="Like"> Submit with auto-parameter </button>
+						<button id="submitWithParam" class = "confirmButton" value="Like"> Submit with auto-parameter </button>
 						<div style = "margin: 5px">
 							<button id = "konva-load-image"> Load Image </button>
 							<button id = "konva-clear-canvas"> Clear Canvas </button>
@@ -172,7 +175,7 @@
 						<div class ="Part_3_flex_big">
 							<div class ="Part_3_flex_top">
 								<div class = "Part_3_flex_left">
-								<form id="ImageForm2" action="/upload_adjust" enctype = "multipart/form-data" target="hiddenFrame">
+								<form id="ImageForm_WithParameter" action="/upload_adjust" enctype = "multipart/form-data" target="hiddenFrame">
 									
 									<input type="file" name="file" id="InputBox2" value="" onclick="this.value=null;" style="display:none;" accept="image/png, image/gif, image/jpeg"/>
 									
@@ -206,7 +209,7 @@
 										<input class="inputNumber" name="ErosionNum" id="ErosionNum" type="number" min="0" max="8" value="0"/>
 									</div>
 								</form>
-								<button type="submit" form="ImageForm2" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
+								<button type="submit" form="ImageForm_WithParameter" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
 								</div>
 								
 								<div class = "Part_3_flex_right">
@@ -276,11 +279,6 @@
 		</div>
 		<iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
     </main>
-	<!--<script src="logic.js"></script>-->
-	<!--<script src="./static/logic.js"></script>-->
-	<!--script src="./img/utils.js" type="text/javascript"></script-->
-	<!--script src="./img/perspective.js" type="text/javascript"></script-->
-	<!--script src="./img/index.js"></script-->
 	<script type="module" src="../static/logic.js"></script>
   </body>
 </html>

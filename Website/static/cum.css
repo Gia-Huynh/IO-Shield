@@ -342,7 +342,7 @@ h1 {font-size:2.2em;}
 		padding: 5vh 2vw 3vh 0;
 		width: 100%;
 	}
-	#ImageForm2
+	#ImageForm_WithParameter
 	{
 		display: flex;
 		flex-flow: column;
