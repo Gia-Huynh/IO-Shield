@@ -117,7 +117,7 @@ const getOffsetRect = (el) =>
 
 export function SetUpPerspectiveBox ()
 {
-	var viewportOffset = getOffsetRect(document.getElementById("image_uploaded_cropping"));
+	var viewportOffset = getOffsetRect(document.getElementById("image_cropped_PerspectiveCorrecting"));
 	attachPerspectiveBox(viewportOffset.width,viewportOffset.height, viewportOffset.top, viewportOffset.left);
 	
 }

@@ -123,24 +123,29 @@ h1 {font-size:2.2em;}
 	}
 	.Section_FileUpload
 	{
-		padding:1%;
-		width: 92%;
-		height: 17.5vh;
+		display: inline-block;
 		text-align: center;
+		
+		width: 92%;
+		height: 24vh;
+		
+		padding:1%;
+		padding-top:12vh;
+		
 		margin-top:3vh;
 		margin-bottom:3vh;
+		
+		font-size: 2.5em;
+		font-weight: 700;
+		
+		color: #e9edf0;
+		background-color: #3e82c2;
+		
 		box-shadow: initial;
 		outline:12px dashed #2f75b5;
 		-webkit-transition: height 1s ease;
 		-transition: height 1s ease;
-	}
-	.Section_FileUpload {
-	  font-size: 2.5em;
-	  font-weight: 700;
-	  color: #e9edf0;
-	  background-color: #3e82c2;
-	  display: inline-block;
-	  padding-top:7vh;
+		
 	}
 	.Section_FileUpload:focus,
 	.Section_FileUpload:hover {
@@ -223,7 +228,7 @@ h1 {font-size:2.2em;}
 		min-height: 30vh;
 		padding-top: 3vh;
 	}
-	.Section_ImageCropping .boxed img
+	.Section_ImageCropping img
 	{
 		padding: 1vh;
 		object-fit: fill;

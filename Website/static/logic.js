@@ -3,25 +3,12 @@ import {Utils} from './img/utils.js'
 import {SetUpPerspectiveBox} from './img/index.js'
 import {updateTextInput, dataURLtoFile} from './tiny_util_functions.js'
 import {getKonvaCanvas} from './konva_entrypoint.js'
-//Hide ad when clicked
-/*var ad_list = document.querySelectorAll('.advertisement');
-var ad_list_arr = [...ad_list];
-ad_list_arr.forEach(i => {
-	i.onclick = function() {
-	  this.style.visibility = 'hidden';
-	};
-});*/
-//for everyone else
+
 document.addEventListener("DOMContentLoaded", function () {
   document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
   
  }, false);
 
-//Overlaying the uploaded/calculated img.
-//function overlayingImg ()
-//{
-//	overlayImg.src = document.getElementById("imageResult").toDataURL();
-//}
 
 let CropValueChange = false;
 function ModifyCropValue () //Will be called by the slider (in html, lol).
@@ -51,26 +38,26 @@ dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
 function AllowDownloadImageButton (eventDtTransferFile, fileName){ //evt.dataTransfer.files[0], userUploadedImage[0].name
 	const dlBtn = document.getElementById("downloadBtn");
 	dlBtn.href = URL.createObjectURL(eventDtTransferFile);
-	//dlBtn.download = fileName;
 	dlBtn.download = fileName.replace(/\.[^/.]+$/, "") + ".png";
 	dlBtn.style.display = "inline-block";
 }
 dropContainer.ondrop = function(evt) {
-  // pretty simple -- but not for IE :(
-  console.log ("DragNDrop");
   evt.preventDefault();
-  userUploadedImage = evt.dataTransfer.files;
-  InputBox.files = evt.dataTransfer.files;
-  InputBox2.files = evt.dataTransfer.files;
+  
+  //userUploadedImage = evt.dataTransfer.files;
+  //InputBox.files = evt.dataTransfer.files;
+  //InputBox2.files = evt.dataTransfer.files;
 
   // If you want to use some of the dropped files
   const dT = new DataTransfer();
   dT.items.add(evt.dataTransfer.files[0]);
+  
+  userUploadedImage = dT.files;
+  UpdateDisplayingImages(evt.dataTransfer.files[0]);  
   InputBox.files = dT.files;
   InputBox2.files = dT.files;
-  image_cropped_perspectiveCorrected.src = URL.createObjectURL(evt.dataTransfer.files[0]);
-  document.getElementById("image_uploaded_cropping").src =  image_cropped_perspectiveCorrected.src;
-	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
+  AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
+  
   evt.preventDefault();
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
   document.getElementsByClassName ("RemoveAfterShrink")[0].style.display = "none";
@@ -93,13 +80,7 @@ InputBox.onchange = evt => {
   const [file] = InputBox.files;
   InputBox2.files = InputBox.files;
   if (file) {
-    image_cropped_perspectiveCorrected.src = URL.createObjectURL(file);
-	document.getElementById("image_uploaded_cropping").src =  image_cropped_perspectiveCorrected.src;
-
-	/*const dlBtn = document.getElementById("downloadBtn");
-	dlBtn.href = URL.createObjectURL(file);
-	dlBtn.download = userUploadedImage[0].name;
-	dlBtn.style.display = "inline-block";*/	
+	UpdateDisplayingImages(file);
 	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploadedImage[0].name);
   }
   document.getElementsByClassName ("ShowAfterShrink")[0].style.display = "block";
@@ -109,12 +90,18 @@ InputBox.onchange = evt => {
   elmntToView.scrollIntoView({ behavior: "smooth"}); 
 };
 
-
+function UpdateDisplayingImages(inputFile)
+{	
+	image_cropped_perspectiveCorrected.src = URL.createObjectURL(inputFile);
+	document.getElementById("image_cropped_PerspectiveCorrecting").src =  image_cropped_perspectiveCorrected.src;
+	document.getElementById("image_uploaded_cropping").src = image_cropped_perspectiveCorrected.src;
+}
 function rotateImage ()
 {
 	const canvas = document.getElementById("tempCanvas");
 	const ctx = canvas.getContext("2d");
 	var img = new Image();
+	img.src = URL.createObjectURL(userUploadedImage[0]);
 	img.onload = function () {
 		// Rotate 90 degrees clockwise
 		canvas.width = img.height;
@@ -122,36 +109,25 @@ function rotateImage ()
 
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.save();
-		//ctx.translate(canvas.width, 0);
 		ctx.translate(0, canvas.height);
 		ctx.rotate(-1 * Math.PI / 2);
 		ctx.drawImage(img, 0, 0);
 		ctx.restore();
-		console.log ("rotated 90 degree baby");
+		
 		canvas.toBlob(blob => {
 			const rotatedFile = new File([blob], userUploadedImage[0].name, { type: userUploadedImage[0].type });
 			const dt = new DataTransfer();
 			dt.items.add(rotatedFile);
-			image_cropped_perspectiveCorrected.src = URL.createObjectURL(rotatedFile);
-			document.getElementById("image_uploaded_cropping").src =  image_cropped_perspectiveCorrected.src;
+															
+			UpdateDisplayingImages(rotatedFile);		
+			userUploadedImage = dt.files;	
 			InputBox.files = dt.files;
-			InputBox2.files = dt.files;
-			userUploadedImage = dt.files;
-			
-			/*const dlBtn = document.getElementById("downloadBtn");
-			dlBtn.href = URL.createObjectURL(rotatedFile);
-			dlBtn.download = userUploadedImage[0].name;
-			dlBtn.style.display = "inline-block";*/
-			
+			InputBox2.files = dt.files;	
 			AllowDownloadImageButton(rotatedFile, userUploadedImage[0].name);
 		});
 	};
-	img.src = URL.createObjectURL(userUploadedImage[0]);
 }
-
 function cropImage() {
-	//event.preventDefault(); // stop form submit
-
 	const canvas = document.getElementById("tempCanvas");
 	const ctx = canvas.getContext("2d");
 	const img = new Image();
@@ -161,6 +137,7 @@ function cropImage() {
 	const cropTop = parseInt(document.getElementById("CropTopNum").value);
 	const cropBot = parseInt(document.getElementById("CropBotNum").value);
 
+	img.src = URL.createObjectURL(userUploadedImage[0]);
 	img.onload = function () {
 		const cropWidth = img.width - cropLeft - cropRight;
 		const cropHeight = img.height - cropTop - cropBot;
@@ -181,19 +158,13 @@ function cropImage() {
 			const croppedFile = new File([blob], userUploadedImage[0].name, { type: userUploadedImage[0].type });
 			const dt = new DataTransfer();
 			dt.items.add(croppedFile);
-			image_cropped_perspectiveCorrected.src = URL.createObjectURL(croppedFile);
-			document.getElementById("image_uploaded_cropping").src = image_cropped_perspectiveCorrected.src;
+			
+			UpdateDisplayingImages(croppedFile);	
 			InputBox.files = dt.files;
 			InputBox2.files = dt.files;
-			
-			/*const dlBtn = document.getElementById("downloadBtn");
-			dlBtn.href = URL.createObjectURL(croppedFile);
-			dlBtn.download = userUploadedImage[0].name;*/
 			AllowDownloadImageButton(croppedFile, userUploadedImage[0].name);
 		});
 	};
-
-	img.src = URL.createObjectURL(userUploadedImage[0]);
 }
 
 const InputBoxOverlay = document.getElementById("InputBoxOverlay");
@@ -211,8 +182,9 @@ function changeImage(blobImage) {
  document.getElementById('resultImg').src = urlCreator.createObjectURL(blobImage);
 }
 
-//document.querySelector("#ImageForm").addEventListener("submit", function(e){
-//        e.preventDefault();    //stop form from submitting
+document.querySelector("#ImageForm").addEventListener("submit", function(e){
+        e.preventDefault();    //stop form from submitting, this just stops the 400 Bad Request submission
+});
 function submitWithParam ()
 {
 		const myForm = document.forms['ImageForm'];
@@ -237,7 +209,8 @@ function submitWithParam ()
   });
 };
 function submitOnly ()
-{const myForm = document.forms['ImageForm'];
+{
+			const myForm = document.forms['ImageForm'];
 		fetch(document.forms['ImageForm'].action, {method:'post', body: new FormData(myForm)})
 				.then((response) => {
 			if (!response.ok) {
@@ -321,7 +294,7 @@ window.onload = function() {
 	console.log ("Apply Button assigned but disabled");
 }
 
-document.getElementById("image_uploaded_cropping").addEventListener("load", () => {
+document.getElementById("image_cropped_PerspectiveCorrecting").addEventListener("load", () => {
 	SetUpPerspectiveBox ();
 });
 

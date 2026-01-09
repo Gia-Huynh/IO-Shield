@@ -17,7 +17,7 @@ function DataURIToBlob(dataURI) {
 export function setUpApplyButton (utils) 
 {  //Setup cai perspective correction algorithm
 	console.log ("setUpApplyButton called");
-	const imageUsed = document.getElementById('image_uploaded_cropping').getAttribute('src');
+	const imageUsed = document.getElementById('image_cropped_PerspectiveCorrecting').getAttribute('src');
     let pointsArray = []
     const children = document.querySelectorAll('#window_g .handle')
     //console.log(children)
