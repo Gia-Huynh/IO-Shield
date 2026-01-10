@@ -86,7 +86,7 @@ function Konva_canvas_load_image (clear_canvas = false)
 	}
 	document.getElementById("konva_background_image").src = document.getElementById("image_cropped_perspectiveCorrected").src;
 };
-export function downloadKonvasCanvasPNG()
+export function downloadKonvasCanvasPNG(filename)
 {
 	console.log ("downloadKonvasCanvasPNG triggered");
 	const dataURL = stage.toDataURL({ 
@@ -96,7 +96,7 @@ export function downloadKonvasCanvasPNG()
 									});
 	const a = document.createElement('a');
 	a.href = dataURL;
-	a.download = 'aaaaaaaaaaa - Copy.png';
+	a.download = filename;
 	a.click();	
 }
 export function getKonvaCanvas ()

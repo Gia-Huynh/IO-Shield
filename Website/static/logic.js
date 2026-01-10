@@ -24,8 +24,8 @@ export function UpdateEnteredFilename(newName) //Result File Naming
 	{
 		if (userEntered_Filename === undefined)
 		{
-			console.log ("User not entered file name, auto generating...", userUploaded_OG_Image[0].name);
-			userEntered_Filename = userUploaded_OG_Image[0].name; //Auto generate filename from input file.
+			console.log ("User not entered file name, auto generating...", userEntered_Filename);
+			userEntered_Filename = userEntered_Filename; //Auto generate filename from input file.
 		}
 		else
 		{
@@ -67,7 +67,7 @@ dropContainer.ondrop = function(evt) {
 	UpdateUploadedFiles(dT, true);
 	UpdateDisplayingImages(evt.dataTransfer.files[0]);
 	UpdateEnteredFilename();
-	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploaded_OG_Image[0].name);
+	AllowDownloadImageButton(evt.dataTransfer.files[0], userEntered_Filename);
 	show_hide_shrink_stuff();
 	document.getElementById("CropRotateForm").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  }); //Scroll into next part
 };
@@ -88,7 +88,7 @@ InputBox.onchange = evt => {
   const [file] = InputBox.files;			
   if (file) {
 	UpdateDisplayingImages(file);
-	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploaded_OG_Image[0].name);
+	AllowDownloadImageButton(evt.dataTransfer.files[0], userEntered_Filename);
 	UpdateEnteredFilename();
   };
   show_hide_shrink_stuff();
@@ -206,7 +206,7 @@ async function submitKonvasCanvas()
 				updateTextInput(spacingData.top, 'myNum4');
 				
 				let temp_file_list = new DataTransfer();
-				temp_file_list.items.add(dataURLtoFile (dataURL, 'nigger.png'));
+				temp_file_list.items.add(dataURLtoFile (dataURL, userEntered_Filename));
 				document.getElementById("InputBox").files = temp_file_list.files;
 				document.getElementById("InputBox2").files = temp_file_list.files;
 
@@ -297,7 +297,7 @@ document.getElementById('send-konva-img').onclick =() => {
 	submitKonvasCanvas();
 };
 document.getElementById('download-konva-img').onclick =() => {
-	downloadKonvasCanvasPNG();
+	downloadKonvasCanvasPNG(userEntered_Filename);
 };
 document.getElementById('set-filename').onclick =() => {
 	getFileNameFromInputTextBox();
