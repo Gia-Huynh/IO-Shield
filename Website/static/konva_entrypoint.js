@@ -86,6 +86,19 @@ function Konva_canvas_load_image (clear_canvas = false)
 	}
 	document.getElementById("konva_background_image").src = document.getElementById("image_cropped_perspectiveCorrected").src;
 };
+export function downloadKonvasCanvasPNG()
+{
+	console.log ("downloadKonvasCanvasPNG triggered");
+	const dataURL = stage.toDataURL({ 
+									mimeType: 'image/png',
+									backgroundColor: 'white',
+									pixelRatio: 1,
+									});
+	const a = document.createElement('a');
+	a.href = dataURL;
+	a.download = 'aaaaaaaaaaa - Copy.png';
+	a.click();	
+}
 export function getKonvaCanvas ()
 {
 	//simply return dataURL of KonvaCanvas:
@@ -104,10 +117,6 @@ async function submitKonvasCanvas ()
 									pixelRatio: 1,
 									});
 	
-	const a = document.createElement('a');
-	a.href = dataURL;
-	a.download = 'aaaaaaaaaaa - Copy.png';
-	a.click();
   
 	const blob = await (await fetch(dataURL)).blob();
 	fetch('/upload_png', {

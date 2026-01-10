@@ -1,22 +1,48 @@
 import {updateTextInput, dataURLtoFile, disableLastButton, generateFilePostfix, show_hide_shrink_stuff, AllowDownloadImageButton} from './tiny_util_functions.js'
-import {getKonvaCanvas} from './konva_entrypoint.js'
+import {getKonvaCanvas, downloadKonvasCanvasPNG} from './konva_entrypoint.js'
 
-import {setUpApplyButton} from './img/perspective.js'
-import {UtilsPerspective} from './img/utilsPerspective.js'
+import {setUpApplyButton_WithPerspective, UtilsPerspective} from './img/perspective.js'
+//import {} from './img/utilsPerspective.js'
 import {SetUpPerspectiveBox} from './img/index.js'
 import {rotateImage, resetCropSliderValue, cropImage, ModifyCropValue, CropTopChecking} from './img/cropAndRotate.js'
 
 
 //Global variable, keep them in check
 var serverReturned_BlobImage;
+var userEntered_Filename;
 let userUploaded_OG_Image;
-// Setter
+//Setter for Global variable
 export function UpdateDisplayingImages(inputFile)
 {	
 	image_cropped_perspectiveCorrected.src = URL.createObjectURL(inputFile);
 	document.getElementById("image_cropped_PerspectiveCorrecting").src =  image_cropped_perspectiveCorrected.src;
 	document.getElementById("image_uploaded_cropping").src = image_cropped_perspectiveCorrected.src;
 }
+export function UpdateEnteredFilename(newName) //Result File Naming
+{
+	if (newName === undefined)//If user did not suplement the name (A.k.a function called without any input variable)
+	{
+		if (userEntered_Filename === undefined)
+		{
+			console.log ("User not entered file name, auto generating...", userUploaded_OG_Image[0].name);
+			userEntered_Filename = userUploaded_OG_Image[0].name; //Auto generate filename from input file.
+		}
+		else
+		{
+			console.log ("Filename already generated, not regenerating...");
+		};
+	}
+	else{
+		console.log ("User entered file name below: ");
+		console.log (newName);
+		userEntered_Filename = newName; //asign file name from user input
+	}
+}
+export function getFileNameFromInputTextBox ()
+{
+	UpdateEnteredFilename(document.getElementById("filename-input").value);
+};
+
 export function UpdateUploadedFiles(dt, OG_Image = false) //DataTransfer Object
 {
 	if (OG_Image == true)
@@ -38,15 +64,12 @@ dropContainer.ondrop = function(evt) {
 	const dT = new DataTransfer();
 	dT.items.add(evt.dataTransfer.files[0]);
 
-	UpdateDisplayingImages(evt.dataTransfer.files[0]);  
-	//userUploaded_OG_Image = dT.files;
-	//InputBox.files = dT.files;
-	UpdateUploadedFiles (dT, true);
+	UpdateUploadedFiles(dT, true);
+	UpdateDisplayingImages(evt.dataTransfer.files[0]);
+	UpdateEnteredFilename();
 	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploaded_OG_Image[0].name);
-
 	show_hide_shrink_stuff();
-	//Scroll into next part
-	document.getElementById("CropRotateForm").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
+	document.getElementById("CropRotateForm").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  }); //Scroll into next part
 };
 
 //Drag N Drop only for the adjustment part's overlay image (Copy pasted from above)
@@ -66,21 +89,22 @@ InputBox.onchange = evt => {
   if (file) {
 	UpdateDisplayingImages(file);
 	AllowDownloadImageButton(evt.dataTransfer.files[0], userUploaded_OG_Image[0].name);
+	UpdateEnteredFilename();
   };
   show_hide_shrink_stuff();
-  document.getElementById("AdjustmentBox").scrollIntoView({ behavior: "smooth", inline: "center"}); //Scroll into next part
+  document.getElementById("CropRotateForm").scrollIntoView({ behavior: "smooth", inline: "center"}); //Scroll into next part
 };
 document.getElementById("InputBoxOverlay").onchange = evt => {
   const [file] = document.getElementById("InputBoxOverlay").files;
   if (file) {
-    overlayImg.src = URL.createObjectURL(file)
+    overlayImg.src = URL.createObjectURL(file);
   }
 }
 setInterval(function(){CropTopChecking(userUploaded_OG_Image)}, 100);
 	
 function changeImageFromBlob(blobImage) { //From server blob to displaying image
  serverReturned_BlobImage = blobImage; //Global Variable Editing
- document.getElementById('resultImg').src = (window.URL || window.webkitURL).createObjectURL(blobImage); //const urlCreator = window.URL || window.webkitURL;
+ document.getElementById('resultImg').src = (window.URL || window.webkitURL).createObjectURL(blobImage);
 }
 
 // Non-adjust image submission
@@ -202,7 +226,7 @@ const utilsPerspective = new UtilsPerspective('errorMessage');
 window.onload = function() {
 	SetUpPerspectiveBox();
 	document.getElementById('apply').setAttribute('disabled','true');
-	document.getElementById('apply').onclick =() => setUpApplyButton(utilsPerspective);
+	document.getElementById('apply').onclick =() => setUpApplyButton_WithPerspective(utilsPerspective);
 	console.log ("Apply Button assigned but disabled");
 }
 document.getElementById("image_cropped_PerspectiveCorrecting").addEventListener("load",() => {
@@ -271,6 +295,12 @@ document.getElementById('CropTopRange').oninput = (e) => {
 };
 document.getElementById('send-konva-img').onclick =() => {
 	submitKonvasCanvas();
+};
+document.getElementById('download-konva-img').onclick =() => {
+	downloadKonvasCanvasPNG();
+};
+document.getElementById('set-filename').onclick =() => {
+	getFileNameFromInputTextBox();
 };
 
 

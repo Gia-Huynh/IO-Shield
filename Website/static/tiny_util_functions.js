@@ -18,7 +18,6 @@ export function generateFilePostfix(filename, myForm2){
 }
 
 // PAGE ELEMENT UPDATE FUNCTIONS
-
 //Update range/slider input value
 //https://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value
 export function updateTextInput(val, ID) {
@@ -41,3 +40,4 @@ export function AllowDownloadImageButton (eventDtTransferFile, fileName){
 	dlBtn.download = fileName.replace(/\.[^/.]+$/, "") + ".png";
 	dlBtn.style.display = "inline-block";
 }
+// PAGE ELEMENT RETRIEVAL FUNCTIONS

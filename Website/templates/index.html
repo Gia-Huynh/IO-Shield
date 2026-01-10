@@ -42,6 +42,10 @@
 					<form id="ImageForm_NoParameter" action="" enctype = "multipart/form-data" target="hiddenFrame">
 						<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
 					</form>
+					<div>
+						<p> File name: <input type="text" id="filename-input" value=""/> </p>
+						<button id="set-filename"> Set filename </button> 
+					</div>
 				</div>
 				<div id = "CroppingBox" class = "Section_ImageCropping General_Section boxed">
 					<h2> Cropping Tool </h2>
@@ -109,7 +113,6 @@
 						<p> Perspective correction tool, skip this part if your image is corrected already </p>
 						<button id="apply">Apply</button>
 						<button id="overlayingUploadedImageButton">Move img above to overlay</button>
-						<button id="overlayingCanvasResultButton">Move img below to overlay</button>
 					</div>
 					<link rel="stylesheet" href="./img/Perspective_Correction_Style.css">
 					<script src="./img/libs/qunit-2.0.1.js" type="text/javascript"></script>
@@ -128,6 +131,7 @@
 								<button style = "background-color: purple;">  Download Image </button> 
 							</a> 
 							<button style = "background-color: cadetblue" id="submitOnly" value="Like"> Submit ONLY </button>
+							<button id="overlayingCanvasResultButton">Move that img to overlay</button>
 						</div>
 					</div>
 					<div class ="boxed">
@@ -166,6 +170,8 @@
 						</div>
 						<div style = "margin: 5px">
 							<button id = "send-konva-img"> Send Konva Canvas </button>
+							<button id = "download-konva-img"> Download Konva Images </button>
+							<button id = "exportf-konva-drawing"> Export Konva Drawing </button>
 						</div>
 					</div>
 				</div>

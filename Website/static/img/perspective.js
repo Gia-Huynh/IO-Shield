@@ -1,6 +1,6 @@
-export function setUpApplyButton (utils) 
+export function setUpApplyButton_WithPerspective (utils) 
 {  //Setup cai perspective correction algorithm
-	console.log ("setUpApplyButton called");
+	console.log ("setUpApplyButton_WithPerspective called");
 	const imageUsed = document.getElementById('image_cropped_PerspectiveCorrecting').getAttribute('src');
     let pointsArray = []
     const children = document.querySelectorAll('#window_g .handle')
@@ -56,5 +56,39 @@ export function setUpApplyButton (utils)
 		//document.getElementById("InputBox").files = [dataURLtoFile (image_cropped_perspectiveCorrected.src,'nigger.png')];
 		//document.getElementById("InputBox").files = image_cropped_perspectiveCorrected.src;
     },1000)
-    CropTopNum.scrollIntoView({ behavior: 'smooth', block: 'start'});
+    //CropTopNum.scrollIntoView({ behavior: 'smooth', block: 'start'});
+	document.getElementById("apply").scrollIntoView({ behavior: 'smooth', block: 'start'});
 }
+export function UtilsPerspective(errorOutputId) { // eslint-disable-line no-unused-vars
+    let self = this;
+    this.errorOutput = document.getElementById(errorOutputId);
+
+    const OPENCV_URL = './img/opencv.js';
+    this.loadOpenCv = function(onloadCallback) {
+        let script = document.createElement('script');
+        script.setAttribute('async', '');
+        script.setAttribute('type', 'text/javascript');
+        script.addEventListener('load', () => {
+            console.log(cv.getBuildInformation());
+            onloadCallback();
+        });
+        script.addEventListener('error', () => {
+            self.printError('Failed to load ' + OPENCV_URL);
+        });
+        script.src = OPENCV_URL;
+        let node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(script, node);
+    };
+
+    this.loadImageToCanvas = function(url, cavansId, width, height) {
+        let canvas = document.getElementById(cavansId);
+        let ctx = canvas.getContext('2d');
+        let img = new Image();
+        img.onload = function() {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+        };
+        img.src = url;
+    };
+};
