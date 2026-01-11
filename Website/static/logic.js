@@ -25,7 +25,7 @@ export function UpdateEnteredFilename(newName) //Result File Naming
 		if (userEntered_Filename === undefined)
 		{
 			console.log ("User not entered file name, auto generating...", userEntered_Filename);
-			userEntered_Filename = userEntered_Filename; //Auto generate filename from input file.
+			userEntered_Filename = userUploaded_OG_Image[0].name; //Auto generate filename from input file.
 		}
 		else
 		{
@@ -37,6 +37,8 @@ export function UpdateEnteredFilename(newName) //Result File Naming
 		console.log (newName);
 		userEntered_Filename = newName; //asign file name from user input
 	}
+	console.log("inside UpdateEnteredFilename:", userEntered_Filename);
+	return userEntered_Filename;
 }
 export function getFileNameFromInputTextBox ()
 {
@@ -66,8 +68,9 @@ dropContainer.ondrop = function(evt) {
 
 	UpdateUploadedFiles(dT, true);
 	UpdateDisplayingImages(evt.dataTransfer.files[0]);
-	UpdateEnteredFilename();
-	AllowDownloadImageButton(evt.dataTransfer.files[0], userEntered_Filename);
+	const temp_filename = UpdateEnteredFilename();//Use this to await the result filename
+	console.log("after call:", temp_filename, userEntered_Filename);
+	AllowDownloadImageButton(evt.dataTransfer.files[0], temp_filename);
 	show_hide_shrink_stuff();
 	document.getElementById("CropRotateForm").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  }); //Scroll into next part
 };
@@ -88,8 +91,9 @@ InputBox.onchange = evt => {
   const [file] = InputBox.files;			
   if (file) {
 	UpdateDisplayingImages(file);
-	AllowDownloadImageButton(evt.dataTransfer.files[0], userEntered_Filename);
 	UpdateEnteredFilename();
+	const temp_filename = UpdateEnteredFilename(); //Use this to await the result filename
+	AllowDownloadImageButton(evt.dataTransfer.files[0], temp_filename);
   };
   show_hide_shrink_stuff();
   document.getElementById("CropRotateForm").scrollIntoView({ behavior: "smooth", inline: "center"}); //Scroll into next part
@@ -130,7 +134,7 @@ function submitImage (withParam = false)
 			document.getElementById("ImageForm_WithParameter").requestSubmit();
 			document.getElementById("confirmBox").classList.remove("Hidden");
 			setTimeout(function(){var elmntToView = document.getElementById("confirmBox");
-			elmntToView.scrollIntoView({ behavior: "smooth", block:"center", inline: "center"});},1000);
+			elmntToView.scrollIntoView({ behavior: "smooth", block:"center", inline: "center"});},500);
   });
 };
 // Adjusted Image Submission
@@ -169,7 +173,7 @@ document.querySelector("#ImageForm_WithParameter").addEventListener("submit", fu
 // Final button submission
 document.querySelector("#LastButton").addEventListener("click", function(e){
 	disableLastButton();
-	generateFilePostfix(document.getElementById('InputBox').files[0].name, document.forms['ImageForm_WithParameter']);
+	generateFilePostfix(userEntered_Filename, document.forms['ImageForm_WithParameter']);
 	fetch('/convert', {method:"POST", body:serverReturned_BlobImage})
 			.then(response  => {
 				if (!response.ok) {
@@ -236,7 +240,7 @@ utilsPerspective.loadOpenCv(() => {
     setTimeout(function() { 
         document.getElementById('apply').removeAttribute('disabled');
 		console.log ("Apply Button enabled");
-    },500)
+    },250)
 });
 //Bind functions to buttons.
 document.getElementById('submitWithParam').onclick =() => {

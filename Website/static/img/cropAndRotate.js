@@ -1,4 +1,4 @@
-import {UpdateDisplayingImages, UpdateUploadedFiles} from "../logic.js"
+import {UpdateDisplayingImages, UpdateUploadedFiles, UpdateEnteredFilename} from "../logic.js"
 import {AllowDownloadImageButton, updateTextInput} from '../tiny_util_functions.js'
 export function rotateImage(OG_Image_URL) //Non-pure function, but I tried to keep it's context within boundary.
 {
@@ -20,13 +20,13 @@ export function rotateImage(OG_Image_URL) //Non-pure function, but I tried to ke
 
 		canvas.toBlob(blob => { //Unacceptable, not pure function, this is ass.
 			//const rotatedFile = new File([blob], userUploaded_OG_Image[0].name, { type: userUploaded_OG_Image[0].type });
-			const rotatedFile = new File([blob], OG_Image_URL.name, { type: OG_Image_URL.type });
+			const rotatedFile = new File([blob], UpdateEnteredFilename(), { type: OG_Image_URL.type });
 			const dt = new DataTransfer();
 			dt.items.add(rotatedFile);
 			
 			UpdateUploadedFiles (dt, true);
 			UpdateDisplayingImages(rotatedFile);
-			AllowDownloadImageButton(rotatedFile, OG_Image_URL.name);
+			AllowDownloadImageButton(rotatedFile, UpdateEnteredFilename());
 		});
 	};
 }
@@ -68,13 +68,13 @@ export function cropImage(OG_Image_URL) {
 		);
 
 		canvas.toBlob(blob => {
-			const croppedFile = new File([blob], OG_Image_URL.name, { type: OG_Image_URL.type });
+			const croppedFile = new File([blob], UpdateEnteredFilename(), { type: OG_Image_URL.type });
 			const dt = new DataTransfer();
 			dt.items.add(croppedFile);
 			
 			UpdateUploadedFiles (dt, false);
 			UpdateDisplayingImages(croppedFile);	
-			AllowDownloadImageButton(croppedFile, OG_Image_URL.name);
+			AllowDownloadImageButton(croppedFile, UpdateEnteredFilename());
 		});
 	};
 }

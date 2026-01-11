@@ -69,7 +69,8 @@ export function UtilsPerspective(errorOutputId) { // eslint-disable-line no-unus
         script.setAttribute('async', '');
         script.setAttribute('type', 'text/javascript');
         script.addEventListener('load', () => {
-            console.log(cv.getBuildInformation());
+            //console.log(cv.getBuildInformation()); //OpenCv Printing logs
+			console.log ("OpenCv loaded");
             onloadCallback();
         });
         script.addEventListener('error', () => {

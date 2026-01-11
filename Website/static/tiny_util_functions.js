@@ -25,7 +25,7 @@ export function updateTextInput(val, ID) {
 }
 export function disableLastButton(){
       document.getElementById("LastButton").disabled = true;
-      setTimeout(function(){document.getElementById("LastButton").disabled = false;},10000);
+      setTimeout(function(){document.getElementById("LastButton").disabled = false;},3000);
 }
 export function show_hide_shrink_stuff()
 {
