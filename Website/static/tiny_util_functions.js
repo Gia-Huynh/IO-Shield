@@ -11,6 +11,22 @@ export function dataURLtoFile(dataurl, filename) {
     }
     return new File([u8arr], filename, {type:mime});
 }
+export function imageToUri(url) { //, callback
+    return new Promise((resolve, reject) => {
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d');
+
+		var base_image = new Image();
+		base_image.onload = () => {
+			canvas.width = base_image.width;
+			canvas.height = base_image.height;
+			ctx.drawImage(base_image, 0, 0);
+			resolve(canvas.toDataURL('image/png'));
+		};
+        base_image.onerror = reject;
+		base_image.src = url;
+	})
+}
 export function generateFilePostfix(filename, myForm2){
 	var FilePostfix = "" + filename.replace(/\.[^/.]+$/, "").replace(" - Copy", "") + " [" + myForm2["myNum"].value + '-' + myForm2["myNum2"].value + '-' + myForm2["myNum3"].value + '-' + myForm2["myNum4"].value + "].stl";
 	console.log (FilePostfix);

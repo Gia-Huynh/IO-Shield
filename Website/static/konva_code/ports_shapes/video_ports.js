@@ -8,15 +8,25 @@ export function Port_HDMI({
 	const shape = new Konva.Group({
 	  x: x,	  y: y,	  draggable: true
 	});
+	var body_height = 140;
+	var body_width = 330;
+	var AlignLine_y_offset_ratio = 0.5;
 	// main rectangle
 	const body = new Konva.Rect({
 	  x: x,
 	  y: y,	  
-	  width: 125,	  height: 52,
+	  width: body_width,	  height: body_height,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	
-	  cornerRadius: [6,6,24,24]
+	  cornerRadius: [18,18,72,72]
+	});
+	const Bot_AlignLine = new Konva.Rect({
+	  x: x+Math.floor (body_width/3), //integer division
+	  y: y+Math.floor(AlignLine_y_offset_ratio*body_height),	  
+	  width: Math.floor (body_width/3),	  height: 2,
+	  stroke: STROKE_COLOR,	  strokeWidth: 3,	
 	});
 	shape.add(body);
+	shape.add(Bot_AlignLine);
 	
   return [shape];
 }
@@ -32,163 +42,142 @@ export function Port_DP ({
 	const body = new Konva.Rect({
 	  x: x,
 	  y: y,	  
-	  width: 137,	  height: 53,
+	  width: 390,	  height: 160,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	
-	  cornerRadius: [12,12,12,28]
+	  cornerRadius: [36,36,36,84]
 	});
 	shape.add(body);
 	
   return [shape];
 }
-
-export function Port_DVI({
+function Port_D_subminiature ({
   x = 150,
-  y = 100
+  y = 100,
+  bulge_width = 120,
+  bulge_height = 160,
+  body_width = 550,
+  body_height = 220,
+  AlignLine_x_offset_ratio = 0.05
 } = {}) {
 	// ---- shape ----
 	const shape = new Konva.Group({
 	  x: x,	  y: y,	  draggable: true
 	});
+	var bulge_y_offset = Math.floor((body_height - bulge_height)/2);
+	var AlignLine_x_offset = Math.floor(AlignLine_x_offset_ratio * body_width);
 	
 	// main rectangle
 	// I SWEAR TO GOD THIS BODY IS PERFECT, STOP MESSING WITH IT
+	const Left_bulge = new Konva.Rect({
+	  x: x,     
+	  y: y+bulge_y_offset,
+	  width: bulge_width,
+	  height: bulge_height,
+	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
+	  cornerRadius: [18,0,0,18]
+	}); 
 	const body = new Konva.Rect({
-	  x: x+40,     // attached to right side
+	  x: x+bulge_width,     // attached to right side
 	  y: y,	  
-	  width: 230,	  height: 90,
+	  width: body_width,	  height: body_height,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	cornerRadius: 15
 	});
 	shape.add(body);
 	
 	// bulge
 	const Right_bulge = new Konva.Rect({
-	  x: x+(230+40),     // attached to right side
-	  y: y+16,
-	  width: 40,
-	  height: 56,
+	  x: x+(body_width+bulge_width),     // attached to right side
+	  y: y+bulge_y_offset,
+	  width: bulge_width,
+	  height: bulge_height,
 	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
-	  cornerRadius: [0,6,6,0]
+	  cornerRadius: [0,18,18,0]
 	});
-	const Left_bulge = new Konva.Rect({
-	  x: x,     
-	  y: y+16,
-	  width: 40,
-	  height: 56,
-	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
-	  cornerRadius: [6,0,0,6]
-	}); 
 	shape.add(Right_bulge);
 	shape.add(Left_bulge);
 	
 	const Right_AlignLine = new Konva.Rect({
-	  x: x+230+40-14, //integer division
+	  x: x+body_width+bulge_width-AlignLine_x_offset, 
 	  y: y,	  
-	  width: 1,	  height: 25,
-	  stroke: STROKE_COLOR,	  strokeWidth: 1,	
+	  width: 3,	  height: 75,
+	  stroke: STROKE_COLOR,	  strokeWidth: 3,	
 	});
 	const Left_AlignLine = new Konva.Rect({
-	  x: x+40+14, //integer division
+	  x: x+bulge_width+AlignLine_x_offset,
 	  y: y,	  
-	  width: 1,	  height: 25,
-	  stroke: STROKE_COLOR,	  strokeWidth: 1,	
+	  width: 3,	  height: 75,
+	  stroke: STROKE_COLOR,	  strokeWidth: 3,	
 	});
+	const Bot_AlignLine = new Konva.Rect({
+	  x: x+bulge_width,
+	  y: y+Math.floor(0.5*body_height),	  
+	  width: body_width,	  height: 2,
+	  stroke: STROKE_COLOR,	  strokeWidth: 3,	
+	});
+	shape.add(Bot_AlignLine);
 	shape.add(Right_AlignLine);
 	shape.add(Left_AlignLine);
 
   return [shape];
 }
+export function Port_DVI({
+  x = 150,
+  y = 100
+} = {}) {
+	var ey = Port_D_subminiature ({
+	  x : x,
+	  y : y,
+	  bulge_width : 120,
+	  bulge_height : 160,
+	  body_width : 550,
+	  body_height : 220,
+	  AlignLine_x_offset_ratio : 0.05
+	});
+	return ey;
+};
 export function Port_DSub({
   x = 150,
   y = 100
 } = {}) {
-	// ---- shape ----
-	const shape = new Konva.Group({
-	  x: x,	  y: y,	  draggable: true
+	var ey = Port_D_subminiature ({
+	  x : x,
+	  y : y,
+	  bulge_width : 135,
+	  bulge_height : 155,
+	  body_width : 385,
+	  body_height : 200,
+	  AlignLine_x_offset_ratio : 0.07
 	});
-	// main rectangle
-	const body = new Konva.Rect({
-	  x: x+55,     // attached to right side
-	  y: y,	  
-	  width: 140,	  height: 72,
-	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,	cornerRadius: 10
-	});
-	shape.add(body);
-	
-	const Left_bulge = new Konva.Rect({
-	  x: x,     // attached to right side
-	  y: y+8,
-	  width: 56,
-	  height: 56,
-	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
-	  cornerRadius: [6,0,0,6]
-	});
-	const Right_bulge = new Konva.Rect({
-	  x: x+195,     // attached to right side
-	  y: y+8,
-	  width: 56,
-	  height: 56,
-	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
-	  cornerRadius: [0,6,6,0]
-	});
-	shape.add(Left_bulge);
-	shape.add(Right_bulge);
-
-	const Left_AlignLine = new Konva.Rect({
-	  x: x+55+7, //integer division
-	  y: y,	  
-	  width: 1,	  height: 25,
-	  stroke: STROKE_COLOR,	  strokeWidth: 1,	
-	});
-	const Right_AlignLine = new Konva.Rect({
-	  x: x+195-7, //integer division
-	  y: y,	  
-	  width: 1,	  height: 25,
-	  stroke: STROKE_COLOR,	  strokeWidth: 1,	
-	});
-	shape.add(Left_AlignLine);
-	shape.add(Right_AlignLine);
-  return [shape];
-}
+	return ey;
+};
 
 export function Port_COM({
   x = 150,
   y = 100
 } = {}) {
-	// ---- shape ----
-	const shape = new Konva.Group({
-	  x: x,
-	  y: y,
-	  draggable: true
+	var ey = Port_D_subminiature ({
+	  x : x,
+	  y : y,
+	  bulge_width : 120,
+	  bulge_height : 170,
+	  body_width : 400,
+	  body_height : 230,
+	  AlignLine_x_offset_ratio : 0.04
 	});
-	// main rectangle
-	const body = new Konva.Rect({
-	  x: x+49,     // attached to right side
-	  y: y,
-	  width: 400,
-	  height: 70,
-	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
-	  cornerRadius: 10
+	return ey;
+};
+export function Port_Parallel({
+  x = 150,
+  y = 100
+} = {}) {
+	var ey = Port_D_subminiature ({
+	  x : x,
+	  y : y,
+	  bulge_width : 120,
+	  bulge_height : 160,
+	  body_width : 1000,
+	  body_height : 220,
+	  AlignLine_x_offset_ratio : 0.05
 	});
-	// bulge
-	const bulge = new Konva.Rect({
-	  x: x+449,     // attached to right side
-	  y: y+20,
-	  width: 50,
-	  height: 30,
-	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
-	  cornerRadius: 6
-	});
-	const Left_bulge = new Konva.Rect({
-	  x: x,     // attached to right side
-	  y: y+20,
-	  width: 50,
-	  height: 30,
-	  fill: FILL_COLOR,	  stroke: STROKE_COLOR,	  strokeWidth: STROKE_WIDTH,
-	  cornerRadius: 6
-	});
-	shape.add(body);
-	shape.add(bulge);
-	shape.add(Left_bulge);
-
-  return [shape];
-}
+	return ey;
+};

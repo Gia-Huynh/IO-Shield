@@ -5,10 +5,11 @@ from flask import request
 from flask import jsonify, send_file
 from sys import platform
 import Cleaned as cleaned_code
+import TemplateMatching
 import glob, json
 import sys
 import os
-
+import base64
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
@@ -48,9 +49,9 @@ def upload_file():
             return 'No selected file'
         #print (request.form["InputBox"])
         f = request.files["file"]
-        f.save(tempPath + str(os.getpid()) + 'uploaded.gay')
+        f.save(tempPath + str(os.getpid()) + 'uploaded.png')
         #spacing = {'left':x, 'right':visited.shape[1] - (x+w), 'bottom':visited.shape[0]-(y+h), 'top':y}
-        spacing = cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
+        spacing = cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.png', tempPath + str(os.getpid()) + 'twoDimFile.png')
     #return send_file(tempPath + str(os.getpid()) + 'twoDimFile.png')
     response = send_file(tempPath + str(os.getpid()) + 'twoDimFile.png', mimetype='image/png')
     response.headers["Spacing"] = json.dumps(spacing) #jsonify(spacing).get_data(as_text=True)
@@ -85,11 +86,39 @@ def upload_png():
     if not data:
         return 'No image data', 400
     #path = f"{tempPath}{os.getpid()}_uploaded.png"
-    with open(tempPath + str(os.getpid()) + 'uploaded.gay', 'wb') as f:
+    with open(tempPath + str(os.getpid()) + 'uploaded.png', 'wb') as f:
         f.write(data)
-    spacing = cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.gay', tempPath + str(os.getpid()) + 'twoDimFile.png')
+    spacing = cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.png', tempPath + str(os.getpid()) + 'twoDimFile.png')
     response = send_file(tempPath + str(os.getpid()) + 'twoDimFile.png', mimetype='image/png')
     response.headers["Spacing"] = json.dumps(spacing)
+    return response
+
+@app.route('/upload_png_AI_DETECTION', methods=['POST'])
+def upload_png_AI_DETECTION():
+    if request.content_type != 'image/png':
+        return 'Invalid content type', 400
+    data = request.data  # raw bytes
+    if not data:
+        return 'No image data', 400
+    #path = f"{tempPath}{os.getpid()}_uploaded.png"
+    #with open(tempPath + str(os.getpid()) + 'uploaded.png', 'wb') as f:
+    #    f.write(data)
+    if data.startswith(b"data:image"):
+        data = data.split(b",")[1]
+
+    image_bytes = base64.b64decode(data)
+
+    with open(tempPath + str(os.getpid()) + 'uploaded.png', "wb") as f:
+        f.write(image_bytes)
+
+    #data.save(tempPath + str(os.getpid()) + 'uploaded.png')
+    #spacing = cleaned_code.singleImageBFS (tempPath + str(os.getpid()) + 'uploaded.png', tempPath + str(os.getpid()) + 'twoDimFile.png')
+    port_dict, result_text_overlayed_img, result_mask = TemplateMatching.show_Canny(tempPath + str(os.getpid()) + 'uploaded.png')
+    import cv2
+    cv2.imwrite (tempPath + str(os.getpid()) + '-result_text_overlayed_img.png', result_text_overlayed_img)
+    cv2.imwrite (tempPath + str(os.getpid()) + '-result_mask.png', result_mask)
+    response = send_file(tempPath + str(os.getpid()) + 'uploaded.png', mimetype='image/png')
+    response.headers["port_dict"] = json.dumps(port_dict)
     return response
 
 @app.route('/convert', methods=['GET', 'POST'])

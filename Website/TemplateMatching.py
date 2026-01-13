@@ -149,7 +149,10 @@ def show_Canny (img_path):
         if (port_id is None):
             continue
         result_text_overlayed_img = textOverlayOnImage (result_text_overlayed_img, port_id_dict[port_id], component["bbox"][0], component["bbox"][1])
-        result_list_port_position.append ({"port_id": port_id, "centroid": component["centroid"]})
+        #rescale centroid from fixed pixel position to percentage.
+        gay_ass_centroid = [component["centroid"][0]/1100.0, component["centroid"][1]/310.0]#Centroid la correct nhat. 
+        #gay_ass_centroid = [component["bbox"][0]/1100.0, component["bbox"][1]/310.0]       # Vi bbox bị ảnh hưởng nếu chỉ nhận diện được partial
+        result_list_port_position.append ({"port_id": port_id, "centroid": gay_ass_centroid})
 
     def show_img (img, edges, closed, closed_invert, img_path, display_img_list, result_text_overlayed_img):
         img = np.vstack((img, edges, closed, closed_invert[1:-1, 1:-1])) #, closed_thinned
@@ -157,16 +160,17 @@ def show_Canny (img_path):
         display_img_list.append (result_text_overlayed_img)  
         mask_process_img = np.vstack(display_img_list) #delete_mask, keep_mask, 
         cv2.imshow ("inp, deleted, keep, keep_mask_closed", mask_process_img)
-    show_img(img, edges, closed, closed_invert, img_path, display_img_list, result_text_overlayed_img)
+    #show_img(img, edges, closed, closed_invert, img_path, display_img_list, result_text_overlayed_img)
     return result_list_port_position, result_text_overlayed_img, result_mask
 if __name__ == "__main__":
     folder = r"./Manufacturer IO/"
     for fname in sorted(os.listdir(folder)):
         img_path = os.path.join(folder, fname)
         print(f"Showing: {fname}")
-        show_Canny(img_path)
-        cv2.waitKey(0)
+        a = show_Canny(img_path)
+        print (a)
+        #cv2.waitKey(0)
         cv2.destroyAllWindows()
         
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()

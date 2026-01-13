@@ -6,10 +6,10 @@ export function get_transform_node (Konva, rotateEnabled){
 	tr.nodes([]); //start detached
 	return tr;
 }
-export function addPort(factoryFn, layer) {
+export function addPort(factoryFn, layer, x = DEFAULT_X, y = DEFAULT_Y) {
 	const [port] = factoryFn({
-		x: DEFAULT_X,
-		y: DEFAULT_Y
+		x: x,
+		y: y
 	});
 
 	port.dragBoundFunc(function(pos) 

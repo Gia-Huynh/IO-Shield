@@ -53,14 +53,6 @@ span{
     text-align: center;
     width: 100%;
 }
-button{
-    width: auto;
-	padding: 1vh;
-    height: auto;
-    border: none;
-    background-color: coral;
-    cursor: pointer;
-}
 svg {
     position: absolute;
     top: 0;

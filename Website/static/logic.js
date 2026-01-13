@@ -1,5 +1,5 @@
-import {updateTextInput, dataURLtoFile, disableLastButton, generateFilePostfix, show_hide_shrink_stuff, AllowDownloadImageButton} from './tiny_util_functions.js'
-import {getKonvaCanvas, downloadKonvasCanvasPNG} from './konva_entrypoint.js'
+import {updateTextInput, dataURLtoFile, disableLastButton, generateFilePostfix, show_hide_shrink_stuff, AllowDownloadImageButton, imageToUri} from './tiny_util_functions.js'
+import {getKonvaCanvas, downloadKonvasCanvasPNG, Apply_AI_Port_Detect} from './konva_entrypoint.js'
 
 import {setUpApplyButton_WithPerspective, UtilsPerspective} from './img/perspective.js'
 //import {} from './img/utilsPerspective.js'
@@ -24,20 +24,19 @@ export function UpdateEnteredFilename(newName) //Result File Naming
 	{
 		if (userEntered_Filename === undefined)
 		{
-			console.log ("User not entered file name, auto generating...", userEntered_Filename);
+			console.log ("User not entered file name, auto generating from", userUploaded_OG_Image[0].name);
 			userEntered_Filename = userUploaded_OG_Image[0].name; //Auto generate filename from input file.
 		}
 		else
 		{
-			console.log ("Filename already generated, not regenerating...");
+			//console.log ("Filename already generated, not regenerating..."); //Gonna get spammed a lot when doing cropping so don't print this.
 		};
 	}
 	else{
-		console.log ("User entered file name below: ");
-		console.log (newName);
+		console.log ("User entered file name:", newName);
 		userEntered_Filename = newName; //asign file name from user input
 	}
-	console.log("inside UpdateEnteredFilename:", userEntered_Filename);
+	//console.log("inside UpdateEnteredFilename:", userEntered_Filename);
 	return userEntered_Filename;
 }
 export function getFileNameFromInputTextBox ()
@@ -72,7 +71,7 @@ dropContainer.ondrop = function(evt) {
 	console.log("after call:", temp_filename, userEntered_Filename);
 	AllowDownloadImageButton(evt.dataTransfer.files[0], temp_filename);
 	show_hide_shrink_stuff();
-	document.getElementById("CropRotateForm").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  }); //Scroll into next part
+	document.getElementById("filename-input").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  }); //Scroll into next part
 };
 
 //Drag N Drop only for the adjustment part's overlay image (Copy pasted from above)
@@ -137,6 +136,34 @@ function submitImage (withParam = false)
 			elmntToView.scrollIntoView({ behavior: "smooth", block:"center", inline: "center"});},500);
   });
 };
+// AI Port detection submission
+async function submitImage_AI_Port_Detect ()
+{ 	const dataURL =  document.getElementById("image_cropped_perspectiveCorrected").src;
+	return imageToUri(dataURL).then(uri =>
+							fetch('/upload_png_AI_DETECTION', {
+							  method: 'POST',
+							  headers: {
+								'Content-Type': 'image/png'
+							  },
+							  body: uri
+							}).then((response) => 
+									{
+										if (!response.ok) 
+										{
+										  throw new Error("HTTP error: ${response.status}");
+										}
+										let port_dict = JSON.parse(response.headers.get("port_dict"));
+										console.log("port_dict: ", port_dict)
+										return port_dict;
+									}) //);
+								  .then((port_dict) => 
+									{
+										Apply_AI_Port_Detect(port_dict);										
+									}) );
+}
+window.submitImage_AI_Port_Detect = submitImage_AI_Port_Detect; //DEBUG ONLY!!!!!!!!
+//const result = await submitImage_AI_Port_Detect();
+//console.log(result);
 // Adjusted Image Submission
 document.querySelector("#ImageForm_WithParameter").addEventListener("submit", function(e){
         e.preventDefault();    //stop form from submitting
@@ -305,6 +332,16 @@ document.getElementById('download-konva-img').onclick =() => {
 };
 document.getElementById('set-filename').onclick =() => {
 	getFileNameFromInputTextBox();
+	document.getElementById("CroppingBox").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
+};
+document.getElementById('AI-port-detection').onclick =() => {
+	submitImage_AI_Port_Detect();
+};
+document.getElementById('scrollToPerspective').onclick =() => {
+	document.getElementById("PerspectiveCorrectionBox").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
+};
+document.getElementById('scrollToKonvas').onclick =() => {
+	document.getElementById("konva_container_container").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
 };
 
 

@@ -8,6 +8,16 @@ main
     box-shadow:inset 0px 0px 0px 1px #000;
 }
 h1 {font-size:2.2em;}
+button{
+    width: auto;
+	padding: 1vh;
+    height: auto;
+    border: none;
+    background-color: #55ddff;
+	font-size: 1.15em;
+	max-width:  20vw;
+    cursor: pointer;
+}
 	.Hidden{
 		display: none !important;
 	}
@@ -47,10 +57,11 @@ h1 {font-size:2.2em;}
 	#confirmBox{}
 	#image_cropped_perspectiveCorrected
 	{
-    -webkit-box-shadow:inset 0px 0px 10px 2px #333;
-    -moz-box-shadow:inset 0px 0px 10px 2px #333;
-    box-shadow:inset 0px 0px 10px 2px #333;
-		margin-bottom: 0.5vh;
+		width: 100%;
+		-webkit-box-shadow:inset 0px 0px 10px 2px #333;
+		-moz-box-shadow:inset 0px 0px 10px 2px #333;
+		box-shadow:inset 0px 0px 10px 2px #333;
+			margin-bottom: 0.5vh;
 	}
 	.ShowAfterShrink
 	{
@@ -258,7 +269,7 @@ h1 {font-size:2.2em;}
 	.confirmButton
 	{
 		align-items: center;
-		width: 75%;
+		width: 32%;
 		    height: auto;
 		margin-top: 1vh;
 		margin-bottom: 1vh;
@@ -281,7 +292,7 @@ h1 {font-size:2.2em;}
 		max-width: 107.142857143vh;*/
 		background-color: transparent;
 		transform: translate(0%, -100%);
-		width: auto;
+		width: 100%;
 		height: auto;
 		margin: auto;
 	}
