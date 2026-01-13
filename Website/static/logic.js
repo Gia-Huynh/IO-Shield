@@ -1,5 +1,5 @@
 import {updateTextInput, dataURLtoFile, disableLastButton, generateFilePostfix, show_hide_shrink_stuff, AllowDownloadImageButton, imageToUri} from './tiny_util_functions.js'
-import {getKonvaCanvas, downloadKonvasCanvasPNG, Apply_AI_Port_Detect} from './konva_entrypoint.js'
+import {getKonvaCanvas, downloadKonvasCanvasPNG, Apply_AI_Port_Detect, Konva_canvas_load_image} from './konva_entrypoint.js'
 
 import {setUpApplyButton_WithPerspective, UtilsPerspective} from './img/perspective.js'
 //import {} from './img/utilsPerspective.js'
@@ -20,7 +20,7 @@ export function UpdateDisplayingImages(inputFile)
 }
 export function UpdateEnteredFilename(newName) //Result File Naming
 {
-	if (newName === undefined)//If user did not suplement the name (A.k.a function called without any input variable)
+	if (newName === undefined  || newName.trim() === "")//If user did not suplement the name (A.k.a function called without any input variable)
 	{
 		if (userEntered_Filename === undefined)
 		{
@@ -53,6 +53,13 @@ export function UpdateUploadedFiles(dt, OG_Image = false) //DataTransfer Object
 	InputBox.files = dt.files;
 }
 
+// Set Interval for crop checking.
+setInterval(function(){CropTopChecking(userUploaded_OG_Image)}, 100);
+// Set up perspective box everytime there is a cropping event
+document.getElementById("image_cropped_PerspectiveCorrecting").addEventListener("load",() => {
+	//SetUpPerspectiveBox();
+	//This causes too much performance issue, so moving this down to 'scrollToPerspective'
+});
 
 //Drag N Drop the first Image
 const InputBox = document.getElementById("InputBox");
@@ -68,10 +75,11 @@ dropContainer.ondrop = function(evt) {
 	UpdateUploadedFiles(dT, true);
 	UpdateDisplayingImages(evt.dataTransfer.files[0]);
 	const temp_filename = UpdateEnteredFilename();//Use this to await the result filename
-	console.log("after call:", temp_filename, userEntered_Filename);
+	console.log("after call (temp_filename and userEntered_Filename):", temp_filename, userEntered_Filename);
 	AllowDownloadImageButton(evt.dataTransfer.files[0], temp_filename);
 	show_hide_shrink_stuff();
-	document.getElementById("filename-input").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  }); //Scroll into next part
+	//document.getElementById("NameInputSection").style.backgroundColor = "#2e62b2";
+	document.getElementById("NameInputSection").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  }); //Scroll into next part
 };
 
 //Drag N Drop only for the adjustment part's overlay image (Copy pasted from above)
@@ -103,7 +111,6 @@ document.getElementById("InputBoxOverlay").onchange = evt => {
     overlayImg.src = URL.createObjectURL(file);
   }
 }
-setInterval(function(){CropTopChecking(userUploaded_OG_Image)}, 100);
 	
 function changeImageFromBlob(blobImage) { //From server blob to displaying image
  serverReturned_BlobImage = blobImage; //Global Variable Editing
@@ -260,14 +267,11 @@ window.onload = function() {
 	document.getElementById('apply').onclick =() => setUpApplyButton_WithPerspective(utilsPerspective);
 	console.log ("Apply Button assigned but disabled");
 }
-document.getElementById("image_cropped_PerspectiveCorrecting").addEventListener("load",() => {
-	SetUpPerspectiveBox();
-});
 utilsPerspective.loadOpenCv(() => {
     setTimeout(function() { 
         document.getElementById('apply').removeAttribute('disabled');
 		console.log ("Apply Button enabled");
-    },250)
+    },150)
 });
 //Bind functions to buttons.
 document.getElementById('submitWithParam').onclick =() => {
@@ -338,9 +342,20 @@ document.getElementById('AI-port-detection').onclick =() => {
 	submitImage_AI_Port_Detect();
 };
 document.getElementById('scrollToPerspective').onclick =() => {
+	SetUpPerspectiveBox();
 	document.getElementById("PerspectiveCorrectionBox").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
 };
 document.getElementById('scrollToKonvas').onclick =() => {
+	//document.getElementById("konva_container_container").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
+	document.getElementById("konva-clear-canvas").scrollIntoView({ behavior: "smooth", block: "end", inline: "center"  });
+	
+};
+document.getElementById('konva-load-image').onclick = () => {
+	Konva_canvas_load_image ();
+	document.getElementById("konva_container_container").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
+};
+document.getElementById('konva-clear-canvas').onclick = () => {
+	Konva_canvas_load_image (true);
 	document.getElementById("konva_container_container").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
 };
 

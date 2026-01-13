@@ -9,20 +9,22 @@
     <link rel="stylesheet" href="./cum.css">
     <link rel="stylesheet" href="../static/cum.css">
     <link rel="stylesheet" href="./static/cum.css">
+    <link rel="stylesheet" href="../static/font_and_coloring.css">
+    <link rel="stylesheet" href="./static/font_and_coloring.css">
 	
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
-    <main style = "background-color: #d4c7c9;">
-		<!--div id="adTop" class = "advertisement">
+    <main style="background-color: #d4c7c9;">
+		<!--div id="adTop" class="advertisement">
 			<p> Top ad spot here </p>
 		</div-->
-		<div class = "Top_banner">
+		<div class="Top_banner">
 			<h1>Upload IO Shield image <br> Get model for 3D printing</h1>  
 			<h1>For free - Forever (probably)</h1>
 		</div>
-		<div class = "BigAss">
-			<div id="ad1" class = "advertisement">
+		<div class="BigAss">
+			<div id="ad1" class="advertisement">
 				<h1> User Guide </h1>
 				
 				<div class="video-wrap">
@@ -34,76 +36,84 @@
 					</div>
 				</div>
 			</div>
-			<div class = "content-wrapper">
-				<div  id="dropContainer" class = "Section_FileUpload">
-						 <p class ="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
+			<div class="content-wrapper">
+				<div id="dropContainer" class="Section_FileUpload">
+					<div class="big_text white_text">
+						 <p class="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
 						or by clicking the button below<br></p>
-						 <p class = "ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
-					<form id="ImageForm_NoParameter" action="" enctype = "multipart/form-data" target="hiddenFrame">
-						<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+						 <p class="ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
+					</div>
+					<form id="ImageForm_NoParameter" action="" enctype="multipart/form-data" target="hiddenFrame">
+						<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class="InputBox" accept="image/png, image/gif, image/jpeg"/>
 					</form>
-				</div>
-				<div class = "General_Section boxed">
-					<div style = "margin: 2vh">
-						<p style = "display: inline-block"> File name: </p><input type="text" id="filename-input" style = "font-size: 3vh" value=""/>
-						
-							<button id="set-filename"> Set filename </button>  
+					<div class="small_text white_text"
+						style="width: 33%; 
+								padding-top:8vh;
+								margin: auto 0 2vh auto;">
+							<h3> [Debugging] Example image</h3>
+							<img style="width: 100%" id="ExampleImg" src="static/B450M Pro4-F(L5).png"/>
 					</div>
 				</div>
-				<div id = "CroppingBox" class = "Section_ImageCropping General_Section boxed">
-					<h2> Cropping Tool </h2>
+				<div id="NameInputSection" class="General_Section boxed">
+					<div style="margin: 2vh">
+						<p class="big_text dark_blue_text" style="display: inline-block"> File name: </p><input type="text" id="filename-input" style="font-size: 3vh" value=""/>
+					</div>
+							<button id="set-filename"> Set filename </button>  
+				</div>
+				<div id="CroppingBox" class="Section_ImageCropping General_Section boxed">
+					<h2 class="medium_text dark_blue_text"> Cropping Tool </h2>
 					<div class="General_Section perspectiveCorrection_ImageContainer">
 						<div id="CropImage_Background" class="perspectiveCorrection_o_image">
 							<img id="image_uploaded_cropping" src=""/>
 						</div>
 					</div>
-					<div id="Cropping-Parameter" class ="" style = "display:flex;width:95%;height:auto;margin-top: 1vh;">
-						<div style = "width: 25%; margin-top: auto; padding-right: 3vw;">
+					<div id="Cropping-Parameter" class="" style="display:flex;width:95%;height:auto;margin-top: 1vh;">
+						<div style="width: 25%; margin-top: auto; padding-right: 3vw;">
 							<h3> Example image format </h3>
-							<img id="ExampleImg" src = "static/B450M Pro4-F(L5).png"/>
+							<img id="ExampleImg" src="static/B450M Pro4-F(L5).png"/>
 						</div>
-						<div style = "width: 29.9%;">
-							<form id = "CropRotateForm">
-								<div style = "display: flex;"> 
+						<div style="width: 29.9%;">
+							<form id="CropRotateForm">
+								<div style="display: flex;"> 
 									<input class="inputNumber" name="CropLeftNum" id="CropLeftNum"  type="number" min="0" max="2000" value="0"/>
-									<p class = "left_text_box"> Left Cropping </p>
+									<p class="tiny_text dark_blue_text left_text_box"> Left Crop </p>
 								</div>
 								<input type="range" name="CropLeftRange" id="CropLeftRange" min="0" max="2000" value="0" class="slider">
-								
-								
-								<div style = "display: flex"> 
+																
+								<div style="display: flex"> 
 									<input class="inputNumber" name="CropRightNum" id="CropRightNum" type="number"  min="0" max="2000" value="0" />
-									<p class = "left_text_box"> Right Cropping </p>
+									<p class="tiny_text dark_blue_text left_text_box"> Right Crop </p>
 								</div>
 								<input type="range" name="CropRightRange" id="CropRightRange" min="0" max="2000" value="0" class="slider">
-								
-								<div style = "display: flex"> 
-									<input class="inputNumber" name="CropBotNum" id="CropBotNum" type="number"  min="0" max="2000" value="0"/>
-									<p class = "left_text_box"> Bottom Cropping </p>
-								</div>
-								<input type="range" name="CropBotRange" id="CropBotRange" min="0" max="2000" value="0" class="slider">
-								
-								<div style = "display: flex"> 
+																
+								<div style="display: flex"> 
 									<input class="inputNumber" name="CropTopNum" id="CropTopNum" type="number" min="0" max="2000" value="0"/>
-									<p class = "left_text_box"> Top Cropping </p>
+									<p class="tiny_text dark_blue_text left_text_box"> Top Crop </p>
 								</div>
 								<input type="range" name="CropTopRange" id="CropTopRange" min="0" max="2000" value="0" class="slider">
+								
+								<div style="display: flex"> 
+									<input class="inputNumber" name="CropBotNum" id="CropBotNum" type="number"  min="0" max="2000" value="0"/>
+									<p class="tiny_text dark_blue_text left_text_box"> Bottom Crop </p>
+								</div>
+								<input type="range" name="CropBotRange" id="CropBotRange" min="0" max="2000" value="0" class="slider">
 							</form>
 						</div>
-						<div style = "width: 20%; display: grid;">
-							<button style = " margin: 0.3vh;" id = "rotateImage"> Rotate 90 Degree  </button>
-							<button  style = " margin: 0.3vh;" id = "cropImage"> Crop Image </button>
-							<button style = " margin: 0.3vh;" id = "resetCropValue"> Reset Crop Value  </button>
+						<div style="width: 20%; display: grid;">
+							<button style=" margin: 0.3vh;" id="rotateImage"> Rotate 90 Degree  </button>
+							<button style=" margin: 0.3vh;" id="cropImage"> Crop Image </button>
+							<button class="dark_gray_bg" style=" margin: 0.3vh;" id="resetCropValue"> Reset Crop Value  </button>
 							<canvas id="tempCanvas" style="display:none;"></canvas>
 						</div>
 					</div>
 					<div>
-						<button id="scrollToPerspective" class = "confirmButton"  value="Like">Perspective needed</button>
-						<button id="submitWithParam" class = "confirmButton" style = "background-color: cadetblue" value="Like"> Submit with auto-parameter </button>
-					    <button class = "confirmButton" style = "background-color: #fa5555" id="submitOnly" value="Like"> Submit WITHOUT auto-parameter </button>
+						<button id="scrollToPerspective" class="confirmButton"  value="Like">Setup Perspective Box</button>
+						<button id="submitWithParam" class="confirmButton dark_gray_bg" value="Like"> Submit with auto-parameter </button>
+					    <button class="confirmButton dark_gray_bg" id="submitOnly" value="Like"> Submit WITHOUT auto-parameter </button>
 					</div>
 				</div>
-				<div id="PerspectiveCorrectionBox" class = "General_Section boxed">
+				<div id="PerspectiveCorrectionBox" class="General_Section boxed"
+					  style="height:75vh;">
 					<h2> Perspective Correction Tool </h2>
 					<div class="General_Section perspectiveCorrection_ImageContainer">
 						<div id="background" class="perspectiveCorrection_o_image">
@@ -116,74 +126,80 @@
 						</div>
 					</div>
 					<div class="b_container">
-						<p> Perspective correction tool, skip this part if your image is corrected already </p>
-						<button id="apply">Apply</button>
-						<button id="overlayingUploadedImageButton"> Move above image <br> (No perspective applied) <br> to overlay </button>
+						<!--p> Perspective correction tool, skip this part if your image is corrected already </p-->
+						<button class="green_gray_bg" id="apply">Apply</button>
+						<button class="dark_gray_bg" id="overlayingUploadedImageButton"> Move above image <br> (No perspective applied) <br> to overlay </button>
 					</div>
 					<link rel="stylesheet" href="./img/Perspective_Correction_Style.css">
 					<script src="./img/libs/qunit-2.0.1.js" type="text/javascript"></script>
 					<script src="./img/libs/d3.v3.min.js"></script>
 					<script src="./img/libs/numeric-solve.min.js"></script>
 				</div>
-				<div class = "General_Section">
-					<div id = "Review_Image" class ="boxed">  <!--Hidden-->
+				<div  id="Review_Image" class="General_Section boxed"  style="height:75vh;">
 						<h2> Review Your Image </h2>
 						<img id="image_cropped_perspectiveCorrected" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<!--p> Right-click the image and click "save image as..." to save it down. <br> Use paint to draw white boxes on image to denote io-shield blocking zone
 						</p--> 
 						<!--h1>Looks good?</h1-->
-						<div style = "width: 99%; margin-top: 0.5vh;"> 
+						<div style="width: 99%; margin-top: 0.5vh;"> 
 							<a id="downloadBtn" value="Like"> 
-								<button style = "background-color: red;"> REMEMBER: <br> Download <br> Image </button> 
+								<button class="green_bright_bg"> 1) REMEMBER: <br> Download Image </button> 
 							</a> 
-							<button style = "background-color: #55ffaa;" id="scrollToKonvas"> Start Drawing </button>
-							<button id="overlayingCanvasResultButton">Move corrected image <br> to overlay</button>
+							<button class="green_gray_bg" id="overlayingCanvasResultButton"> Step 2: Move corrected <br> image to overlay</button>
+							<button class="green_bright_bg" id="scrollToKonvas"> Step 3: <br> Start Drawing </button>
 						</div>
-					</div>
-					<div class ="boxed">
+				</div>
+				<div class="General_Section boxed">
 						<h2> Konvas Drawing </h2>
-						<div style = "margin: 5px">
-							<button id = "konva-load-image"> Load Image </button>
-							<button id = "konva-clear-canvas"> Clear Canvas <br> and Load Image </button>
-							<button id = "AI-port-detection"> A.I <br> Ports Detection </button>
-						</div>
-						<div style = "margin: 5px">
-							<p> Common modern Ports </p>
-							<div style = "margin-bottom: 10px">
-								<button id = "add-usb"> USB </button>
-								<button id = "add-usb2x"> 2 USB </button>
-								<button id = "add-usbC"> USB Type C </button>
+						<div style="
+								display: flex;
+								flex-flow: row;
+								width: 100%;
+								padding: 0 3vw 0 3vw;
+								gap: 2vw;
+							">
+							<div style="flex: 1 1 0;margin: 5px">
+								<div style="margin-bottom: 10px">
+								<p class="tiny_text">Old school Ports </p>
+									<button class="red_bg" id="add-ps2"> PS2 </button>
+									<button id="add-dsub"> Dsub </button>
+									<button class="white_bg" id="add-dvi"> DVI</button>
+								</div>
+								<div style="margin-bottom: 10px">
+									<button id="add-com"> COM</button>
+									<button id="add-parallel"> Parallel</button>
+								</div>
 							</div>
-							<div style = "margin-bottom: 10px">
-								<button id = "add-hdmi"> HDMI </button>
-								<button id = "add-dp"> DisplayPort </button>
-								<button id = "add-cmos"> Small button (CMOS) </button>
+							<div style="flex: 1 1 0;margin: 5px">
+								<p class="tiny_text"> Common modern Ports </p>
+								<div style="margin-bottom: 10px">
+									<button class="red_bg" id="add-usb2x"> 2 USB </button>
+									<button id="add-usb"> USB </button>
+									<button id="add-usbC"> USB Type C </button>
+								</div>
+								<div style="margin-bottom: 10px">
+									<button id="add-hdmi"> HDMI </button>
+									<button id="add-dp"> DisplayPort </button>
+									<button class="dark_gray_bg" id="add-cmos"> Small button<br> (CMOS) </button>
+								</div>
+							</div>
+							<div style="flex: 1 1 0;margin: 5px">
+								<p class="tiny_text">Internet - Audio Ports </p>
+								<div style="margin-bottom: 10px">
+									<button class="red_bg"  id="add-ethernet"> Ethernet </button>
+									<button id="add-wifi"> Wifi</button>
+								</div>
+								<div style="margin-bottom: 10px">
+									<button class="red_bg"  id="add-audio-single"> Audio <br> Single Hole</button>
+									<button id="add-audio-column"> Audio <br>Column</button>
+									<button class="dark_gray_bg" id="add-audio-optic"> Audio <br>Optic</button>
+								</div>
 							</div>
 						</div>
-						<div style = "margin: 5px">
-							<p> Internet - Audio Ports </p>
-							<div style = "margin-bottom: 10px">
-								<button id = "add-ethernet"> Ethernet </button>
-								<button id = "add-wifi"> Wifi</button>
-							</div>
-							<div style = "margin-bottom: 10px">
-								<button id = "add-audio-single"> Audio <br> Single Hole</button>
-								<button id = "add-audio-column"> Audio <br>Column</button>
-								<button id = "add-audio-optic"> Audio <br>Optic</button>
-							</div>
-						</div>
-						<div style = "margin: 5px">
-							<p> Old school Ports </p>
-							<button id = "add-ps2"> PS2 </button>
-							<button id = "add-dsub"> Dsub </button>
-							<button id = "add-dvi"> DVI</button>
-							<button id = "add-com"> COM</button>
-							<button id = "add-parallel"> Parallel</button>
-						</div>
-						<div style = "margin: 5px">
+						<div style="margin: 5px">
 							<div id="konva_container_container">
 								<div id="konva_container_qat">
-									<img id = "konva_background_image" src = ""> </img>
+									<img id="konva_background_image" src=""> </img>
 									<div id="konva_container">
 									</div>
 								</div>
@@ -192,119 +208,121 @@
 							<script type="module" src="./konva_entrypoint.js">
 							</script>
 						</div>
-						<div style = "margin: 5px">
-							<button id = "send-konva-img"> Send Konva Canvas </button>
-							<button id = "download-konva-img"> Download Konva Images </button>
-							<button id = "exportf-konva-drawing"> Export Konva Drawing </button>
+						<div style="margin: 5px">
+							<button class="green_gray_bg" id="konva-clear-canvas"> Clear Canvas <br> and Load Image </button>
+							<button class="green_gray_bg" id="AI-port-detection"> A.I <br> Ports Detection </button>
+							<button class="dark_gray_bg" id="konva-load-image"> Load Image, <br> keeping canvas </button>
 						</div>
-					</div>
+						<div style="margin: 5px">
+							<button class="green_bright_bg" id="download-konva-img"> Download Konva <br> Images Backup </button>
+							<button class="orange_bg" id="send-konva-img" style= "padding: 1vw"> 2) Send Konva Canvas </button>
+							<button id="exportf-konva-drawing"> Export Konva Drawing </button>
+						</div>
 				</div>
-				<div id = "confirmBox" class = "Part_3 General_Section Hidden">
-					<div class ="boxed ">
+				<div id="confirmBox" class="Part_3 General_Section Hidden boxed">
 						<h1> Confirm & Re-adjust image
 								<br></h1>
-						<div class = "TwoDOverlay">
+						<div class="TwoDOverlay">
 							<img id="overlayImg" style="opacity:0.5; z-index:2;" src="#" alt="Overlayed image" /> 
 							<img id="resultImg" src="#" alt="This is the result image, press the green button above.  If you are seeing this, it's most likely you have not selected the image, try selecting it again." /> 
 						</div>
-						<div class ="Part_3_flex_big">
-							<div class ="Part_3_flex_top">
-								<div class = "Part_3_flex_left">
-								<form id="ImageForm_WithParameter" action="/upload_adjust" enctype = "multipart/form-data" target="hiddenFrame">
+						<div class="Part_3_flex_big">
+							<div class="Part_3_flex_top">
+								<div class="Part_3_flex_left">
+								<form id="ImageForm_WithParameter" action="/upload_adjust" enctype="multipart/form-data" target="hiddenFrame">
 									
 									<input type="file" name="file" id="InputBox2" value="" onclick="this.value=null;" style="display:none;" accept="image/png, image/gif, image/jpeg"/>
 									
-									<div style = "display: flex;"> 
-										<p class = "left_text_box"> Left padding: </p>
+									<div style="display: flex;"> 
+										<p class="left_text_box"> Left padding: </p>
 										<input class="inputNumber" name="myNum" id="myNum" type="number" min="0" max="6000" value="15"/> 
 									</div>
 									
-									<div style = "display: flex"> 
-										<p class = "left_text_box"> Right padding: </p>
+									<div style="display: flex"> 
+										<p class="left_text_box"> Right padding: </p>
 										<input class="inputNumber" name="myNum2" id="myNum2"  type="number"  min="0" max="6000" value="10" />
 									</div>
 									
-									<div style = "display: flex"> 
-										<p class = "left_text_box"> Bottom padding: </p>
+									<div style="display: flex"> 
+										<p class="left_text_box"> Bottom padding: </p>
 										<input class="inputNumber" name="myNum3" id="myNum3" type="number"  min="0" max="6000" value="5"/>
 									</div>
 									
-									<div style = "display: flex"> 
-										<p class = "left_text_box"> Top padding: </p>
+									<div style="display: flex"> 
+										<p class="left_text_box"> Top padding: </p>
 										<input class="inputNumber" name="myNum4" id="myNum4" type="number"  min="0" max="6000" value="5"/>
 									</div>
 									
-									<div style = "display: flex"> 
-										<p class = "left_text_box"> Blurring: </p>
+									<div style="display: flex"> 
+										<p class="left_text_box"> Blurring: </p>
 										<input class="inputNumber" name="BlurRatio" id="BlurRatio" type="number" step="any" min="0" max="1" value="0.003"/>
 									</div>
 									
-									<div style = "display: flex"> 
-										<p class = "left_text_box"> Erosion: </p>
+									<div style="display: flex"> 
+										<p class="left_text_box"> Erosion: </p>
 										<input class="inputNumber" name="ErosionNum" id="ErosionNum" type="number" min="0" max="8" value="0"/>
 									</div>
 								</form>
-								<button type="submit" form="ImageForm_WithParameter" class = "adjustButton" id = "adjustButton2"> Update detection image </button>
+								<button type="submit" form="ImageForm_WithParameter" class="adjustButton" id="adjustButton2"> Update detection image </button>
 								</div>
 								
-								<div class = "Part_3_flex_right">
-									<div class = "boxed" id ="overlay_drop_container">
+								<div class="Part_3_flex_right">
+									<div class="boxed" id="overlay_drop_container">
 										<h3> Overlay another image on top </h3>
 										<p> Search the io shield image <br> of your mobo and use it here</p>
-										<form id="ImageOverlay" action="/upload" enctype = "multipart/form-data" target="hiddenFrame">
-											<input type="file" name="fileTwo" value="" id="InputBoxOverlay" onclick="this.value=null;" class = "InputBox" accept="image/png, image/gif, image/jpeg"/>
+										<form id="ImageOverlay" action="/upload" enctype="multipart/form-data" target="hiddenFrame">
+											<input type="file" name="fileTwo" value="" id="InputBoxOverlay" onclick="this.value=null;" class="InputBox" accept="image/png, image/gif, image/jpeg"/>
 										</form>
 									</div>
-									<button type="submit" class = "adjustButton" id = "GetCorrectParameterButton"> Get Correct Parameter </button>
+									<!--button type="submit" class="adjustButton" id="GetCorrectParameterButton"> Get Correct Parameter </button-->
 								</div>
 							</div>
-							<div class = "Part_3_flex_center">
+							<div class="Part_3_flex_center">
 								<h1> Get 3D Model <br> </h1>
 							</div>
-							<div class ="Part_3_flex_bot">
+							<div class="Part_3_flex_bot">
 								<div style="width: 100%">
-									 <p> Press the green button and be patient, <br> the server is generating your file (10~20 seconds). <br> After downloading it, add ".stl" to the end of the file name. </p>
-									<button class = "confirmButton" id = "LastButton"> Looks like a good recognition to me, <br> GET 3D MODEL NOW </button>
-									<input id="PostFixTextBox" type="text" style = "width:66%; font-size:1vw;" value="File postfix will be here, don't touch this">
+									 <!--p> Press the green button and be patient, <br> the server is generating your file (10~20 seconds). <br> After downloading it, add ".stl" to the end of the file name. </p-->
+									<button class="confirmButton" id="LastButton"> Looks like a good recognition to me, <br> GET 3D MODEL NOW </button>
+									<input id="PostFixTextBox" type="text" style="width:66%; font-size:1vw;" value="File postfix will be here, don't touch this">
 								</div>
 							</div>
 						</div>
-					</div>
 				</div>
 			</div>
-			<div id="ad2" class = "advertisement">
-				<div class = "LeftHalf">
-				<div class ="TopHalf"> <p> DONATE PLZ</p> </div>
-				<div class = "BottomHalf"> 
-					<a href = "https://paypal.me/zahuynh6969" target="_blank">Paypal</a>
-					<a href = "https://steamcommunity.com/tradeoffer/new/?partner=243084914&token=Wd4eyX_8" target="_blank">Steam</a>
-					<a href = "https://me.momo.vn/vjIyu2T7TOFMtqsxURsb" target="_blank">Momo</a>
-					<a href = "#" onclick ="alert ('My binance user id: 21262360'); return false;" target="_blank">Binance </a>
-					<a href = "https://shopee.vn/thietgia3452002" target="_blank"> Shopee store page </a>
+			<div id="ad2" class="advertisement">
+				<div class="LeftHalf">
+				<div class="TopHalf"> <p> DONATE PLZ</p> </div>
+				<div class="BottomHalf"> 
+					<a href="https://paypal.me/zahuynh6969" target="_blank">Paypal</a>
+					<a href="https://steamcommunity.com/tradeoffer/new/?partner=243084914&token=Wd4eyX_8" target="_blank">Steam</a>
+					<a href="https://me.momo.vn/vjIyu2T7TOFMtqsxURsb" target="_blank">Momo</a>
+					<a href="#" onclick="alert ('My binance user id: 21262360'); return false;" target="_blank">Binance </a>
+					<a href="https://shopee.vn/thietgia3452002" target="_blank"> Shopee store page </a>
 				</div> 
 				</div>
-				<div class = "RightHalf">
+				<div class="RightHalf">
 					Electricity isn't free, ya know. <br> If this helps you, please donate.
 					<br>
 					I also have a US-based store on Ebay that can do custom I/O Shield based on your image.
-					<a href = "https://www.ebay.com/usr/zahuynh_usa" target="_blank"> Hit this link to know more </a>
+					<a href="https://www.ebay.com/usr/zahuynh_usa" target="_blank"> Hit this link to know more </a>
 					<br> Tôi cũng có link Shopee (ở trên) <br> và nhận in thiết kế của bạn.
 					<br> Hãy vào và nhắn tin page <br> để được hướng dẫn <br> 
 					<!--br>Even if it's half a dollar, your donation will still be appreciated a lot.-->
 				</div>
 			</div>
 		</div>
-		<div id ="TopDonation">
-			<div class = "LeftHalf">
-				<div class ="TopHalf"> <p> DONATE NOW!!! </p> </div>
-				<div class = "BottomHalf"> 
-					<a href = "https://paypal.me/zahuynh6969" target="_blank">Paypal</a>
-					<a href = "https://steamcommunity.com/tradeoffer/new/?partner=243084914&token=Wd4eyX_8" target="_blank">Steam</a>
-					<a href = "https://me.momo.vn/vjIyu2T7TOFMtqsxURsb" target="_blank">Momo</a>
-					<a href = "#" onclick ="alert ('My binance user id: 21262360'); return false;" target="_blank">Binance</a>					
+		<div id="TopDonation">
+			<div class="LeftHalf">
+				<div class="TopHalf"> <p> DONATE NOW!!! </p> </div>
+				<div class="BottomHalf"> 
+					<a href="https://paypal.me/zahuynh6969" target="_blank">Paypal</a>
+					<a href="https://steamcommunity.com/tradeoffer/new/?partner=243084914&token=Wd4eyX_8" target="_blank">Steam</a>
+					<a href="https://me.momo.vn/vjIyu2T7TOFMtqsxURsb" target="_blank">Momo</a>
+					<a href="#" onclick="alert ('My binance user id: 21262360'); return false;" target="_blank">Binance</a>					
 				</div> 
 			</div>
-			<div class = "RightHalf"> I can't place ad on this website lol. 
+			<div class="RightHalf"> I can't place ad on this website lol. 
 				<br> This page is pretty much just a demo of the project.
 				<br> The source code is available here: <a href="https://github.com/Gia-Huynh/IO-Shield"> github </a>  
 				<br> Installing locally will give you better model quality, and will run faster than this old dusty server.

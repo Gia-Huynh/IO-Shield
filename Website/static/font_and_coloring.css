@@ -1,0 +1,58 @@
+
+h1 {font-size:2.2em;}
+h2 {font-size:1.8em;
+	margin-top: 2vh;
+	margin-bottom: 3.5vh;}
+	
+.big_text 
+{
+		font-size: 2.5em;
+		font-weight: 700;
+}
+.medium_text 
+{
+		font-size: 2em;
+		font-weight: 600;
+}
+.small_text 
+{
+		font-size: 1.6em;
+		font-weight: 600;
+}
+.tiny_text
+{
+		font-size: 1.3em;
+		font-weight: 549;
+}
+.white_text 
+{
+		color: #e9edf0;
+}
+.dark_blue_text 
+{
+		color: #191053;
+}
+.green_bright_bg
+{
+	background-color:  #44ff66;
+}
+.green_gray_bg
+{
+	background-color:  #55ffaa;
+}
+.red_bg
+{
+	background-color: #eb6565;
+}
+.orange_bg
+{
+	background-color: chocolate;
+}
+.dark_gray_bg
+{
+	background-color:  #aaaaaa;
+}
+.white_bg
+{
+	background-color:  #ffffff;
+}

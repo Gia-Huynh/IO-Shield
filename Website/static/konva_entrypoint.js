@@ -55,8 +55,8 @@ function Setup_konva_canvas (container_id, stage_width, stage_height){
 	document.getElementById('add-usbC').onclick = () => {
 	  addPort(Port_USB_TypeC, layer, t_w/2, 30);
 	};
-	document.getElementById('add-cmos', t_w/4, 30).onclick = () => {
-	  addPort(Port_CMOS, layer);
+	document.getElementById('add-cmos').onclick = () => {
+	  addPort(Port_CMOS, layer, t_w/2, 50);
 	};
 	document.getElementById('add-hdmi', t_w/2, 30).onclick = () => {
 	  addPort(Port_HDMI, layer);
@@ -91,9 +91,6 @@ function Setup_konva_canvas (container_id, stage_width, stage_height){
 	document.getElementById('add-audio-optic').onclick = () => {
 	  addPort(Port_Audio_Optic, layer, 3*t_w/4, 30);
 	};
-	window.addPort = addPort; //DEBUG ONLY!!!!!!!!
-	window.Port_USB = Port_USB; //DEBUG ONLY!!!!!!!!
-	window.layer = layer; //DEBUG ONLY!!!!!!!!
 }
 export function Apply_AI_Port_Detect (port_dict)
 {
@@ -137,7 +134,7 @@ export function Apply_AI_Port_Detect (port_dict)
 							});
 };
 //Function to copy uploaded image down to konva canvas.
-function Konva_canvas_load_image (clear_canvas = false)
+export function Konva_canvas_load_image (clear_canvas = false)
 {
 	//const dataURL = document.getElementById('imageResult').toDataURL();
 	t_h = document.getElementById("image_cropped_perspectiveCorrected").height;
@@ -223,9 +220,3 @@ async function submitKonvasCanvas ()
 //document.getElementById('send-konva-img').onclick = () => {
 //	submitKonvasCanvas();
 //};
-document.getElementById('konva-load-image').onclick = () => {
-	Konva_canvas_load_image ();
-};
-document.getElementById('konva-clear-canvas').onclick = () => {
-	Konva_canvas_load_image (true);
-};

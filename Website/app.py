@@ -62,7 +62,7 @@ def upload_file():
 def upload_adjust():
 	if (request.method == 'POST') or (request.method == 'GET'):
 		if request.files["file"].filename == '':
-			print ("No file, upload_adjust")
+			print ("No file uploaded, API upload_adjust")
 			return 'No selected file'
 		f = request.files["file"]
 		file_path = tempPath + str(os.getpid()) + 'adjusting.gay'

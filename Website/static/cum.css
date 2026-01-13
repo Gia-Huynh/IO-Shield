@@ -1,5 +1,8 @@
 /*Mobile Version*/
-*{margin: 0; font-family: Tahoma  ;}
+*{margin: 0; font-family: Tahoma;
+box-sizing: border-box; 
+/*so now width calculation se include padding va ca width instead of not counting padding*/
+}
 main
 {max-width:100vw; }
 	divvv{
@@ -7,7 +10,6 @@ main
     -moz-box-shadow:inset 0px 0px 0px 1px #000;
     box-shadow:inset 0px 0px 0px 1px #000;
 }
-h1 {font-size:2.2em;}
 button{
     width: auto;
 	padding: 1vh;
@@ -54,7 +56,14 @@ button{
 		max-width: 100vw;
 		height:8vh;
 	}
+	#NameInputSection {
+		height: 60vh;
+	}
 	#confirmBox{}
+	#PerspectiveCorrectionBox{
+		/*padding: 2vh 0 5vh 0;
+		padding: 0.5vh;*/
+	}
 	#image_cropped_perspectiveCorrected
 	{
 		width: 100%;
@@ -68,7 +77,9 @@ button{
 		display:none;
 	}
 /*PC Version*/
-
+	#CroppingBox {
+		height: 90vh;
+	}
 	.BigAss
 	{
 		width: 100%;
@@ -138,18 +149,14 @@ button{
 		text-align: center;
 		
 		width: 92%;
-		height: 24vh;
+		height: 50vh;
 		
 		padding:1%;
-		padding-top:12vh;
+		padding-top: 16vh;
 		
 		margin-top:3vh;
 		margin-bottom:3vh;
 		
-		font-size: 2.5em;
-		font-weight: 700;
-		
-		color: #e9edf0;
 		background-color: #3e82c2;
 		
 		box-shadow: initial;
@@ -231,8 +238,11 @@ button{
 		justify-content: center;
 		align-items: center;
 		text-align:center;
-		width:100%;
-		font-size: 1.5em;		
+		width:95%;
+		height: auto;
+		font-size: 1.5em;
+		margin-top: 0.5vh;
+		margin-bottom:0.5vh;
 	}
 	.Section_ImageCropping
 	{
@@ -259,11 +269,6 @@ button{
 	}
 	.boxed
 	{
-		padding: 0.5vh;
-		width: 95%;
-		height: auto;
-		margin-top: 0.5vh;
-		margin-bottom: 1vh;
 		outline: 4px dashed #062d8f;
 	}
 	.confirmButton
@@ -350,7 +355,7 @@ button{
 		display:flex;
 		text-align:left;
 		height: auto;
-		padding: 5vh 2vw 3vh 0;
+		padding: 5vh 2vw 1vh 0;
 		width: 100%;
 	}
 	#ImageForm_WithParameter
@@ -422,4 +427,8 @@ button{
 	{
 		padding-top: 3vh;
 		min-height: 100px;
-		height: 25vh;}
+		height: 25vh;
+	}
+	#LastButton {
+		width: 90%;
+	}
