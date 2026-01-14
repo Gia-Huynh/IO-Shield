@@ -33,7 +33,7 @@ function Setup_konva_canvas (container_id, stage_width, stage_height){
 	stage.getContainer().parentNode.style.height = stage_height + 'px';
 	
 	layer = new Konva.Layer();
-	const tr = get_transform_node (Konva, true);
+	const tr = get_transform_node (Konva, false);
 	 
 	//Adding shits together.
 	layer.add(tr);

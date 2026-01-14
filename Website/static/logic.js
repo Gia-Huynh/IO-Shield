@@ -287,6 +287,7 @@ document.getElementById('overlayingUploadedImageButton').onclick =() => {
   overlayImg.src = document.getElementById("image_cropped_PerspectiveCorrecting").src;
 };
 document.getElementById('rotateImage').onclick =() => {
+  resetCropSliderValue();
   rotateImage(userUploaded_OG_Image[0]);
 };
 document.getElementById('cropImage').onclick =() => {
@@ -336,7 +337,7 @@ document.getElementById('download-konva-img').onclick =() => {
 };
 document.getElementById('set-filename').onclick =() => {
 	getFileNameFromInputTextBox();
-	document.getElementById("CroppingBox").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
+	document.getElementById("CroppingBoxGuide").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
 };
 document.getElementById('AI-port-detection').onclick =() => {
 	submitImage_AI_Port_Detect();
@@ -346,8 +347,8 @@ document.getElementById('scrollToPerspective').onclick =() => {
 	document.getElementById("PerspectiveCorrectionBox").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
 };
 document.getElementById('scrollToKonvas').onclick =() => {
-	//document.getElementById("konva_container_container").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
-	document.getElementById("konva-clear-canvas").scrollIntoView({ behavior: "smooth", block: "end", inline: "center"  });
+	Konva_canvas_load_image (true);
+	document.getElementById("konva_container_container").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
 	
 };
 document.getElementById('konva-load-image').onclick = () => {

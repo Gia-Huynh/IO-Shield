@@ -15,14 +15,10 @@
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
-    <main style="background-color: #d4c7c9;">
+    <main style="background-color: #d4c7c9;"> <!--#493f40-->
 		<!--div id="adTop" class="advertisement">
 			<p> Top ad spot here </p>
 		</div-->
-		<div class="Top_banner">
-			<h1>Upload IO Shield image <br> Get model for 3D printing</h1>  
-			<h1>For free - Forever (probably)</h1>
-		</div>
 		<div class="BigAss">
 			<div id="ad1" class="advertisement">
 				<h1> User Guide </h1>
@@ -37,40 +33,59 @@
 				</div>
 			</div>
 			<div class="content-wrapper">
-				<div id="dropContainer" class="Section_FileUpload">
-					<div class="big_text white_text">
-						 <p class="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
-						or by clicking the button below<br></p>
-						 <p class="ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
+				<div id="dropContainer" class="one_page Section_FileUpload">
+					<div class="Top_banner small_text white_text">
+						<h1>Upload IO Shield image <br> Get model for 3D printing</h1>  
+						<h1>For free - Forever (probably)</h1>
 					</div>
-					<form id="ImageForm_NoParameter" action="" enctype="multipart/form-data" target="hiddenFrame">
-						<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class="InputBox" accept="image/png, image/gif, image/jpeg"/>
-					</form>
-					<div class="small_text white_text"
-						style="width: 33%; 
-								padding-top:8vh;
-								margin: auto 0 2vh auto;">
-							<h3> [Debugging] Example image</h3>
-							<img style="width: 100%" id="ExampleImg" src="static/B450M Pro4-F(L5).png"/>
+					<div class = "boxed" style = "padding: 12vh 1vw 1vh 1vw; margin: 0 3vw; background-color: #3e82c2;">
+						<div class="big_text white_text">
+							 <p class="RemoveAfterShrink"> Upload one image by dragging it into this box <br>
+							or by clicking the button below<br></p>
+							 <p class="ShowAfterShrink">  Drop another image here <br> if you want to update it </p>
+						</div>
+						<form id="ImageForm_NoParameter" action="" enctype="multipart/form-data" target="hiddenFrame">
+							<input type="file" name="file" id="InputBox" value="" onclick="this.value=null;" class="InputBox" accept="image/png, image/gif, image/jpeg"/>
+						</form>
+						<div class="small_text white_text"
+							style="width: 33%; 
+									padding-top:0;
+									margin: 15vh 0 0 auto;">
+								<h3> [Debugging] Example image</h3>
+								<img style="width: 100%" id="ExampleImg" src="static/B450M Pro4-F(L5).png"/>
+						</div>
 					</div>
 				</div>
-				<div id="NameInputSection" class="General_Section boxed">
+				<div id="NameInputSection" class="General_Section boxed one_page">
 					<div style="margin: 2vh">
-						<p class="big_text dark_blue_text" style="display: inline-block"> File name: </p><input type="text" id="filename-input" style="font-size: 3vh" value=""/>
+						<p class="big_text white_text" style="display: inline-block"> Motherboard name: </p><input type="text" id="filename-input" style="font-size: 3vh" value=""/>
 					</div>
-							<button id="set-filename"> Set filename </button>  
+						<p class="medium_text" style = "margin-bottom: 1vh"> Will be used to rename your saved 3D file <br> (Also this code will bug out if there is no filename entered). </p> 
+						<button class="confirmButton" id="set-filename"> Set filename </button>  
 				</div>
-				<div id="CroppingBox" class="Section_ImageCropping General_Section boxed">
+				<div id="CroppingBoxGuide" class="one_page Section_ImageCropping General_Section boxed">
+					<h2 class="medium_text dark_blue_text"> Cropping Tool Guide </h2>
+					<div>
+						<img src="./static/UnCropped Result.jpg" />
+						<img src="./static/CropResult.webp" />
+					</div>
+					<p class="tiny_text dark_blue_text"  style = "width: 80%;margin-bottom: 1vh;"> Crop away everything, keeping only the case cutout, Quick-and-dirty style, don't spend too much time here since next step we will do it more precisely. </p>
+					
+					<button class="confirmButton" onClick="document.getElementById('CroppingBox').scrollIntoView();"> Understood </button>
+				</div>
+				<div id="CroppingBox" class="Section_ImageCropping General_Section boxed one_page">
 					<h2 class="medium_text dark_blue_text"> Cropping Tool </h2>
 					<div class="General_Section perspectiveCorrection_ImageContainer">
 						<div id="CropImage_Background" class="perspectiveCorrection_o_image">
 							<img id="image_uploaded_cropping" src=""/>
 						</div>
 					</div>
-					<div id="Cropping-Parameter" class="" style="display:flex;width:95%;height:auto;margin-top: 1vh;">
-						<div style="width: 25%; margin-top: auto; padding-right: 3vw;">
-							<h3> Example image format </h3>
-							<img id="ExampleImg" src="static/B450M Pro4-F(L5).png"/>
+					<div id="Cropping-Parameter" class="" style="">
+						<div style="width: 20%; display: grid;">
+							<button style=" margin: 0.3vh;" id="rotateImage"> Rotate Image <br> 90 Degree  </button>
+							<button style=" margin: 0.3vh; display: none;" id="cropImage"> Crop Image </button-->
+							<button class="dark_gray_bg no_display" style=" margin: 0.3vh;" id="resetCropValue"> Reset Crop Value  </button>
+							<canvas id="tempCanvas" style="display:none;"></canvas>
 						</div>
 						<div style="width: 29.9%;">
 							<form id="CropRotateForm">
@@ -99,22 +114,16 @@
 								<input type="range" name="CropBotRange" id="CropBotRange" min="0" max="2000" value="0" class="slider">
 							</form>
 						</div>
-						<div style="width: 20%; display: grid;">
-							<button style=" margin: 0.3vh;" id="rotateImage"> Rotate 90 Degree  </button>
-							<button style=" margin: 0.3vh;" id="cropImage"> Crop Image </button>
-							<button class="dark_gray_bg" style=" margin: 0.3vh;" id="resetCropValue"> Reset Crop Value  </button>
-							<canvas id="tempCanvas" style="display:none;"></canvas>
-						</div>
 					</div>
 					<div>
-						<button id="scrollToPerspective" class="confirmButton"  value="Like">Setup Perspective Box</button>
-						<button id="submitWithParam" class="confirmButton dark_gray_bg" value="Like"> Submit with auto-parameter </button>
-					    <button class="confirmButton dark_gray_bg" id="submitOnly" value="Like"> Submit WITHOUT auto-parameter </button>
+						<button id="scrollToPerspective" class="confirmButton"  value="Like"> <p style = "display: contents;"> Done cropping <br> Move To Perspective Correction </p> </button>
+						<button id="submitWithParam" class="confirmButton dark_gray_bg no_display" value="Like"> Submit with auto-parameter </button>
+					    <button class="confirmButton dark_gray_bg no_display" id="submitOnly" value="Like"> Submit WITHOUT auto-parameter </button>
 					</div>
 				</div>
-				<div id="PerspectiveCorrectionBox" class="General_Section boxed"
-					  style="height:75vh;">
+				<div id="PerspectiveCorrectionBox" class="General_Section boxed one_page">
 					<h2> Perspective Correction Tool </h2>
+					<p> Move the red circles to four corners of the case cutout.  </p>
 					<div class="General_Section perspectiveCorrection_ImageContainer">
 						<div id="background" class="perspectiveCorrection_o_image">
 							<img id="image_cropped_PerspectiveCorrecting" src="" />
@@ -127,15 +136,15 @@
 					</div>
 					<div class="b_container">
 						<!--p> Perspective correction tool, skip this part if your image is corrected already </p-->
-						<button class="green_gray_bg" id="apply">Apply</button>
-						<button class="dark_gray_bg" id="overlayingUploadedImageButton"> Move above image <br> (No perspective applied) <br> to overlay </button>
+						<button class="confirmButton" id="apply"> Done selecting four corners <br> Apply transformation </button>
+						<button class="dark_gray_bg no_display" id="overlayingUploadedImageButton"> Move above image <br> (No perspective applied) <br> to overlay </button>
 					</div>
 					<link rel="stylesheet" href="./img/Perspective_Correction_Style.css">
 					<script src="./img/libs/qunit-2.0.1.js" type="text/javascript"></script>
 					<script src="./img/libs/d3.v3.min.js"></script>
 					<script src="./img/libs/numeric-solve.min.js"></script>
 				</div>
-				<div  id="Review_Image" class="General_Section boxed"  style="height:75vh;">
+				<div  id="Review_Image" class="General_Section boxed one_page">
 						<h2> Review Your Image </h2>
 						<img id="image_cropped_perspectiveCorrected" src="#" alt="Your uploaded image will be here, it's currently empty. If you are seeing this, it's most likely you have not selected the image, try selecting it again." />
 						<!--p> Right-click the image and click "save image as..." to save it down. <br> Use paint to draw white boxes on image to denote io-shield blocking zone
@@ -143,13 +152,13 @@
 						<!--h1>Looks good?</h1-->
 						<div style="width: 99%; margin-top: 0.5vh;"> 
 							<a id="downloadBtn" value="Like"> 
-								<button class="green_bright_bg"> 1) REMEMBER: <br> Download Image </button> 
+								<button class="green_bright_bg no_display"> 1) REMEMBER: <br> Download Image </button> 
 							</a> 
-							<button class="green_gray_bg" id="overlayingCanvasResultButton"> Step 2: Move corrected <br> image to overlay</button>
-							<button class="green_bright_bg" id="scrollToKonvas"> Step 3: <br> Start Drawing </button>
+							<button class="green_gray_bg no_display" id="overlayingCanvasResultButton"> Step 2: Move corrected <br> image to overlay</button>
+							<button class="green_bright_bg" id="scrollToKonvas"> Yep, that looks good <br> Start Drawing </button>
 						</div>
 				</div>
-				<div class="General_Section boxed">
+				<div class="General_Section boxed one_page">
 						<h2> Konvas Drawing </h2>
 						<div style="
 								display: flex;
@@ -158,45 +167,45 @@
 								padding: 0 3vw 0 3vw;
 								gap: 2vw;
 							">
-							<div style="flex: 1 1 0;margin: 5px">
-								<div style="margin-bottom: 10px">
+							<div style="flex: 1 1 0;margin: 5px;">
+								<div style="margin-bottom: 10px;">
 								<p class="tiny_text">Old school Ports </p>
 									<button class="red_bg" id="add-ps2"> PS2 </button>
 									<button id="add-dsub"> Dsub </button>
 									<button class="white_bg" id="add-dvi"> DVI</button>
 								</div>
-								<div style="margin-bottom: 10px">
+								<div style="margin-bottom: 10px;">
 									<button id="add-com"> COM</button>
 									<button id="add-parallel"> Parallel</button>
 								</div>
 							</div>
-							<div style="flex: 1 1 0;margin: 5px">
+							<div style="flex: 1 1 0;margin: 5px;">
 								<p class="tiny_text"> Common modern Ports </p>
-								<div style="margin-bottom: 10px">
+								<div style="margin-bottom: 10px;">
 									<button class="red_bg" id="add-usb2x"> 2 USB </button>
 									<button id="add-usb"> USB </button>
 									<button id="add-usbC"> USB Type C </button>
 								</div>
-								<div style="margin-bottom: 10px">
+								<div style="margin-bottom: 10px;">
 									<button id="add-hdmi"> HDMI </button>
 									<button id="add-dp"> DisplayPort </button>
 									<button class="dark_gray_bg" id="add-cmos"> Small button<br> (CMOS) </button>
 								</div>
 							</div>
-							<div style="flex: 1 1 0;margin: 5px">
+							<div style="flex: 1 1 0;margin: 5px;">
 								<p class="tiny_text">Internet - Audio Ports </p>
-								<div style="margin-bottom: 10px">
+								<div style="margin-bottom: 10px;">
 									<button class="red_bg"  id="add-ethernet"> Ethernet </button>
 									<button id="add-wifi"> Wifi</button>
 								</div>
-								<div style="margin-bottom: 10px">
+								<div style="margin-bottom: 10px;">
 									<button class="red_bg"  id="add-audio-single"> Audio <br> Single Hole</button>
 									<button id="add-audio-column"> Audio <br>Column</button>
 									<button class="dark_gray_bg" id="add-audio-optic"> Audio <br>Optic</button>
 								</div>
 							</div>
 						</div>
-						<div style="margin: 5px">
+						<div style="margin: 5px;">
 							<div id="konva_container_container">
 								<div id="konva_container_qat">
 									<img id="konva_background_image" src=""> </img>
@@ -208,18 +217,17 @@
 							<script type="module" src="./konva_entrypoint.js">
 							</script>
 						</div>
-						<div style="margin: 5px">
-							<button class="green_gray_bg" id="konva-clear-canvas"> Clear Canvas <br> and Load Image </button>
+						<div style="margin: 5px; display: flex; flex-flow: row; gap: 1vw;">
 							<button class="green_gray_bg" id="AI-port-detection"> A.I <br> Ports Detection </button>
-							<button class="dark_gray_bg" id="konva-load-image"> Load Image, <br> keeping canvas </button>
-						</div>
-						<div style="margin: 5px">
-							<button class="green_bright_bg" id="download-konva-img"> Download Konva <br> Images Backup </button>
-							<button class="orange_bg" id="send-konva-img" style= "padding: 1vw"> 2) Send Konva Canvas </button>
-							<button id="exportf-konva-drawing"> Export Konva Drawing </button>
+							<button class="confirmButton" id="send-konva-img" style= "padding: 1vw"> Done Drawing <br> Send to Server</button>
+							
+							<button class="green_gray_bg no_display" id="konva-clear-canvas"> Clear Canvas <br> and Load Image </button>
+							<button class="dark_gray_bg no_display" id="konva-load-image"> Load Image, <br> keeping canvas </button>
+							<button class="green_bright_bg no_display" id="download-konva-img"> Download Konva <br> Images Backup </button>
+							<button id="exportf-konva-drawing"  class="no_display"> Export Konva Drawing </button>
 						</div>
 				</div>
-				<div id="confirmBox" class="Part_3 General_Section Hidden boxed">
+				<div id="confirmBox" class="Part_3 General_Section Hidden boxed one_page">
 						<h1> Confirm & Re-adjust image
 								<br></h1>
 						<div class="TwoDOverlay">

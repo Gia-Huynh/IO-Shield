@@ -1,7 +1,8 @@
 import {GRID_RES, DEFAULT_X, DEFAULT_Y} from './konva_config.js';
 export function get_transform_node (Konva, rotateEnabled){
 	const tr = new Konva.Transformer({
-	  rotateEnabled: rotateEnabled
+	  rotateEnabled: rotateEnabled,
+		enabledAnchors: [],  
 	});
 	tr.nodes([]); //start detached
 	return tr;

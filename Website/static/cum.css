@@ -10,10 +10,10 @@ main
     -moz-box-shadow:inset 0px 0px 0px 1px #000;
     box-shadow:inset 0px 0px 0px 1px #000;
 }
-button{
-    width: auto;
-	padding: 1vh;
-    height: auto;
+button{    
+	width: fit-content;
+    padding: 1.5vh;
+    height: fit-content;
     border: none;
     background-color: #55ddff;
 	font-size: 1.15em;
@@ -32,7 +32,8 @@ button{
 	}
 	.Top_banner
 	{
-		max-width: 100vw;
+		margin-top: 2vh;
+		margin-bottom: 5vh;
 		text-align: center;
 		padding:2vh;
 	}
@@ -56,14 +57,7 @@ button{
 		max-width: 100vw;
 		height:8vh;
 	}
-	#NameInputSection {
-		height: 60vh;
-	}
 	#confirmBox{}
-	#PerspectiveCorrectionBox{
-		/*padding: 2vh 0 5vh 0;
-		padding: 0.5vh;*/
-	}
 	#image_cropped_perspectiveCorrected
 	{
 		width: 100%;
@@ -71,14 +65,17 @@ button{
 		-moz-box-shadow:inset 0px 0px 10px 2px #333;
 		box-shadow:inset 0px 0px 10px 2px #333;
 			margin-bottom: 0.5vh;
+		object-fit: scale-down;
 	}
 	.ShowAfterShrink
 	{
 		display:none;
 	}
-/*PC Version*/
-	#CroppingBox {
-		height: 90vh;
+	.no_display {
+		display:none;		
+	}
+	.one_page {
+		height: 99vh;
 	}
 	.BigAss
 	{
@@ -148,28 +145,30 @@ button{
 		display: inline-block;
 		text-align: center;
 		
-		width: 92%;
-		height: 50vh;
+		width: 100%;
+		height: 100vh;
 		
 		padding:1%;
-		padding-top: 16vh;
+		/*padding-top: 16vh;*/
 		
-		margin-top:3vh;
+		margin-top:0;
 		margin-bottom:3vh;
 		
-		background-color: #3e82c2;
+		
 		
 		box-shadow: initial;
-		outline:12px dashed #2f75b5;
+		/*outline:12px dashed #2f75b5;*/
 		-webkit-transition: height 1s ease;
 		-transition: height 1s ease;
 		
 	}
 	.Section_FileUpload:focus,
 	.Section_FileUpload:hover {
-	  color: white;
-	  background-color: #3e82c2;
+		/*
+		background-color: #3e82c2;
+		color: white;
 		outline:12px dashed #346594;
+		*/
 	}
 	#ad1
 	{
@@ -239,7 +238,6 @@ button{
 		align-items: center;
 		text-align:center;
 		width:95%;
-		height: auto;
 		font-size: 1.5em;
 		margin-top: 0.5vh;
 		margin-bottom:0.5vh;
@@ -248,6 +246,17 @@ button{
 	{
 		min-height: 30vh;
 		padding-top: 3vh;
+	}
+	#Cropping-Parameter
+	{
+		width:95%;
+		height:auto;
+		margin-top: 1vh;
+		
+		
+		display:flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.Section_ImageCropping img
 	{
@@ -274,13 +283,13 @@ button{
 	.confirmButton
 	{
 		align-items: center;
-		width: 32%;
-		    height: auto;
+		width: 100%;
+		height: auto;
 		margin-top: 1vh;
 		margin-bottom: 1vh;
 		background-color: #1ff463;
-		font-size: 1em;
 		border-radius: 3vh;
+		padding: 0.75vw 1.75vw;
 	}
 	#konva_container_container{
 		width: 100%;
