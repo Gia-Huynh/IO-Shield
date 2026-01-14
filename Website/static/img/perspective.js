@@ -55,7 +55,7 @@ export function setUpApplyButton_WithPerspective (utils)
 		dlBtn.href = document.getElementById("imageResult").toDataURL();
 		//document.getElementById("InputBox").files = [dataURLtoFile (image_cropped_perspectiveCorrected.src,'nigger.png')];
     },1000)
-	document.getElementById("Review_Image").scrollIntoView({ behavior: 'smooth', block: 'center'});
+	setTimeout(()=>{document.getElementById("Review_Image").scrollIntoView({ behavior: 'smooth', block: 'center'})}, 1500);
 }
 export function UtilsPerspective(errorOutputId) { // eslint-disable-line no-unused-vars
     let self = this;

@@ -349,6 +349,7 @@ document.getElementById('scrollToPerspective').onclick =() => {
 document.getElementById('scrollToKonvas').onclick =() => {
 	Konva_canvas_load_image (true);
 	document.getElementById("konva_container_container").scrollIntoView({ behavior: "smooth", block: "center", inline: "center"  });
+	overlayImg.src = document.getElementById("imageResult").toDataURL();
 	
 };
 document.getElementById('konva-load-image').onclick = () => {

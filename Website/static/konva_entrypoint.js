@@ -49,9 +49,6 @@ function Setup_konva_canvas (container_id, stage_width, stage_height){
 	document.getElementById('add-usb').onclick = () => {
 	  addPort(Port_USB, layer, t_w/2, 30);
 	};
-	document.getElementById('add-usb2x').onclick = () => {
-	  addPort(Port_USB_2x, layer, t_w/2, 30);
-	};
 	document.getElementById('add-usbC').onclick = () => {
 	  addPort(Port_USB_TypeC, layer, t_w/2, 30);
 	};

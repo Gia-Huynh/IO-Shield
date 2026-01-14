@@ -37,6 +37,7 @@
 					<div class="Top_banner small_text white_text">
 						<h1>Upload IO Shield image <br> Get model for 3D printing</h1>  
 						<h1>For free - Forever (probably)</h1>
+						<p class = "white_text pulse_text outline_text" style = "position: absolute;"> Now with 150% more A.I </p>
 					</div>
 					<div class = "boxed" style = "padding: 12vh 1vw 1vh 1vw; margin: 0 3vw; background-color: #3e82c2;">
 						<div class="big_text white_text">
@@ -182,7 +183,6 @@
 							<div style="flex: 1 1 0;margin: 5px;">
 								<p class="tiny_text"> Common modern Ports </p>
 								<div style="margin-bottom: 10px;">
-									<button class="red_bg" id="add-usb2x"> 2 USB </button>
 									<button id="add-usb"> USB </button>
 									<button id="add-usbC"> USB Type C </button>
 								</div>
@@ -217,11 +217,11 @@
 							<script type="module" src="./konva_entrypoint.js">
 							</script>
 						</div>
-						<div style="margin: 5px; display: flex; flex-flow: row; gap: 1vw;">
-							<button class="green_gray_bg" id="AI-port-detection"> A.I <br> Ports Detection </button>
+						<div style="margin: 5px; display: flex; flex-flow: row; gap: 1vw; width: 66%;">
+							<button class="green_gray_bg" id="AI-port-detection" style = "width: 100%;"> Get A.I <br> Ports Detection </button>
+							<button class="green_gray_bg" id="konva-clear-canvas" style = "width: 100%;"> <p> Start Again </p> </button>
 							<button class="confirmButton" id="send-konva-img" style= "padding: 1vw"> Done Drawing <br> Send to Server</button>
 							
-							<button class="green_gray_bg no_display" id="konva-clear-canvas"> Clear Canvas <br> and Load Image </button>
 							<button class="dark_gray_bg no_display" id="konva-load-image"> Load Image, <br> keeping canvas </button>
 							<button class="green_bright_bg no_display" id="download-konva-img"> Download Konva <br> Images Backup </button>
 							<button id="exportf-konva-drawing"  class="no_display"> Export Konva Drawing </button>
@@ -261,12 +261,12 @@
 										<input class="inputNumber" name="myNum4" id="myNum4" type="number"  min="0" max="6000" value="5"/>
 									</div>
 									
-									<div style="display: flex"> 
+									<div style="display: none"> 
 										<p class="left_text_box"> Blurring: </p>
 										<input class="inputNumber" name="BlurRatio" id="BlurRatio" type="number" step="any" min="0" max="1" value="0.003"/>
 									</div>
 									
-									<div style="display: flex"> 
+									<div style="display: none"> 
 										<p class="left_text_box"> Erosion: </p>
 										<input class="inputNumber" name="ErosionNum" id="ErosionNum" type="number" min="0" max="8" value="0"/>
 									</div>
@@ -274,7 +274,7 @@
 								<button type="submit" form="ImageForm_WithParameter" class="adjustButton" id="adjustButton2"> Update detection image </button>
 								</div>
 								
-								<div class="Part_3_flex_right">
+								<div class="Part_3_flex_right no_display">
 									<div class="boxed" id="overlay_drop_container">
 										<h3> Overlay another image on top </h3>
 										<p> Search the io shield image <br> of your mobo and use it here</p>
@@ -292,7 +292,7 @@
 								<div style="width: 100%">
 									 <!--p> Press the green button and be patient, <br> the server is generating your file (10~20 seconds). <br> After downloading it, add ".stl" to the end of the file name. </p-->
 									<button class="confirmButton" id="LastButton"> Looks like a good recognition to me, <br> GET 3D MODEL NOW </button>
-									<input id="PostFixTextBox" type="text" style="width:66%; font-size:1vw;" value="File postfix will be here, don't touch this">
+									<input id="PostFixTextBox" type="text" style="width:66%; font-size:1vw;" value="File name will be here, don't touch this, copy this to rename your file">
 								</div>
 							</div>
 						</div>

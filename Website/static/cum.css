@@ -47,6 +47,23 @@ button{
 		display: flex;
 		flex-direction: column;
 	}
+	.pulse_text {
+	  display: inline-block;
+	  animation: pulse 1.5s ease-in-out infinite;
+	}
+
+	@keyframes pulse {
+	  0% {
+		transform: scale(1.1) translateX(7em) rotate(-15deg);
+	  }
+	  50% {
+		transform: scale(1.7) translateX(7em) rotate(-15deg);
+	  }
+	  100% {
+		transform: scale(1.1) translateX(7em) rotate(-15deg);
+	  }
+	}
+
 	.advertisement
 	{
 		width: 100%;
